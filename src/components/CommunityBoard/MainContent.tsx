@@ -66,7 +66,7 @@ const MainContent: React.FC = () => {
         </Flex>
         <VStack spacing={4} align="stretch" w="full">
           {posts.map((post, index) => (
-            <PostCard key={index} {...post} />
+            <PostCard postId={''} key={index} {...post} />
           ))}
         </VStack>
         <Flex
