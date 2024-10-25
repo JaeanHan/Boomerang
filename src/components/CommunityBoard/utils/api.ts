@@ -1,6 +1,6 @@
 import { HotTopicData, PostData } from '../types';
 
-export const fetchPosts = async (): Promise<PostData[]> => {
+export const fetchPosts = async (): Promise<unknown> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve([
@@ -37,7 +37,7 @@ export const fetchPosts = async (): Promise<PostData[]> => {
   });
 };
 
-export const fetchHotTopics = async (): Promise<HotTopicData[]> => {
+export const fetchHotTopics = async (): Promise<unknown> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve([
