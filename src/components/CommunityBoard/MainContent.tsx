@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Box, Flex, Image, VStack } from '@chakra-ui/react';
+import back from '@images/ComBack.svg';
 
 import CategorySection from './CategorySection';
 import CreatePostButton from './CreatePostButton';
@@ -27,6 +28,7 @@ const MainContent: React.FC = () => {
         position="relative"
         flexDirection="column"
         alignItems="center"
+        zIndex="0"
         // selfAlign="center"
         px={{ base: 5, md: 20 }}
         pt={14}
@@ -39,13 +41,14 @@ const MainContent: React.FC = () => {
         {/*배경*/}
         <Image
           loading="lazy"
-          // src=""
+          src={back}
           position="absolute"
           inset={0}
-          w="full"
-          h="full"
+          w="100%"
+          h="100%"
           objectFit="cover"
           alt=""
+          zIndex="-1"
         />
         <CategorySection />
         <HotCommunity />
@@ -56,7 +59,7 @@ const MainContent: React.FC = () => {
           mt={9}
           textStyle="base"
           lineHeight="tall"
-          mr={{ base: 2, md: 0 }}
+          mr={{ base: 2, md: 150 }}
         >
           <SearchBar />
           <SortButtons />

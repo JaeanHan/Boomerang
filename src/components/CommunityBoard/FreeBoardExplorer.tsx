@@ -3,7 +3,11 @@ import React from 'react';
 import { Box, Text } from '@chakra-ui/react';
 
 const FreeBoardExplorer: React.FC = () => (
-  <Box mt={{ base: 10, md: 14 }} ml={{ base: 2.5, md: 12 }}>
+  <Box
+    mt={{ base: 10, md: 14 }}
+    ml={{ base: 2.59, md: 10 }}
+    w={{ base: 'full', md: '732px' }}
+  >
     <Text fontSize="3xl" fontWeight="extrabold" color="gray.800">
       자유게시판 탐색하기
     </Text>

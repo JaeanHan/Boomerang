@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
+import notice from '@images/noticeboard.svg';
 
 const CategorySection: React.FC = () => (
   <Box
@@ -22,7 +23,7 @@ const CategorySection: React.FC = () => (
     >
       <Image
         loading="lazy"
-        src="path/to/icon.png"
+        src={notice}
         objectFit="contain"
         flexShrink={0}
         boxSize="60px"

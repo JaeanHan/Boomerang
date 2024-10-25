@@ -17,8 +17,8 @@ const BoomerangBoard: React.FC = () => (
       flexDirection="column"
       alignItems="flex-start"
       maxW="full"
-      borderRadius="3xl"
-      bg="gray.100"
+      // borderRadius="3xl"
+      bg="#F3F3F3"
       shadow="md"
       w="945px"
     >

@@ -1,4 +1,3 @@
-// src/components/CommunityBoard/PostCard.tsx
 import React from 'react';
 
 import { ChatIcon, StarIcon } from '@chakra-ui/icons';
@@ -23,6 +22,7 @@ const PostCard: React.FC<PostCardProps> = ({
     pt={5}
     pb={3}
     mt={4}
+    ml={4}
     bg="white"
     borderRadius="xl"
     shadow="sm"

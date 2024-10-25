@@ -13,7 +13,7 @@ const HotCommunity: React.FC = () => {
   if (error) return <Box>{error}</Box>;
 
   return (
-    <Box as="section" mt={4} w="full">
+    <Box as="section" mt={10} w="729px">
       <Text fontSize="3xl" fontWeight="extrabold" color="gray.800">
         🔥 지금 가장 핫한 커뮤니티
       </Text>
