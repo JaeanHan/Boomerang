@@ -1,20 +1,21 @@
 import React from 'react';
 import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 
-import { Community } from '@/pages/Community';
+import Community from '@/pages/Community';
 import { DamagePrevention1 } from '@/pages/DamagePrevention1';
+import ForumPostPage from '@/pages/ForumPostPage/ForumPostPage';
 import { Guideline } from '@/pages/Guideline';
 import { Home } from '@/pages/Home';
-import { CommunityPosting } from '@/templates/Community/CommunityPosting';
-import { CommunityViewer } from '@/templates/Community/CommunityViewer';
+import { Welcome } from '@/pages/Welcome';
 
 export const ROUTER_PATH = {
   ROOT: '/',
+  WELCOME: '/welcome',
   USER: '/user',
   GUIDELINE: '/guideline',
   PREVENT: '/prevent/:id',
   COMMUNITY: '/community/:type',
-  POSTING: '/community/posting',
+  POST_DETAIL: '/community/:type/post',
   NOT_FOUND: '*',
 } as const;
 
@@ -25,18 +26,11 @@ const PrivateRoute = (): React.ReactElement => {
 
 export const router = createBrowserRouter([
   { index: true, path: ROUTER_PATH.ROOT, element: <Home /> },
+  { path: ROUTER_PATH.WELCOME, element: <Welcome /> },
   { path: ROUTER_PATH.GUIDELINE, element: <Guideline /> },
   { path: ROUTER_PATH.PREVENT, element: <DamagePrevention1 /> },
-  {
-    element: <Community />,
-    children: [
-      { path: ROUTER_PATH.POSTING, element: <CommunityPosting /> },
-      {
-        path: ROUTER_PATH.COMMUNITY,
-        element: <CommunityViewer />,
-      },
-    ],
-  },
+  { path: ROUTER_PATH.COMMUNITY, element: <Community /> },
+  { path: ROUTER_PATH.POST_DETAIL, element: <ForumPostPage /> },
   {
     element: <PrivateRoute />,
     children: [
