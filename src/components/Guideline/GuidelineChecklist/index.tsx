@@ -1,119 +1,116 @@
-import { useState } from 'react';
+import { checkASubProgress, uncheckASubProgress } from '@apis/guideline';
+import { SubStep } from '@apis/guideline/types';
+
+import React from 'react';
 
 import { CheckListHeader } from '@/components/Guideline/GuidelineChecklist/CheckListHeader';
-import { RequireDoc } from '@/components/Guideline/GuidelineChecklist/RequireDoc';
 import { PropH } from '@/components/commons/types';
 import { BoomerangColors } from '@/utils/colors';
-import { Box } from '@chakra-ui/react';
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Checkbox,
+  Flex,
+  Text,
+} from '@chakra-ui/react';
 
-export interface CheckListProps {
-  id?: number;
-  name: string;
-  subName: string;
-  description: string;
-  value: boolean;
+export interface IGuidelineChecklist extends PropH {
+  subStepList: SubStep[];
+  mainStep: string;
 }
-
-export type RequireDocPropsWithState = CheckListProps & {
-  isOpen: boolean;
-  onToggle: () => void;
-  onCheck: () => void;
-};
-
-const initialCheckList: CheckListProps[] = [
-  {
-    id: 1,
-    name: '결정 신청서',
-    subName: '',
-    description: '...',
-    value: true,
-  },
-  {
-    id: 2,
-    name: '임대차 계약서 사본 1부',
-    subName: '',
-    description: '...',
-    value: false,
-  },
-  {
-    id: 3,
-    name: '주민 등록표 초본 1부',
-    subName: '',
-    description: '...',
-    value: false,
-  },
-  {
-    id: 4,
-    name: '임대인의 파산 선고 결정문 또는 회생 게시 결정문 사본 1부',
-    subName: '',
-    description: '...',
-    value: false,
-  },
-  {
-    id: 5,
-    name: '경매, 공매게시 관련 서류 사본',
-    subName: '',
-    description: '...',
-    value: false,
-  },
-  {
-    id: 6,
-    name: '집행권원',
-    subName: '(판정결정본, 지금명령, 공정증서 등)',
-    description: '...',
-    value: false,
-  },
-  {
-    id: 7,
-    name: '임차권 등기 서류',
-    subName: '(등기사항 전부 증명서, 임차권등기명령 결정문 등)',
-    description: '...',
-    value: false,
-  },
-];
-
-export const GuidelineChecklist: React.FC<PropH> = ({ h }) => {
-  const [openId, setOpenId] = useState<number | null>(null);
-  const [checkList, setCheckList] =
-    useState<CheckListProps[]>(initialCheckList);
-
-  const toggleOpen = (id: number) => {
-    setOpenId((prevId) => (prevId === id ? null : id));
-  };
-
-  const toggleCheckbox = (id: number) => {
-    setCheckList((prevList) =>
-      prevList.map((item) =>
-        item.id === id ? { ...item, value: !item.value } : item
-      )
-    );
-  };
-
+export const GuidelineChecklist: React.FC<IGuidelineChecklist> = ({
+  h,
+  subStepList,
+  mainStep,
+}) => {
   return (
     <Box
       shadow="0px 0px 8.9px 0px rgba(0, 0, 0, 0.26)"
-      h={h}
+      minH={h}
       w={555}
       bg={BoomerangColors.white}
       borderRadius={38}
-      overflow="hidden"
     >
       <CheckListHeader />
-      <Box mt={'12px'}>
-        {checkList.map((doc) =>
-          openId === null || openId === doc.id ? (
-            <RequireDoc
-              key={doc.id}
-              name={doc.name}
-              subName={doc.subName}
-              value={doc.value}
-              description={doc.description}
-              isOpen={openId === doc.id}
-              onToggle={() => toggleOpen(doc.id!)}
-              onCheck={() => toggleCheckbox(doc.id!)}
-            />
-          ) : null
-        )}
+      <Box>
+        <Accordion allowMultiple variant="custom">
+          {subStepList.map((item, index) => (
+            <AccordionItem key={index}>
+              <Flex>
+                <AccordionButton>
+                  <AccordionIcon
+                    color={BoomerangColors.deepBlue}
+                    fontSize={'50px'}
+                  />
+                  <Flex
+                    w={'100%'}
+                    justifyContent={'space-between'}
+                    alignItems={'center'}
+                  >
+                    <Text
+                      color="#434343"
+                      fontSize={'19.5px'}
+                      fontWeight={800}
+                      ml={2}
+                    >
+                      {item.name}
+                    </Text>
+                    <Checkbox
+                      iconColor="white"
+                      colorScheme={BoomerangColors.deepBlue}
+                      isChecked={item.completion}
+                      onChange={(e) => {
+                        console.log('????', mainStep, item.name);
+                        if (e.target.checked) {
+                          checkASubProgress(mainStep, item.name)
+                            .then(() => {})
+                            .catch(() => {
+                              e.target.checked = false;
+                            });
+                          return;
+                        }
+
+                        uncheckASubProgress(mainStep, item.name)
+                          .then(() => {})
+                          .catch(() => {
+                            e.target.checked = true;
+                          });
+                      }}
+                      sx={{
+                        '& .chakra-checkbox__control': {
+                          bg: '#D9D9D9',
+                          border: 'none',
+                          width: '31px',
+                          height: '31px',
+                          borderRadius: 5,
+                        },
+                        '& .chakra-checkbox__control[data-checked]': {
+                          bg: '#176CFF',
+                        },
+                        '& .chakra-checkbox__control svg': {
+                          width: '22px',
+                          height: '22px',
+                        },
+                      }}
+                    />
+                  </Flex>
+                </AccordionButton>
+              </Flex>
+              <AccordionPanel
+                p={'10px 40px'}
+                bg={'#E9E9E9'}
+                color={'#BBBBBB'}
+                minH={235}
+              >
+                {item.content}
+              </AccordionPanel>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </Box>
     </Box>
   );
