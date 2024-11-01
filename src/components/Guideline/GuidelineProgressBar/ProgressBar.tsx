@@ -45,7 +45,7 @@ const ProgressStep: React.FC<IProgressStep & { onClick: () => void }> = ({
         color: '#8AB4FF',
         width: 'max-content',
         fontSize: '16px',
-        transform: 'translate(-50%, 35px)',
+        transform: 'translate(calc(-50% + 22.5px), 35px)',
       }}
       onClick={onClick}
     />
