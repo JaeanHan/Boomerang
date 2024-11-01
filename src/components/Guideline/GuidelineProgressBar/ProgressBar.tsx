@@ -45,8 +45,7 @@ const ProgressStep: React.FC<IProgressStep & { onClick: () => void }> = ({
         color: '#8AB4FF',
         width: 'max-content',
         fontSize: '16px',
-        top: '35px',
-        left: '-20px',
+        transform: 'translate(-50%, 35px)',
       }}
       onClick={onClick}
     />
@@ -68,8 +67,7 @@ const ProgressSelectedStep: React.FC<IProgressStep> = ({ label }) => {
         color: BoomerangColors.white,
         width: 'max-content',
         fontSize: '16px',
-        top: '35px',
-        left: '-33px',
+        transform: 'translate(-50%, 35px)',
       }}
     >
       <Box
@@ -116,13 +114,25 @@ export const ProgressBar: React.FC<GuidelineProgressBarProps & PropH> = ({
         h={'100%'}
         p={`0 ${progressBarPadding}%`}
       >
-        {mainStepList.map((item, idx) =>
-          selectedIdx === idx ? (
-            <ProgressSelectedStep label={item} />
-          ) : (
-            <ProgressStep label={item} onClick={() => setSelectedIdx(idx)} />
-          )
-        )}
+        {mainStepList
+          .map((item) => ({
+            ...item,
+            main_step_name: item.main_step_name.replaceAll('-', ' '),
+          }))
+          .map((item, idx) =>
+            selectedIdx === idx ? (
+              <ProgressSelectedStep
+                label={item.main_step_name}
+                key={item.main_step_name}
+              />
+            ) : (
+              <ProgressStep
+                label={item.main_step_name}
+                key={item.main_step_name}
+                onClick={() => setSelectedIdx(idx)}
+              />
+            )
+          )}
       </Flex>
     </Box>
   );

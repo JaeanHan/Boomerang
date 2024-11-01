@@ -17,7 +17,12 @@ import { useQuery } from '@tanstack/react-query';
 const mockResponse: ProgressResponse = {
   progress_type: 'A타입',
   current_main_step: '진행도1번',
-  main_step_list: ['진행도1번', '진행도2번', '진행도3번', '진행도4번'],
+  main_step_list: [
+    { main_step_name: '진행도1번', completion: false },
+    { main_step_name: '진행도2번', completion: false },
+    { main_step_name: '진행도3번', completion: false },
+    { main_step_name: '진행도4번', completion: false },
+  ],
   sub_step_list: [
     {
       name: '서브스텝1',
@@ -55,7 +60,10 @@ export const Guideline: React.FC = () => {
     current_main_step: currentMainStep,
     sub_step_list: subStepList,
   } = safe;
-  const currIdx = mainStepList.findIndex((ele) => ele === currentMainStep);
+
+  const currIdx = mainStepList.findIndex(
+    (ele) => ele.main_step_name === currentMainStep
+  );
 
   return (
     <BasicLayout maxW={1015}>

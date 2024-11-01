@@ -1,3 +1,5 @@
+import { MainStep } from '@apis/guideline/types';
+
 import styles from '@components/Guideline/index.module.css';
 
 import React from 'react';
@@ -12,7 +14,7 @@ import progressBg from '@images/progressBg.svg';
 
 export type GuidelineProgressBarProps = {
   currMainIdx: number;
-  mainStepList: string[];
+  mainStepList: MainStep[];
 };
 
 export const GuidelineProgressBar: React.FC<
