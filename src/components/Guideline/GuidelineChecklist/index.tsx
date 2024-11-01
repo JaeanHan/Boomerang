@@ -1,9 +1,10 @@
 import { checkASubProgress, uncheckASubProgress } from '@apis/guideline';
 import { SubStep } from '@apis/guideline/types';
 
+import { CheckListHeader } from '@components/Guideline/GuidelineChecklist/CheckListHeader';
+
 import React from 'react';
 
-import { CheckListHeader } from '@/components/Guideline/GuidelineChecklist/CheckListHeader';
 import { PropH } from '@/components/commons/types';
 import { BoomerangColors } from '@/utils/colors';
 import {
@@ -64,7 +65,6 @@ export const GuidelineChecklist: React.FC<IGuidelineChecklist> = ({
                       colorScheme={BoomerangColors.deepBlue}
                       isChecked={item.completion}
                       onChange={(e) => {
-                        console.log('????', mainStep, item.name);
                         if (e.target.checked) {
                           checkASubProgress(mainStep, item.name)
                             .then(() => {})
