@@ -5,7 +5,7 @@ import React from 'react';
 import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 
 import Community from '@/pages/Community';
-import { DamagePrevention1 } from '@/pages/DamagePrevention1';
+import { DamagePrevention } from '@/pages/DamagePrevention';
 import { Guideline } from '@/pages/Guideline';
 import { Home } from '@/pages/Home';
 import { Welcome } from '@/pages/Welcome';
@@ -32,7 +32,6 @@ export const router = createBrowserRouter([
   { index: true, path: ROUTER_PATH.ROOT, element: <Home /> },
   { path: ROUTER_PATH.WELCOME, element: <Welcome /> },
   { path: ROUTER_PATH.GUIDELINE, element: <Guideline /> },
-  { path: ROUTER_PATH.PREVENT, element: <DamagePrevention1 /> },
   {
     element: <Community />,
     children: [
@@ -50,6 +49,7 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  { path: ROUTER_PATH.PREVENT, element: <DamagePrevention /> },
   {
     element: <PrivateRoute />,
     children: [
