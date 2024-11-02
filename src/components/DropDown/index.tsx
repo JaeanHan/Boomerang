@@ -3,9 +3,12 @@ import { DropDownItems } from '@components/DropDown/DropDownItems';
 import React, { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-interface IDropDown {
+import styles from './index.module.css';
+
+export interface IDropDown {
   buttonLabel?: string;
   className?: string;
+  isDisabled?: boolean;
   children: ReactNode;
 }
 
@@ -13,7 +16,8 @@ const dropDownPadding = 4;
 
 export const DropDown: React.FC<IDropDown> = ({
   buttonLabel,
-  className = undefined,
+  className = styles.basicDropdown,
+  isDisabled = false,
   children,
 }) => {
   const dropDownRef = useRef<HTMLDivElement | null>(null);
@@ -89,6 +93,7 @@ export const DropDown: React.FC<IDropDown> = ({
         className={className}
         onClick={toggleDropDown}
         ref={buttonRef}
+        disabled={isDisabled}
       >
         {buttonLabel && <span>{buttonLabel}</span>}
       </button>

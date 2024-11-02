@@ -9,7 +9,9 @@ import React, {
   useState,
 } from 'react';
 
-import { Box, VStack } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
+
+import styles from "./index.module.css"
 
 interface IDropDownItems {
   children: ReactNode;
@@ -51,7 +53,7 @@ export const DropDownItems: React.FC<IDropDownItems> = ({
 
   return (
     <DropDownContext.Provider value={contextValue}>
-      <VStack ref={dropDownRef} position={'fixed'}>
+      <VStack ref={dropDownRef} className={styles.basicDropdownItems}>
         {children}
       </VStack>
     </DropDownContext.Provider>
