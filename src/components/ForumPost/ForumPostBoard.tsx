@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box, Flex } from '@chakra-ui/react';
 
-import { ForumPost } from '../ForumPost/ForumPost';
+import ForumPost from '../ForumPost/ForumPost';
 
 const ForumPostBoard: React.FC = () => {
   // api 대체 예정

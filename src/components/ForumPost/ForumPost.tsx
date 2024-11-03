@@ -2,29 +2,21 @@ import React from 'react';
 
 import { Box, Flex } from '@chakra-ui/react';
 
+import LoadingSpinner from '../CommunityBoard/LoadingSpinner';
 import { CommentSection } from './CommentSection';
 import { PostContent } from './PostContent';
 import { PostHeader } from './PostHeader';
 import { PostStats } from './PostStats';
 import { ReportButton } from './ReportButton';
+import usePostDetail from './hooks/usePostDetail';
 
-interface ForumPostProps {
-  title: string;
-  location: string;
-  date: string;
-  content: string;
-  likes: number;
-  comments: number;
-}
+const ForumPost: React.FC = () => {
+  const { post, loading, error } = usePostDetail();
 
-export const ForumPost: React.FC<ForumPostProps> = ({
-  title,
-  location,
-  date,
-  content,
-  likes,
-  comments,
-}) => {
+  if (loading) return <LoadingSpinner />;
+  if (error) return <Box>{error}</Box>;
+  if (!post) return <Box>게시글이 존재하지 않습니다.</Box>;
+
   return (
     <Box bg="white">
       <Flex
@@ -37,17 +29,19 @@ export const ForumPost: React.FC<ForumPostProps> = ({
         maxW="screen-lg"
         mx="auto"
       >
-        <PostHeader />
+        <PostHeader boardType={post.board_type} />
         <PostContent
-          title={title}
-          location={location}
-          date={date}
-          content={content}
+          title={post.title}
+          location={post.location}
+          date={post.createdAt}
+          content={post.content}
         />
-        <PostStats likes={likes} comments={comments} />
+        <PostStats likes={post.likes} comments={post.comments} />
         <ReportButton />
-        <CommentSection />
+        <CommentSection comments={post.commentsList} />
       </Flex>
     </Box>
   );
 };
+
+export default ForumPost;
