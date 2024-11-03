@@ -14,7 +14,7 @@ const usePosts = () => {
         const data = await fetchPosts();
         setPosts(data);
       } catch {
-        setError('Failed to fetch posts');
+        setError('게시글을 불러오는데 실패했습니다.');
       } finally {
         setLoading(false);
       }
