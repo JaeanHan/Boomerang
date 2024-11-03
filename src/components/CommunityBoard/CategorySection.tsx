@@ -6,7 +6,7 @@ import freeBoardImage from '@images/free.svg';
 import localBoardImage from '@images/local.svg';
 import notice from '@images/noticeboard.svg';
 import secretBoardImage from '@images/secret.svg';
-import stepBoardImage from '@images/stepby.svg';
+import stepBoardImage from '@images/steps.svg';
 
 const boards = [
   { type: '자유게시판' },
