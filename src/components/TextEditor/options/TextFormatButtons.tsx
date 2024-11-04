@@ -39,7 +39,7 @@ export const TextFormatButtons: React.FC<{
   isItalic: boolean;
   isUnderline: boolean;
   isStrikethrough: boolean;
-  dispatchTextFormat: (command: string) => void;
+  dispatchTextFormat: (command: string) => () => void;
 }> = ({
   isBold,
   isItalic,
@@ -58,7 +58,7 @@ export const TextFormatButtons: React.FC<{
         <FormatButton
           key={command}
           isActive={isActive}
-          onClick={() => dispatchTextFormat(command)}
+          onClick={dispatchTextFormat(command)}
         >
           {content}
         </FormatButton>
