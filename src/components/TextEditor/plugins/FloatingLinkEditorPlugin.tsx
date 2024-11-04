@@ -143,7 +143,6 @@ const FloatingLinkEditor: React.FC<{
           updateLinkEditor();
         });
       }),
-
       editor.registerCommand(
         SELECTION_CHANGE_COMMAND,
         () => {
@@ -311,6 +310,7 @@ export const FloatingLinkEditorPlugin: React.FC<{
         }
       }
     };
+
     return mergeRegister(
       editor.registerUpdateListener(({ editorState }) => {
         editorState.read(() => {
