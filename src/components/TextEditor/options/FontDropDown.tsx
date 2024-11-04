@@ -4,6 +4,7 @@ import { DropDownItem } from '@components/DropDown/DropDownItem';
 import React, { Fragment, useCallback } from 'react';
 
 import { BoomerangColors } from '@/utils/colors';
+import { Box } from '@chakra-ui/react';
 import { $patchStyleText } from '@lexical/selection';
 import { $getSelection, LexicalEditor } from 'lexical';
 
@@ -17,11 +18,11 @@ const FONT_FAMILY_OPTIONS: [string, string][] = [
 ];
 
 const FONT_COLOR_OPTIONS: [string, string][] = [
-  ['#000', 'black'],
   [BoomerangColors.deepBlue, 'deep blue'],
-  [BoomerangColors.white, 'white'],
   [BoomerangColors.blue, 'blue'],
   [BoomerangColors.calmWhite, 'calm white'],
+  [BoomerangColors.white, 'white'],
+  ['#000', 'black'],
 ];
 
 const FONT_SIZE_OPTIONS: [string, string][] = [
@@ -78,7 +79,15 @@ export const FontDropDown: React.FC<{
             key={option}
             onClick={() => onClick('color', option || 'black')}
           >
-            <span>{text}</span>
+            <Box
+              w="16px"
+              h="16px"
+              bg={option}
+              border="1px solid"
+              borderColor="gray.300"
+              borderRadius="4px"
+              mr="8px"
+            />
           </DropDownItem>
         ))}
       </DropDown>
