@@ -4,11 +4,11 @@ import { HotTopicData, PostData } from '../types';
 
 const baseUrl = 'http://3.34.197.198:8080';
 
-export const fetchPosts = async (): Promise<PostData[]> => {
+export const fetchPosts = async (page: number) => {
   const response = await axios.get(`${baseUrl}/api/v1/board`, {
     params: {
-      page: 0,
-      size: 10,
+      page: page - 1,
+      size: 4,
       sort_direction: 'DESC',
       sort_by: 'id',
       board_type: 'ENTIRE',
@@ -16,19 +16,22 @@ export const fetchPosts = async (): Promise<PostData[]> => {
     },
   });
 
-  return response.data.content.map((item: any) => ({
-    postId: item.id,
-    title: item.title,
-    content: item.content,
-    likes: item.like_count,
-    comments: item.comment_count,
-  }));
+  return {
+    posts: response.data.content.map((item: any) => ({
+      postId: item.id,
+      title: item.title,
+      content: item.content,
+      likes: item.like_count,
+      comments: item.comment_count,
+    })),
+    totalPages: response.data.total_page,
+  };
 };
 
 export const fetchHotTopics = async (): Promise<HotTopicData[]> => {
   const response = await axios.get(`${baseUrl}/api/v1/board/best`, {
     params: {
-      size: 5,
+      size: 3,
       board_type: 'ENTIRE',
       content_length: 10,
     },

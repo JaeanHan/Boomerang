@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Box, Flex, VStack } from '@chakra-ui/react';
 
@@ -15,7 +15,8 @@ import SortButtons from './SortButtons';
 import usePosts from './hooks/usePosts';
 
 const MainContent: React.FC = () => {
-  const { posts, loading, error } = usePosts();
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const { posts, totalPages, loading, error } = usePosts(currentPage);
 
   if (loading) return <LoadingSpinner />;
   if (error) return <Box>{error}</Box>;
@@ -51,8 +52,8 @@ const MainContent: React.FC = () => {
           <SortButtons />
         </Flex>
         <VStack spacing={4} align="stretch" w="full" mt={5}>
-          {posts.map((post, index) => (
-            <PostCard postId={''} key={index} {...post} />
+          {posts.map((post) => (
+            <PostCard key={post.postId} {...post} />
           ))}
         </VStack>
         <Flex
@@ -63,7 +64,11 @@ const MainContent: React.FC = () => {
           fontWeight="bold"
         >
           <CreatePostButton />
-          <Pagination />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
         </Flex>
       </Flex>
     </ErrorBoundary>
