@@ -3,6 +3,9 @@ import { DropDownItems } from '@components/DropDown/DropDownItems';
 import React, { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import { Box, Flex, Image, Text } from '@chakra-ui/react';
+import arrowIcon from '@images/arrowIcon.svg';
+
 import styles from './index.module.css';
 
 export interface IDropDown {
@@ -95,7 +98,32 @@ export const DropDown: React.FC<IDropDown> = ({
         ref={buttonRef}
         disabled={isDisabled}
       >
-        {buttonLabel && <span>{buttonLabel}</span>}
+        {buttonLabel && (
+          <Flex gap={'10px'}>
+            {buttonLabel.includes('#') ? (
+              <Box
+                w="16px"
+                h="16px"
+                bg={buttonLabel}
+                border="1px solid"
+                borderColor="gray.300"
+                borderRadius="4px"
+                mr="8px"
+              />
+            ) : (
+              <Text
+                fontFamily={
+                  buttonLabel.includes('px') ? undefined : buttonLabel
+                }
+                maxW={'120px'}
+                isTruncated
+              >
+                {buttonLabel}
+              </Text>
+            )}
+            <Image src={arrowIcon} width={4} />
+          </Flex>
+        )}
       </button>
       {showDropDown &&
         createPortal(

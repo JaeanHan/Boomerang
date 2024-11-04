@@ -87,6 +87,22 @@ const PostingTitleInput = () => (
   />
 );
 
+const categories = [
+  { name: '게시판 유형 - 자유 게시판', value: '자유 게시판' },
+  {
+    name: '게시판 유형 - 지역 게시판',
+    value: '지역 게시판',
+  },
+  {
+    name: '게시판 유형 - 비밀 게시판',
+    value: '비밀 게시판',
+  },
+  {
+    name: '게시판 유형 - 단계별 게시판',
+    value: '단계별 게시판',
+  },
+];
+
 const PostingCategorySelection = () => (
   <Select
     borderRadius={0}
@@ -95,10 +111,17 @@ const PostingCategorySelection = () => (
     color={BoomerangColors.white}
     bg={BoomerangColors.deepBlue}
   >
-    <option value={'자유 게시판'}>게시판 유형 - 자유 게시판</option>
-    <option value={'지역 게시판'}>게시판 유형 - 지역 게시판</option>
-    <option value={'비밀 게시판'}>게시판 유형 - 비밀 게시판</option>
-    <option value={'단계별 게시판'}>게시판 유형 - 단계별 게시판</option>
+    {categories.map((item) => (
+      <option
+        style={{
+          color: 'black',
+        }}
+        value={item.value}
+        key={item.value}
+      >
+        {item.name}
+      </option>
+    ))}
   </Select>
 );
 
