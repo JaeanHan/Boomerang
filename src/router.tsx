@@ -1,14 +1,19 @@
+import BoomerangBoard from '@components/CommunityBoard/BoomerangBoard';
+import ForumPostBoard from '@components/ForumPost/ForumPostBoard';
+
 import React from 'react';
 import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 
 import Community from '@/pages/Community';
-import { DamagePrevention1 } from '@/pages/DamagePrevention1';
-import ForumPostPage from '@/pages/ForumPostPage/ForumPostPage';
+import { DamagePrevention } from '@/pages/DamagePrevention';
 import { Guideline } from '@/pages/Guideline';
 import { Home } from '@/pages/Home';
+import { Welcome } from '@/pages/Welcome';
+import { CommunityPosting } from '@/templates/Community/CommunityPosting';
 
 export const ROUTER_PATH = {
   ROOT: '/',
+  WELCOME: '/welcome',
   USER: '/user',
   GUIDELINE: '/guideline',
   PREVENT: '/prevent/:id',
@@ -24,10 +29,26 @@ const PrivateRoute = (): React.ReactElement => {
 
 export const router = createBrowserRouter([
   { index: true, path: ROUTER_PATH.ROOT, element: <Home /> },
+  { path: ROUTER_PATH.WELCOME, element: <Welcome /> },
   { path: ROUTER_PATH.GUIDELINE, element: <Guideline /> },
-  { path: ROUTER_PATH.PREVENT, element: <DamagePrevention1 /> },
-  { path: ROUTER_PATH.COMMUNITY, element: <Community /> },
-  { path: ROUTER_PATH.POST_DETAIL, element: <ForumPostPage /> },
+  {
+    element: <Community />,
+    children: [
+      {
+        path: ROUTER_PATH.POSTING,
+        element: <CommunityPosting />,
+      },
+      {
+        path: ROUTER_PATH.POST_DETAIL,
+        element: <ForumPostBoard />,
+      },
+      {
+        path: ROUTER_PATH.COMMUNITY,
+        element: <BoomerangBoard />,
+      },
+    ],
+  },
+  { path: ROUTER_PATH.PREVENT, element: <DamagePrevention /> },
   {
     element: <PrivateRoute />,
     children: [
@@ -39,6 +60,6 @@ export const router = createBrowserRouter([
   },
   {
     path: '*',
-    element: <Navigate to={ROUTER_PATH.ROOT} />,
+    element: <div>404</div>,
   },
 ]);
