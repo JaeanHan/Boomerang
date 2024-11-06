@@ -2,6 +2,7 @@ import { FormatButton } from '@components/TextEditor/options/FormatButton';
 import { InsertImagePayload } from '@components/TextEditor/plugins/ImagePlugin';
 
 import React, {
+  DragEventHandler,
   Fragment,
   MutableRefObject,
   useEffect,
@@ -63,7 +64,7 @@ const ImageInputBox: React.FC<{
     closeImageInput();
   };
 
-  const onDrop = (e: DragEvent) => {
+  const onDrop: DragEventHandler<HTMLDivElement> = (e) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
     if (!file) {
@@ -96,7 +97,7 @@ const ImageInputBox: React.FC<{
         cursor="pointer"
         width="100%"
         onDrop={onDrop}
-        onDragOver={(e) => e.preventDefault()}
+        onDragOver={(e: DragEvent) => e.preventDefault()}
       >
         <Text color={`${urlInput ? 'gray.300' : 'gray.500'}`}>
           {fileInput

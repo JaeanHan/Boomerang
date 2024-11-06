@@ -24,16 +24,12 @@ const alignOptions: {
 ];
 
 export const AlignDropDown: React.FC<{
-  isDisabled: boolean;
+  isDisabled?: boolean;
   editor: LexicalEditor;
   currentAlign: string;
-}> = ({ isDisabled, editor, currentAlign = 'left' }) => {
+}> = ({ isDisabled = false, editor, currentAlign = 'left' }) => {
   return (
-    <DropDown
-      isDisabled={isDisabled}
-      buttonLabel={currentAlign}
-      buttonAriaLabel="Formatting options for text alignment"
-    >
+    <DropDown isDisabled={isDisabled} buttonLabel={currentAlign}>
       {alignOptions.map(({ label, value, iconClass }) => (
         <DropDownItem
           key={value}

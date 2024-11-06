@@ -16,7 +16,6 @@ import styles from './index.module.css';
 interface IDropDownItems {
   children: ReactNode;
   dropDownRef: React.Ref<HTMLDivElement>;
-  onClose: () => void;
 }
 
 export const DropDownItems: React.FC<IDropDownItems> = ({

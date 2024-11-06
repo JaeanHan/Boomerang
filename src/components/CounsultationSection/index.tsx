@@ -17,7 +17,7 @@ import styles from './index.module.css';
 
 export const ConsultationSection: React.FC<PropH> = ({ h }) => {
   const navigate = useNavigate();
-  const imageRefs = useRef<HTMLImageElement | HTMLButtonElement[]>([]);
+  const imageRefs = useRef<(HTMLImageElement | HTMLButtonElement)[]>([]);
 
   useIntersectionObserver(imageRefs, 0.5, '10% 0px -15% 0px');
 

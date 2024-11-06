@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ROUTER_PATH } from '@/routerPath';
