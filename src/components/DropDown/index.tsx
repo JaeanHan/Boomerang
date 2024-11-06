@@ -3,9 +3,15 @@ import { DropDownItems } from '@components/DropDown/DropDownItems';
 import React, { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-interface IDropDown {
+import { Box, Flex, Image, Text } from '@chakra-ui/react';
+import arrowIcon from '@images/arrowIcon.svg';
+
+import styles from './index.module.css';
+
+export interface IDropDown {
   buttonLabel?: string;
   className?: string;
+  isDisabled?: boolean;
   children: ReactNode;
 }
 
@@ -13,7 +19,8 @@ const dropDownPadding = 4;
 
 export const DropDown: React.FC<IDropDown> = ({
   buttonLabel,
-  className = undefined,
+  className = styles.basicDropdown,
+  isDisabled = false,
   children,
 }) => {
   const dropDownRef = useRef<HTMLDivElement | null>(null);
@@ -89,8 +96,34 @@ export const DropDown: React.FC<IDropDown> = ({
         className={className}
         onClick={toggleDropDown}
         ref={buttonRef}
+        disabled={isDisabled}
       >
-        {buttonLabel && <span>{buttonLabel}</span>}
+        {buttonLabel && (
+          <Flex gap={'10px'}>
+            {buttonLabel.includes('#') ? (
+              <Box
+                w="16px"
+                h="16px"
+                bg={buttonLabel}
+                border="1px solid"
+                borderColor="gray.300"
+                borderRadius="4px"
+                mr="8px"
+              />
+            ) : (
+              <Text
+                fontFamily={
+                  buttonLabel.includes('px') ? undefined : buttonLabel
+                }
+                maxW={'120px'}
+                isTruncated
+              >
+                {buttonLabel}
+              </Text>
+            )}
+            <Image src={arrowIcon} width={4} />
+          </Flex>
+        )}
       </button>
       {showDropDown &&
         createPortal(
