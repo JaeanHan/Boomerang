@@ -1,3 +1,5 @@
+import { useCommunityPostMutation } from '@apis/community';
+
 import TextEditor from '@components/TextEditor';
 import {
   PostDataContext,
@@ -102,9 +104,9 @@ export const CommunityPosting: React.FC = () => {
 
 const PostingHookButtons = () => {
   const { postData }: PostDataContextType = useContext(PostDataContext);
+  const { mutate } = useCommunityPostMutation();
   const onClick = () => {
     const { content, title, boardType, location } = postData;
-
     const { updatedContent, images } = Array.from(imgFileMap.entries()).reduce(
       (acc, [key, value]) => {
         if (acc.updatedContent.includes(key)) {
@@ -116,7 +118,14 @@ const PostingHookButtons = () => {
       { updatedContent: content, images: [] as File[] }
     );
 
-    console.log(updatedContent, images);
+    mutate({
+      content: updatedContent,
+      title: title,
+      boardType: boardType,
+      location: location,
+      images: images,
+    });
+
     flushImagePreviewUrls();
   };
 
