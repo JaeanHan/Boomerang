@@ -38,7 +38,7 @@ export const Header: React.FC<PropH> = ({ h }) => {
         <Text>Q&As</Text>
         <Text>전문가와의 상담</Text>
         <Text>커뮤니티</Text>
-        <a href={'http://13.125.238.177:8080/api/v1/auth/login'}>
+        <a href={`${import.meta.env.VITE_BASE_URL}/api/v1/auth/login`}>
           <Text>로그인</Text>
         </a>
       </Flex>
