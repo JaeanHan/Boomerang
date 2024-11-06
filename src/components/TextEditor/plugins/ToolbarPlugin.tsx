@@ -9,8 +9,15 @@ import {
   InsertImagePayload,
 } from '@components/TextEditor/plugins/ImagePlugin';
 import { getSelectedNode } from '@components/TextEditor/utils';
+import { HEADER_HEIGHT } from '@components/commons/BasicLayout';
 
-import React, { Dispatch, useCallback, useEffect, useState } from 'react';
+import React, {
+  Dispatch,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import { BoomerangColors } from '@/utils/colors';
 import { Flex } from '@chakra-ui/react';
@@ -33,6 +40,7 @@ import {
 export const ToolbarPlugin: React.FC<{
   setIsLinkEditMode: Dispatch<boolean>;
 }> = ({ setIsLinkEditMode }) => {
+  const toolbarRef = useRef<HTMLDivElement | null>(null);
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = useState(editor);
   const [isEditable, setIsEditable] = useState(() => editor.isEditable());
@@ -136,6 +144,28 @@ export const ToolbarPlugin: React.FC<{
     );
   }, [editor, activeEditor, updateToolbarOnSelect]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (toolbarRef.current && toolbarRef.current instanceof HTMLDivElement) {
+        const top = toolbarRef.current.getBoundingClientRect().top;
+
+        if (top <= HEADER_HEIGHT + 5) {
+          toolbarRef.current.style.borderTopLeftRadius = '0';
+          toolbarRef.current.style.borderTopRightRadius = '0';
+        } else {
+          toolbarRef.current.style.borderTopLeftRadius = '15px';
+          toolbarRef.current.style.borderTopRightRadius = '15px';
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const insertLink = useCallback(() => {
     if (!isLink) {
       setIsLinkEditMode(true);
@@ -163,6 +193,11 @@ export const ToolbarPlugin: React.FC<{
       pr={3}
       borderTopRadius={'15px'}
       borderBottom={`2px solid ${BoomerangColors.deepBlue}`}
+      position={'sticky'}
+      top={'60px'}
+      zIndex={999999}
+      ref={toolbarRef}
+      transition={'all .3s ease-in-out'}
     >
       <UndoRedoButtons
         editor={activeEditor}
