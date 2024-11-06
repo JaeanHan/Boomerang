@@ -77,10 +77,9 @@ export const RequireDoc: React.FC<RequireDocPropsWithState> = ({
       opacity={isOpen ? 1 : 0}
       visibility={isOpen ? 'visible' : 'hidden'}
       transition="all .3s ease-in-out"
-      pr={isOpen ? '48px' : '0px'}
-      pb={isOpen ? '18px' : '0px'}
-      pl={isOpen ? '48px' : '0px'}
-      pt={isOpen ? '18px' : '0px'}
+      sx={{
+        padding: isOpen ? '18px 48px' : '0px',
+      }}
     >
       <Text fontSize={'19px'} fontWeight={700}>
         {description}
