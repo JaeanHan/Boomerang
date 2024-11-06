@@ -20,10 +20,9 @@ export const ROUTER_PATH = {
   GUIDELINE: '/guideline',
   PREVENT: '/prevent/:id',
   COMMUNITY: '/community/:type',
-  POST_DETAIL: '/community/:type/post',
-  POSTING: '/community/post',
   PREVENT_RESULT: '/preventResult',
   CONSULTING: '/consulting',
+  POST_DETAIL: '/community/post/:postId',
   NOT_FOUND: '*',
 } as const;
 
@@ -67,7 +66,6 @@ export const router = createBrowserRouter([
   },
   {
     path: '*',
-    // element: <Navigate to={ROUTER_PATH.ROOT} />,
     element: <div>404</div>,
   },
 ]);
