@@ -27,7 +27,7 @@ jobs:
     - name: Deploy
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        EC2_HOST: ${{ secretes.EC2_HOST }}
+        EC2_HOST: ${{ secrets.EC2_HOST }}
         EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
       run: |
         echo "$SSH_PRIVATE_KEY" > key.pem
