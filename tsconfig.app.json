@@ -32,5 +32,4 @@
     "allowSyntheticDefaultImports": true
   },
   "include": ["src", "eslint.config.js", "declaration.d.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
 }
