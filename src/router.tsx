@@ -8,20 +8,10 @@ import Community from '@/pages/Community';
 import { DamagePrevention1 } from '@/pages/DamagePrevention1';
 import { Guideline } from '@/pages/Guideline';
 import { Home } from '@/pages/Home';
+import { Login } from '@/pages/Login';
 import { Welcome } from '@/pages/Welcome';
+import { ROUTER_PATH } from '@/routerPath';
 import { CommunityPosting } from '@/templates/Community/CommunityPosting';
-
-export const ROUTER_PATH = {
-  ROOT: '/',
-  WELCOME: '/welcome',
-  USER: '/user',
-  GUIDELINE: '/guideline',
-  PREVENT: '/prevent/:id',
-  COMMUNITY: '/community/:type',
-  POST_DETAIL: '/community/:type/post',
-  POSTING: '/community/post',
-  NOT_FOUND: '*',
-} as const;
 
 const PrivateRoute = (): React.ReactElement => {
   const auth = true;
@@ -58,6 +48,10 @@ export const router = createBrowserRouter([
         element: <div>private router</div>,
       },
     ],
+  },
+  {
+    path: ROUTER_PATH.LOGIN,
+    element: <Login />,
   },
   {
     path: '*',
