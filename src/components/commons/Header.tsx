@@ -2,9 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { PropH } from '@/components/commons/types';
-import { ROUTER_PATH } from '@/router';
+import { ROUTER_PATH } from '@/routerPath';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import logo from '@images/logo.svg';
+
+const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${import.meta.env.VITE_REST_API_KEY}&redirect_uri=${import.meta.env.VITE_REDIRECT_URI}`;
 
 export const Header: React.FC<PropH> = ({ h }) => {
   return (
@@ -38,9 +40,13 @@ export const Header: React.FC<PropH> = ({ h }) => {
         <Text>Q&As</Text>
         <Text>전문가와의 상담</Text>
         <Text>커뮤니티</Text>
-        <a href={`${import.meta.env.VITE_BASE_URL}/api/v1/auth/login`}>
-          <Text>로그인</Text>
-        </a>
+        {localStorage.getItem('Authorization') ? (
+          <Text>{localStorage.getItem('Nickname')}</Text>
+        ) : (
+          <a href={kakaoLoginUrl}>
+            <Text>로그인</Text>
+          </a>
+        )}
       </Flex>
     </Box>
   );
