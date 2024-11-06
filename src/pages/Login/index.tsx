@@ -45,10 +45,10 @@ export const Login = () => {
     );
   };
 
-  const login = (res: AxiosResponse<KakaoAuthResponse>) => {
+  const login = async (res: AxiosResponse<KakaoAuthResponse>) => {
     const { access_token } = res.data;
 
-    return apiInstance.post('/api/v1/auth/login/kakao', {
+    return await apiInstance.post('/api/v1/auth/login/kakao', {
       access_token: access_token,
     });
   };

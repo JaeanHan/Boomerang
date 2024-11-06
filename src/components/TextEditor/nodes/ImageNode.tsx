@@ -158,7 +158,6 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
           h={this.__height}
           maxW={this.__maxWidth}
           nodeKey={this.getKey()}
-          resizable={true}
         />
       </Suspense>
     );

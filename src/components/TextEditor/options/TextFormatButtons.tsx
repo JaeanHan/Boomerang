@@ -3,13 +3,18 @@ import { FormatButton } from '@components/TextEditor/options/FormatButton';
 import React, { Fragment } from 'react';
 
 import { Text } from '@chakra-ui/react';
+import { TextFormatType } from 'lexical';
 
 const createFormatButtonArray = (
   isBold: boolean,
   isItalic: boolean,
   isUnderline: boolean,
   isStrikethrough: boolean
-) => {
+): {
+  command: TextFormatType;
+  isActive: boolean;
+  content: JSX.Element;
+}[] => {
   return [
     {
       command: 'bold',
@@ -39,7 +44,7 @@ export const TextFormatButtons: React.FC<{
   isItalic: boolean;
   isUnderline: boolean;
   isStrikethrough: boolean;
-  dispatchTextFormat: (command: string) => () => void;
+  dispatchTextFormat: (command: TextFormatType) => () => void;
 }> = ({
   isBold,
   isItalic,
