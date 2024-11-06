@@ -10,35 +10,39 @@ import React, {
 } from 'react';
 import { createPortal } from 'react-dom';
 
+import { createImagePreviewUrl } from '@/templates/Community/CommunityPosting';
 import { BoomerangColors } from '@/utils/colors';
 import { useToast } from '@chakra-ui/icons';
 import { Box, Button, Input, Text, VStack } from '@chakra-ui/react';
 
 const ImageInputBox: React.FC<{
   imageInputRef: MutableRefObject<HTMLDivElement | null>;
-  insertImage: (payload: InsertImagePayload) => void;
+  insertImage: (payload: { altText: string; src: string }) => void;
   closeImageInput: () => void;
 }> = ({ imageInputRef, insertImage, closeImageInput }) => {
   const [fileInput, setFileInput] = useState<File | null>(null);
-  const [urlInput, setUrlInput] = useState('');
-  const [altText, setAltText] = useState('');
+  const [urlInput, setUrlInput] = useState<string>('');
+  const [altText, setAltText] = useState<string>('');
   const toast = useToast();
-
-  const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0] || null;
-    if (!file) {
-      return;
-    }
-
+  const switchToFileImage = (file: File | null) => {
     setFileInput(file);
     setUrlInput('');
   };
+  const switchToUrlImage = (url: string = '') => {
+    setUrlInput(url);
+    setFileInput(null);
+  };
 
-  const onUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUrlInput(event.target.value);
-    if (event.target.value) {
-      setFileInput(null);
-    }
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+
+    switchToFileImage(file);
+  };
+
+  const onUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const url = e.target.value;
+
+    switchToUrlImage(url);
   };
 
   const onConfirm = () => {
@@ -53,8 +57,8 @@ const ImageInputBox: React.FC<{
     }
 
     insertImage({
-      src: fileInput ? URL.createObjectURL(fileInput) : urlInput,
-      altText: altText ? altText : '이미지',
+      src: fileInput ? createImagePreviewUrl(fileInput) : urlInput,
+      altText: altText || '이미지',
     });
     closeImageInput();
   };
@@ -66,7 +70,7 @@ const ImageInputBox: React.FC<{
       return;
     }
 
-    setFileInput(file);
+    switchToFileImage(file);
   };
 
   return (
@@ -84,8 +88,8 @@ const ImageInputBox: React.FC<{
       <Box
         as="label"
         htmlFor="file-input"
-        border="2px dashed"
-        borderColor={`${urlInput !== '' ? 'gray.300' : 'gray.500'}`}
+        border={'2px dashed'}
+        borderColor={'gray.300'}
         borderRadius="md"
         p={4}
         textAlign="center"
@@ -94,7 +98,7 @@ const ImageInputBox: React.FC<{
         onDrop={onDrop}
         onDragOver={(e) => e.preventDefault()}
       >
-        <Text color="gray.500">
+        <Text color={`${urlInput ? 'gray.300' : 'gray.500'}`}>
           {fileInput
             ? fileInput.name
             : '첨부할 이미지를 끌어오거나 클릭해 선택해주세요.'}
@@ -105,28 +109,25 @@ const ImageInputBox: React.FC<{
           accept="image/*"
           hidden
           onChange={onFileChange}
-          borderColor={`${fileInput ? 'gray.300' : 'gray.500'}`}
+          borderColor={`${fileInput ? 'gray.500' : 'gray.300'}`}
           isDisabled={urlInput !== ''}
         />
       </Box>
       <Input
         type="url"
-        placeholder="이미지 URL을 기입해 주세요."
+        placeholder="이미지 URL"
         value={urlInput}
         onChange={onUrlChange}
         isDisabled={fileInput !== null}
-        _disabled={{
-          color: 'red',
-        }}
       />
       <Input
         type="text"
-        placeholder="이미지 설명을 기입해주세요."
+        placeholder="이미지 설명"
         value={altText}
         onChange={(e) => setAltText(e.target.value)}
       />
       <Button colorScheme="blue" onClick={onConfirm}>
-        확인
+        추가하기
       </Button>
     </VStack>
   );

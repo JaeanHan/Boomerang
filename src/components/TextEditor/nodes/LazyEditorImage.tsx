@@ -11,6 +11,7 @@ import React, {
   useState,
 } from 'react';
 
+import { removeImagePreviewUrl } from '@/templates/Community/CommunityPosting';
 import { Box } from '@chakra-ui/react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import useLexicalEditable from '@lexical/react/useLexicalEditable';
@@ -55,6 +56,7 @@ const LazyEditorImage: React.FC<ILazyImage> = ({
         if (deleteSelection) {
           deleteSelection.getNodes().forEach((node) => {
             if ($isImageNode(node)) {
+              removeImagePreviewUrl(node.getSrc());
               node.remove();
             }
           });
@@ -156,7 +158,7 @@ const LazyEditorImage: React.FC<ILazyImage> = ({
     <Suspense fallback={null}>
       {isFocused && (
         <Box color={'white'} bg={'black'} position={'absolute'}>
-          delete 키를 통해 삭제
+          backspace 또는 del 키를 통해 삭제
         </Box>
       )}
       <LazyImage
