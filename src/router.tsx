@@ -5,9 +5,11 @@ import React from 'react';
 import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 
 import Community from '@/pages/Community';
+import { Consulting } from '@/pages/Consulting';
 import { DamagePrevention } from '@/pages/DamagePrevention';
 import { Guideline } from '@/pages/Guideline';
 import { Home } from '@/pages/Home';
+import { PreventionResult } from '@/pages/PreventionResult';
 import { Welcome } from '@/pages/Welcome';
 import { CommunityPosting } from '@/templates/Community/CommunityPosting';
 
@@ -18,6 +20,8 @@ export const ROUTER_PATH = {
   GUIDELINE: '/guideline',
   PREVENT: '/prevent/:id',
   COMMUNITY: '/community/:type',
+  PREVENT_RESULT: '/preventResult',
+  CONSULTING: '/consulting',
   POST_DETAIL: '/community/post/:postId',
   NOT_FOUND: '*',
 } as const;
@@ -31,6 +35,8 @@ export const router = createBrowserRouter([
   { index: true, path: ROUTER_PATH.ROOT, element: <Home /> },
   { path: ROUTER_PATH.WELCOME, element: <Welcome /> },
   { path: ROUTER_PATH.GUIDELINE, element: <Guideline /> },
+  { path: ROUTER_PATH.PREVENT_RESULT, element: <PreventionResult /> },
+  { path: ROUTER_PATH.CONSULTING, element: <Consulting /> },
   {
     element: <Community />,
     children: [
