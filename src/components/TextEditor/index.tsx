@@ -5,7 +5,7 @@ import { HTMLPlugin } from '@components/TextEditor/plugins/HTMLPlugin';
 import { ImagePlugin } from '@components/TextEditor/plugins/ImagePlugin';
 import { ToolbarPlugin } from '@components/TextEditor/plugins/ToolbarPlugin';
 
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, memo, useState } from 'react';
 
 import { Box } from '@chakra-ui/react';
 import { AutoLinkNode, LinkNode } from '@lexical/link';
@@ -23,13 +23,16 @@ const onError = (error) => {
   console.log(error);
 };
 
-export const TextEditor = () => {
-  const initialConfig = {
-    namespace: 'boomerang',
-    theme: EditorTheme,
-    nodes: [AutoLinkNode, LinkNode, ImageNode],
-    onError,
-  };
+const initialConfig = {
+  namespace: 'boomerang',
+  theme: EditorTheme,
+  nodes: [AutoLinkNode, LinkNode, ImageNode],
+  onError,
+};
+
+const TextEditor: React.FC<{
+  forwardContent?: (content: string) => void;
+}> = ({ forwardContent }) => {
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null);
   const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
@@ -60,7 +63,7 @@ export const TextEditor = () => {
           <LinkPlugin />
           <ImagePlugin />
           <HistoryPlugin />
-          <HTMLPlugin />
+          {forwardContent && <HTMLPlugin forwardContent={forwardContent} />}
         </EditorContainer>
       </div>
     </LexicalComposer>
@@ -101,3 +104,5 @@ const EditorPlaceholder: React.FC = () => {
     </Box>
   );
 };
+
+export default memo(TextEditor);
