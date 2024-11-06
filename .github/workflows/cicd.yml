@@ -21,21 +21,6 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Check current working directory
-      run: pwd
-
-    - name: List files in the current directory
-      run: ls -la
-
-    - name: List files in 'src' directory
-      run: ls -la src
-
-    - name: List files in 'assets' directory
-      run: ls -la src/assets
-
-    - name: List files in 'assets/images' directory
-      run: ls -la src/assets/images
-
     - name: Build project
       run: npm run build
 
