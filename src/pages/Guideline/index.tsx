@@ -12,7 +12,7 @@ import { BasicLayout } from '@components/commons/BasicLayout';
 import React from 'react';
 
 import { Flex, VStack } from '@chakra-ui/react';
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery} from '@tanstack/react-query';
 
 const mockResponse: ProgressResponse = {
   progress_type: 'A타입',
@@ -48,18 +48,16 @@ const mockResponse: ProgressResponse = {
 };
 
 export const Guideline: React.FC = () => {
-  const { data } = useQuery<ProgressResponse>({
+  const { data } = useSuspenseQuery<ProgressResponse>({
     queryFn: getCurrentGuideLineProgress,
     queryKey: ['guideline-progress'],
   });
-  // const data = getCurrentGuideLineProgress();
-  const safe = data ?? mockResponse;
 
   const {
     main_step_list: mainStepList,
     current_main_step: currentMainStep,
     sub_step_list: subStepList,
-  } = safe;
+  } = data;
 
   const currIdx = mainStepList.findIndex(
     (ele) => ele.main_step_name === currentMainStep
@@ -73,7 +71,6 @@ export const Guideline: React.FC = () => {
           currMainIdx={currIdx}
           mainStepList={mainStepList}
         />
-        {/*<GuidelineSaveButton h={49} />*/}
         <Flex gap={'40px'} h={'max-content'}>
           <GuidelineChecklist
             h={667}

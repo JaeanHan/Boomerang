@@ -9,22 +9,11 @@ import { Consulting } from '@/pages/Consulting';
 import { DamagePrevention } from '@/pages/DamagePrevention';
 import { Guideline } from '@/pages/Guideline';
 import { Home } from '@/pages/Home';
+import { Login } from '@/pages/Login';
 import { PreventionResult } from '@/pages/PreventionResult';
 import { Welcome } from '@/pages/Welcome';
+import { ROUTER_PATH } from '@/routerPath';
 import { CommunityPosting } from '@/templates/Community/CommunityPosting';
-
-export const ROUTER_PATH = {
-  ROOT: '/',
-  WELCOME: '/welcome',
-  USER: '/user',
-  GUIDELINE: '/guideline',
-  PREVENT: '/prevent/:id',
-  COMMUNITY: '/community/:type',
-  PREVENT_RESULT: '/preventResult',
-  CONSULTING: '/consulting',
-  POST_DETAIL: '/community/post/:postId',
-  NOT_FOUND: '*',
-} as const;
 
 const PrivateRoute = (): React.ReactElement => {
   const auth = true;
@@ -63,6 +52,10 @@ export const router = createBrowserRouter([
         element: <div>private router</div>,
       },
     ],
+  },
+  {
+    path: ROUTER_PATH.LOGIN,
+    element: <Login />,
   },
   {
     path: '*',

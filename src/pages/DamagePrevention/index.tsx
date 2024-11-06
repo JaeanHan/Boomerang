@@ -7,7 +7,7 @@ import { Step1 } from '@/components/DamagePrevention/step1';
 import { Step2 } from '@/components/DamagePrevention/step2';
 import { SurveyQuestions } from '@/components/Survey/QuestionSection';
 import { BasicLayout } from '@/components/commons/BasicLayout';
-import { ROUTER_PATH } from '@/router';
+import { ROUTER_PATH } from '@/routerPath';
 import { Flex, VStack } from '@chakra-ui/react';
 
 export const preventionSurvey: SurveyQuestions[] = [

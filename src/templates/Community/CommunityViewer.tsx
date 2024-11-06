@@ -3,7 +3,7 @@ import { PropH } from '@components/commons/types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { ROUTER_PATH } from '@/router';
+import { ROUTER_PATH } from '@/routerPath';
 import { BoomerangColors } from '@/utils/colors';
 import { boards } from '@/utils/statics';
 import {

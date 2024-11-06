@@ -1,10 +1,6 @@
 import { Flex, Image, Input, Text, VStack } from '@chakra-ui/react';
 import pen from '@images/pen2.svg';
 
-const user = {
-  nickname: '기러기123',
-};
-
 export const ProfileSection = () => {
   return (
     <VStack>
@@ -13,7 +9,7 @@ export const ProfileSection = () => {
       </Text>
       <Flex borderBottom={'1px solid #D4D4D8'} mt={'40px'}>
         <Input
-          placeholder={`${user.nickname} 님`}
+          placeholder={`${localStorage.getItem('Nickname')} 님`}
           fontSize={'20px'}
           border={'none'}
           borderRadius={0}
