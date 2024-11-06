@@ -15,19 +15,6 @@ import { Welcome } from '@/pages/Welcome';
 import { ROUTER_PATH } from '@/routerPath';
 import { CommunityPosting } from '@/templates/Community/CommunityPosting';
 
-export const ROUTER_PATH = {
-  ROOT: '/',
-  WELCOME: '/welcome',
-  USER: '/user',
-  GUIDELINE: '/guideline',
-  PREVENT: '/prevent/:id',
-  COMMUNITY: '/community/:type',
-  PREVENT_RESULT: '/preventResult',
-  CONSULTING: '/consulting',
-  POST_DETAIL: '/community/post/:postId',
-  NOT_FOUND: '*',
-} as const;
-
 const PrivateRoute = (): React.ReactElement => {
   const auth = true;
   return auth ? <Outlet /> : <Navigate to={ROUTER_PATH.ROOT} />;

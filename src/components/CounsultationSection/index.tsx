@@ -5,7 +5,7 @@ import { PropH } from '@components/commons/types';
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { ROUTER_PATH } from '@/router';
+import { ROUTER_PATH } from '@/routerPath';
 import { BoomerangColors } from '@/utils/colors';
 import { Button, Image, Text, VStack } from '@chakra-ui/react';
 import consult1 from '@images/consult1.svg';

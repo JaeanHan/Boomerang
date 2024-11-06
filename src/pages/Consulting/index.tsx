@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ConsultingBannerSection } from '@/components/Consulting/ConsultingBannerSection/index';
+import { ConsultingBannerSection } from '@/components/Consulting/ConsultingBannerSection';
 import { ConsultingSearchSection } from '@/components/Consulting/ConsultingSearchSection';
 import { ExpertSection } from '@/components/Consulting/ExpertSection';
 import { MentorSection } from '@/components/Consulting/MentorSection.tsx';
