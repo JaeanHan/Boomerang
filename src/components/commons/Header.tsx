@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { PropH } from '@/components/commons/types';
 import { ROUTER_PATH } from '@/routerPath';
@@ -9,6 +9,8 @@ import logo from '@images/logo.svg';
 const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${import.meta.env.VITE_REST_API_KEY}&redirect_uri=${import.meta.env.VITE_REDIRECT_URI}`;
 
 export const Header: React.FC<PropH> = ({ h }) => {
+  const navigate = useNavigate();
+
   return (
     <Box
       zIndex={99}
@@ -41,7 +43,16 @@ export const Header: React.FC<PropH> = ({ h }) => {
         <Text>전문가와의 상담</Text>
         <Text>커뮤니티</Text>
         {localStorage.getItem('Authorization') ? (
-          <Text>{localStorage.getItem('Nickname')}</Text>
+          <Text
+            cursor={'pointer'}
+            onClick={() => {
+              localStorage.removeItem('Authorization');
+              localStorage.removeItem('Nickname');
+              navigate(ROUTER_PATH.ROOT);
+            }}
+          >
+            {localStorage.getItem('Nickname')}
+          </Text>
         ) : (
           <a href={kakaoLoginUrl}>
             <Text>로그인</Text>

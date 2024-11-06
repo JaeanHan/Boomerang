@@ -36,7 +36,7 @@ export const Login = () => {
   const saveAuth = (res) => {
     const { member_role, nickname } = res.data;
     const auth = res.headers['authorization'];
-
+    // TODO : 저장 방법 변경 필요
     localStorage.setItem('Authorization', auth);
 
     if (member_role === 'COMPLETE_USER') {
