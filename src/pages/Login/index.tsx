@@ -38,9 +38,9 @@ export const Login = () => {
     const auth = res.headers['authorization'];
 
     localStorage.setItem('Authorization', auth);
-    localStorage.setItem('Nickname', nickname);
 
     if (member_role === 'COMPLETE_USER') {
+      localStorage.setItem('Nickname', nickname);
       navigate(ROUTER_PATH.ROOT);
     } else {
       navigate(ROUTER_PATH.WELCOME);
