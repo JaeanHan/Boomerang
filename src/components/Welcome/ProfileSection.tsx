@@ -17,7 +17,7 @@ export const ProfileSection: React.FC<{
       </Text>
       <Flex borderBottom={'1px solid #D4D4D8'} mt={'40px'}>
         <Input
-          placeholder={`${isLoading && !isError ? '추천 받는중' : data.nickname}`}
+          placeholder={`${isLoading && !isError && data ? '추천 받는중' : data.nickname}`}
           fontSize={'20px'}
           border={'none'}
           borderRadius={0}

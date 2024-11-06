@@ -27,14 +27,6 @@ export const DropDown: React.FC<IDropDown> = ({
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [showDropDown, setShowDropDown] = useState(false);
 
-  const closeDropDown = () => {
-    setShowDropDown(false);
-
-    if (buttonRef && buttonRef.current) {
-      buttonRef.current?.focus();
-    }
-  };
-
   useEffect(() => {
     const button = buttonRef.current;
     const dropDown = dropDownRef.current;
@@ -127,9 +119,7 @@ export const DropDown: React.FC<IDropDown> = ({
       </button>
       {showDropDown &&
         createPortal(
-          <DropDownItems dropDownRef={dropDownRef} onClose={closeDropDown}>
-            {children}
-          </DropDownItems>,
+          <DropDownItems dropDownRef={dropDownRef}>{children}</DropDownItems>,
           document.body
         )}
     </Fragment>

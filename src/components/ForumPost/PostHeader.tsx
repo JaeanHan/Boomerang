@@ -4,10 +4,13 @@ import { Flex, Image, Text } from '@chakra-ui/react';
 import vector from '@images/Vector.svg';
 
 interface PostHeaderProps {
-  boardType: string;
+  boardType?: string;
 }
 
-export const PostHeader: React.FC<PostHeaderProps> = ({ boardType }) => (
+// TODO : 받아와야함
+export const PostHeader: React.FC<PostHeaderProps> = ({
+  boardType = '자유',
+}) => (
   <Flex
     w="full"
     px={{ base: 5, md: 10 }}

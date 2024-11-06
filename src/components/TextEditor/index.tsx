@@ -19,7 +19,7 @@ import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 
 import './index.css';
 
-const onError = (error) => {
+const onError = (error: Error) => {
   console.log(error);
 };
 
@@ -76,7 +76,7 @@ const EditorContainer = forwardRef<
 >(({ children }, ref) => {
   const [editor] = useLexicalComposerContext();
 
-  const onClick = (e: React.MouseEvent) => {
+  const onClick = () => {
     editor.focus();
   };
 

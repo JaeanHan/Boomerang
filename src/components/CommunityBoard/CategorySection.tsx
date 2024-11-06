@@ -15,7 +15,9 @@ const boards = [
   { type: '단계별게시판' },
 ];
 
-const boardContents = {
+const boardContents: {
+  [key: string]: { image: string; text: string };
+} = {
   자유게시판: {
     image: freeBoardImage,
     text: '자유롭게 질문하고, 서로 조언을 주고받으며 더 나은 아이디어를 함께 만들어가요!',

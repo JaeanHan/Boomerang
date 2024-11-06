@@ -11,7 +11,7 @@ import React, {
 
 import { VStack } from '@chakra-ui/react';
 
-import styles from "./index.module.css"
+import styles from './index.module.css';
 
 interface IDropDownItems {
   children: ReactNode;
@@ -22,7 +22,6 @@ interface IDropDownItems {
 export const DropDownItems: React.FC<IDropDownItems> = ({
   children,
   dropDownRef,
-  onClose,
 }) => {
   const [items, setItems] = useState<RefObject<HTMLButtonElement>[]>();
   const [cursor, setCursor] = useState<RefObject<HTMLButtonElement>>();

@@ -17,12 +17,12 @@ const FONT_FAMILY_OPTIONS: [string, string][] = [
   ['Verdana', 'Verdana'],
 ];
 
-const FONT_COLOR_OPTIONS: [string, string][] = [
-  [BoomerangColors.deepBlue, 'deep blue'],
-  [BoomerangColors.blue, 'blue'],
-  [BoomerangColors.calmWhite, 'calm white'],
-  [BoomerangColors.white, 'white'],
-  ['#000', 'black'],
+const FONT_COLOR_OPTIONS: string[] = [
+  BoomerangColors.deepBlue,
+  BoomerangColors.blue,
+  BoomerangColors.calmWhite,
+  BoomerangColors.white,
+  '#000',
 ];
 
 const FONT_SIZE_OPTIONS: [string, string][] = [
@@ -74,7 +74,7 @@ export const FontDropDown: React.FC<{
         ))}
       </DropDown>
       <DropDown buttonLabel={currentFontColor}>
-        {FONT_COLOR_OPTIONS.map(([option, text]) => (
+        {FONT_COLOR_OPTIONS.map((option) => (
           <DropDownItem
             key={option}
             onClick={() => onClick('color', option || 'black')}

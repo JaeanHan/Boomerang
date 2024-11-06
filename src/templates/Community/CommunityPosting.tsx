@@ -103,9 +103,15 @@ export const CommunityPosting: React.FC = () => {
 };
 
 const PostingHookButtons = () => {
-  const { postData }: PostDataContextType = useContext(PostDataContext);
+  const postDataContext: PostDataContextType | null =
+    useContext(PostDataContext);
   const { mutate } = useCommunityPostMutation();
   const onClick = () => {
+    if (!postDataContext) {
+      return;
+    }
+
+    const { postData } = postDataContext;
     const { content, title, boardType, location } = postData;
     const { updatedContent, images } = Array.from(imgFileMap.entries()).reduce(
       (acc, [key, value]) => {
@@ -163,18 +169,21 @@ const PostingHookButtons = () => {
 };
 
 const PostingTitleInput = () => {
-  const { setPostData } = useContext(PostDataContext);
-  const onChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const newTitle = e.target.value;
-      setPostData((prev) => ({
-        ...prev,
-        title: newTitle,
-      }));
-    },
-    [setPostData]
-  );
+  const postDataContext: PostDataContextType | null =
+    useContext(PostDataContext);
 
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!postDataContext) {
+      return;
+    }
+
+    const { setPostData } = postDataContext;
+    const newTitle = e.target.value;
+    setPostData((prev: CommunityPostData) => ({
+      ...prev,
+      title: newTitle,
+    }));
+  };
   return (
     <Input
       fontWeight={900}
@@ -216,17 +225,21 @@ const categories = [
 ];
 
 const PostingCategorySelection = () => {
-  const { setPostData } = useContext(PostDataContext);
-  const onChange = useCallback(
-    (e: ChangeEvent<HTMLSelectElement>) => {
-      const newBoardType = e.target.value;
-      setPostData((prev) => ({
-        ...prev,
-        boardType: newBoardType,
-      }));
-    },
-    [setPostData]
-  );
+  const postDataContext: PostDataContextType | null =
+    useContext(PostDataContext);
+
+  const onChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    if (!postDataContext) {
+      return;
+    }
+
+    const { setPostData } = postDataContext;
+    const newBoardType = e.target.value as BoardType;
+    setPostData((prev: CommunityPostData) => ({
+      ...prev,
+      boardType: newBoardType,
+    }));
+  };
 
   return (
     <Select
