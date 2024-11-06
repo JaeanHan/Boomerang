@@ -21,6 +21,12 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
+    - name: Check current working directory
+      run: pwd
+
+    - name: List files in images directory
+      run: ls src/images
+
     - name: Build project
       run: npm run build
 
