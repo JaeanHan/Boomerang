@@ -34,6 +34,7 @@ import {
   COMMAND_PRIORITY_CRITICAL,
   FORMAT_TEXT_COMMAND,
   SELECTION_CHANGE_COMMAND,
+  TextFormatType,
 } from 'lexical';
 
 // TODO : 더이상 추가할 기능 없을 때 useReducer를 통해 리팩토링하기
@@ -177,7 +178,7 @@ export const ToolbarPlugin: React.FC<{
     activeEditor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
   }, [activeEditor, isLink, setIsLinkEditMode]);
 
-  const dispatchTextFormat = (command: string) => () => {
+  const dispatchTextFormat = (command: TextFormatType) => () => {
     activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, command);
   };
 
@@ -206,7 +207,6 @@ export const ToolbarPlugin: React.FC<{
         canUndo={canUndo}
       />
       <FontDropDown
-        isDisabled={!isEditable}
         editor={activeEditor}
         currentFontFamily={fontFamily}
         currentFontSize={fontSize}
@@ -221,11 +221,7 @@ export const ToolbarPlugin: React.FC<{
       />
       <InsertLinkButton isLink={isLink} insertLink={insertLink} />
       <InsertImageButton insertImage={insertImage} />
-      <AlignDropDown
-        isDisabled={!isEditable}
-        editor={activeEditor}
-        currentAlign={align}
-      />
+      <AlignDropDown editor={activeEditor} currentAlign={align} />
     </Flex>
   );
 };

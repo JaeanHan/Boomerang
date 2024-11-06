@@ -19,13 +19,15 @@ export const SelectRoleSection: React.FC<{
         bgColor="#176CFF"
         color="#FFF"
         onClick={() =>
-          confirmNickname(nickname ? nickname : data.nickname).then((data) => {
-            const { member_role, nickname } = data;
-            if (nickname) {
-              localStorage.setItem('Nickname', nickname);
-              navigate(ROUTER_PATH.ROOT);
+          confirmNickname(nickname ? nickname : (data.nickname ?? 'null')).then(
+            (data) => {
+              const { nickname } = data;
+              if (nickname) {
+                localStorage.setItem('Nickname', nickname);
+                navigate(ROUTER_PATH.ROOT);
+              }
             }
-          })
+          )
         }
       >
         일반 사용자로 가입하기

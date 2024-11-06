@@ -63,7 +63,7 @@ const ImageInputBox: React.FC<{
     closeImageInput();
   };
 
-  const onDrop = (e) => {
+  const onDrop = (e: DragEvent) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
     if (!file) {

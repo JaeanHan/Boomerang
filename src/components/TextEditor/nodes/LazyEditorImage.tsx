@@ -169,10 +169,10 @@ const LazyEditorImage: React.FC<ILazyImage> = ({
         src={src}
         className={isFocused ? 'focused' : undefined}
         imageRef={imageRef}
+        nodeKey={nodeKey}
       />
       {isFocused && $isNodeSelection(selection) && (
         <ImageResizer
-          editor={editor}
           imageRef={imageRef}
           maxW={maxWImg}
           maxH={maxHImg}

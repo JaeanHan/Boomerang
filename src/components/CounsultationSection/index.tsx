@@ -17,12 +17,12 @@ import styles from './index.module.css';
 
 export const ConsultationSection: React.FC<PropH> = ({ h }) => {
   const navigate = useNavigate();
-  const imageRefs = useRef<HTMLImageElement[]>([]);
+  const imageRefs = useRef<HTMLImageElement | HTMLButtonElement[]>([]);
 
   useIntersectionObserver(imageRefs, 0.5, '10% 0px -15% 0px');
 
   const setImageRefAtIndex =
-    (index: number) => (el: HTMLImageElement | null) => {
+    (index: number) => (el: HTMLImageElement | HTMLButtonElement | null) => {
       if (el) {
         imageRefs.current[index] = el;
       }

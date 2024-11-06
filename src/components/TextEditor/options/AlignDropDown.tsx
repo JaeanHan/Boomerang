@@ -3,10 +3,18 @@ import { DropDownItem } from '@components/DropDown/DropDownItem';
 
 import React from 'react';
 
-import { FORMAT_ELEMENT_COMMAND, LexicalEditor } from 'lexical';
+import {
+  ElementFormatType,
+  FORMAT_ELEMENT_COMMAND,
+  LexicalEditor,
+} from 'lexical';
 
 // TODO : 아이콘으로 변경
-const alignOptions = [
+const alignOptions: {
+  label: string;
+  value: ElementFormatType;
+  iconClass: string;
+}[] = [
   { label: 'left Align', value: 'left', iconClass: 'left-align' },
   { label: 'center Align', value: 'center', iconClass: 'center-align' },
   { label: 'right Align', value: 'right', iconClass: 'right-align' },
@@ -22,7 +30,7 @@ export const AlignDropDown: React.FC<{
 }> = ({ isDisabled, editor, currentAlign = 'left' }) => {
   return (
     <DropDown
-      disabled={isDisabled}
+      isDisabled={isDisabled}
       buttonLabel={currentAlign}
       buttonAriaLabel="Formatting options for text alignment"
     >
@@ -32,7 +40,6 @@ export const AlignDropDown: React.FC<{
           onClick={() => {
             editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, value);
           }}
-          className="item"
         >
           {iconClass && <i className={`icon ${iconClass}`} />}
           <span className="text">{label}</span>

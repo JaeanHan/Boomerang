@@ -8,7 +8,7 @@ export interface ILazyImage {
   maxW: number;
   h: 'inherit' | number;
   src: string;
-  nodeKdy?: NodeKey;
+  nodeKey: NodeKey;
   className?: string;
   imageRef?: MutableRefObject<HTMLImageElement | null>;
 }

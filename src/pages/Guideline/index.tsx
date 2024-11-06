@@ -12,40 +12,7 @@ import { BasicLayout } from '@components/commons/BasicLayout';
 import React from 'react';
 
 import { Flex, VStack } from '@chakra-ui/react';
-import { useSuspenseQuery} from '@tanstack/react-query';
-
-const mockResponse: ProgressResponse = {
-  progress_type: 'A타입',
-  current_main_step: '진행도1번',
-  main_step_list: [
-    { main_step_name: '진행도1번', completion: false },
-    { main_step_name: '진행도2번', completion: false },
-    { main_step_name: '진행도3번', completion: false },
-    { main_step_name: '진행도4번', completion: false },
-  ],
-  sub_step_list: [
-    {
-      name: '서브스텝1',
-      content: '100글자 아무거나',
-      completion: false,
-    },
-    {
-      name: '서브스텝2',
-      content: '설명',
-      completion: false,
-    },
-    {
-      name: '서브스텝3',
-      content: '100글자 아무거나',
-      completion: false,
-    },
-    {
-      name: '서브스텝4',
-      content: '설명',
-      completion: false,
-    },
-  ],
-};
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 export const Guideline: React.FC = () => {
   const { data } = useSuspenseQuery<ProgressResponse>({
