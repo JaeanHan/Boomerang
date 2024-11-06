@@ -20,13 +20,13 @@
     "noFallthroughCasesInSwitch": true,
 
     /* Path */
-    "baseUrl": "src",
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["*"],
-      "@images/*": ["assets/images/*"],
-      "@components/*": ["components/*"],
-      "@apis/*": ["apis/*"],
-      "@hooks/*": ["hooks/*"]
+      "@/*": ["./src/*"],
+      "@images/*": ["./src/assets/images/*"],
+      "@components/*": ["./src/components/*"],
+      "@apis/*": ["./src/apis/*"],
+      "@hooks/*": ["./src/hooks/*"]
     }
   },
   "include": ["vite.config.ts", "declaration.d.ts"]
