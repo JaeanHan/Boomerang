@@ -45,16 +45,19 @@ export const Login = () => {
     );
   };
 
-  const login = async (res: AxiosResponse<KakaoAuthResponse>) => {
+  const login = (
+    res: AxiosResponse<KakaoAuthResponse>
+  ): Promise<LoginResponse> => {
     const { access_token } = res.data;
 
-    return await apiInstance.post('/api/v1/auth/login/kakao', {
+    return apiInstance.post('/api/v1/auth/login/kakao', {
       access_token: access_token,
     });
   };
 
-  const saveAuth = (res: AxiosResponse<LoginResponse>) => {
+  const saveAuth = (res: LoginResponse) => {
     const { member_role, nickname } = res.data;
+    console.log('this is consologing res', res);
     const auth = res.headers['authorization'];
     // TODO : 저장 방법 변경 필요
     localStorage.setItem('Authorization', auth);

@@ -74,6 +74,8 @@ const ImageInputBox: React.FC<{
     switchToFileImage(file);
   };
 
+  const onDragEnd: DragEventHandler<HTMLDivElement> = (e) => e.preventDefault();
+
   return (
     <VStack
       spacing={4}
@@ -97,7 +99,7 @@ const ImageInputBox: React.FC<{
         cursor="pointer"
         width="100%"
         onDrop={onDrop}
-        onDragOver={(e: DragEvent) => e.preventDefault()}
+        onDragOver={onDragEnd}
       >
         <Text color={`${urlInput ? 'gray.300' : 'gray.500'}`}>
           {fileInput
