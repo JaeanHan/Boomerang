@@ -5,7 +5,7 @@ export const ROUTER_PATH = {
   GUIDELINE: '/guideline',
   PREVENT: '/prevent/:id',
   COMMUNITY: '/community/:type',
-  POST_DETAIL: '/community/:type/post',
+  POST_DETAIL: '/community/post/:postId',
   POSTING: '/community/post',
   PREVENT_RESULT: '/preventResult',
   NOT_FOUND: '*',
