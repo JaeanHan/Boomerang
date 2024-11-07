@@ -32,5 +32,7 @@ jobs:
       run: |
         echo -e "$SSH_PRIVATE_KEY" > key.pem
         chmod 600 key.pem
-        scp -o StrictHostKeyChecking=no -i key.pem -r dist/* $EC2_USERNAME@EC2_HOST:/var/www/html/
-        ssh -o StrictHostKeyChecking=no -i key.pem $EC2_USERNAME@EC2_HOST "sudo systemctl restart nginx"
+        # Copy built files to the NGINX directory
+        scp -o StrictHostKeyChecking=no -i key.pem -r dist/* $EC2_USERNAME@$EC2_HOST:/var/www/html/
+        # Restart NGINX service
+        ssh -o StrictHostKeyChecking=no -i key.pem $EC2_USERNAME@$EC2_HOST "sudo systemctl restart nginx"
