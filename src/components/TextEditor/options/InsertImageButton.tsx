@@ -1,5 +1,5 @@
 import { FormatButton } from '@components/TextEditor/options/FormatButton';
-import { InsertImagePayload } from '@components/TextEditor/plugins/ImagePlugin';
+import { InsertImagePayload } from '@components/TextEditor/utils';
 
 import React, {
   DragEventHandler,

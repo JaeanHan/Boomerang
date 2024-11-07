@@ -1,12 +1,14 @@
-name: CI / CD
+name: CI
 
 on:
   push:
     branches:
-      - Week10
+      - jaeanhan
+      - seongik
+      - yunseong
 
 jobs:
-  deploy:
+  ci:
     runs-on: ubuntu-latest
 
     steps:
@@ -35,14 +37,3 @@ jobs:
 
       - name: Build project
         run: npm run build
-
-      - name: Deploy
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          EC2_HOST: ${{ secrets.EC2_HOST }}
-          EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
-        run: |
-          echo -e "$SSH_PRIVATE_KEY" > key.pem
-          chmod 600 key.pem
-          scp -o StrictHostKeyChecking=no -i key.pem -r dist/* $EC2_USERNAME@$EC2_HOST:/var/www/html/
-          ssh -o StrictHostKeyChecking=no -i key.pem $EC2_USERNAME@$EC2_HOST "sudo systemctl restart nginx"
