@@ -19,8 +19,10 @@ export const SelectRoleSection: React.FC<{
         bgColor="#176CFF"
         color="#FFF"
         onClick={() =>
-          confirmNickname(nickname ? nickname : data.nickname).then((data) => {
-            const { member_role, nickname } = data;
+          confirmNickname(
+            nickname ? nickname : (data?.nickname ?? 'null')
+          ).then((data) => {
+            const { nickname } = data;
             if (nickname) {
               localStorage.setItem('Nickname', nickname);
               navigate(ROUTER_PATH.ROOT);

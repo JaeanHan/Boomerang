@@ -5,7 +5,23 @@ import { useNavigate } from 'react-router-dom';
 
 import apiInstance from '@/apis';
 import { ROUTER_PATH } from '@/routerPath';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+
+interface KakaoAuthResponse {
+  access_token: string;
+  refresh_token: string;
+  expires_in: number;
+}
+
+interface LoginResponse {
+  data: {
+    member_role: string;
+    nickname: string;
+  };
+  headers: {
+    authorization: string;
+  };
+}
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -16,25 +32,32 @@ export const Login = () => {
     params.append('grant_type', 'authorization_code');
     params.append('client_id', import.meta.env.VITE_REST_API_KEY);
     params.append('redirect_uri', import.meta.env.VITE_REDIRECT_URI);
-    params.append('code', authCode);
+    params.append('code', authCode ?? '');
 
-    return await axios.post('https://kauth.kakao.com/oauth/token', params, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-      },
-    });
+    return await axios.post<KakaoAuthResponse>(
+      'https://kauth.kakao.com/oauth/token',
+      params,
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+        },
+      }
+    );
   };
 
-  const login = (res) => {
-    const { access_token, refresh_token, expires_in } = res.data;
+  const login = (
+    res: AxiosResponse<KakaoAuthResponse>
+  ): Promise<LoginResponse> => {
+    const { access_token } = res.data;
 
     return apiInstance.post('/api/v1/auth/login/kakao', {
       access_token: access_token,
     });
   };
 
-  const saveAuth = (res) => {
+  const saveAuth = (res: LoginResponse) => {
     const { member_role, nickname } = res.data;
+    console.log('this is consologing res', res);
     const auth = res.headers['authorization'];
     // TODO : 저장 방법 변경 필요
     localStorage.setItem('Authorization', auth);

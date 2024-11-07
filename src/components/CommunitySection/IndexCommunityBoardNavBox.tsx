@@ -26,12 +26,9 @@ const convertBoardTypeToUri = (type: string): string => {
   return 'open-forum';
 };
 
-export const IndexCommunityBoardNavBox: React.FC = ({
-  type,
-  desc,
-  img,
-  h,
-}: ICommunityBoardNavBox & PropH) => (
+export const IndexCommunityBoardNavBox: React.FC<
+  ICommunityBoardNavBox & PropH
+> = ({ type, desc, img, h }) => (
   <Link to={`community/${convertBoardTypeToUri(type)}`}>
     <Box
       w={230}

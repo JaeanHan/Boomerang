@@ -1,4 +1,4 @@
-import React, { MutableRefObject } from 'react';
+import React, { MutableRefObject, ReactNode } from 'react';
 
 import { BoomerangColors } from '@/utils/colors';
 import { Button } from '@chakra-ui/react';
@@ -7,6 +7,7 @@ export const FormatButton: React.FC<{
   isActive: boolean;
   onClick: () => void;
   buttonRef?: MutableRefObject<HTMLButtonElement | null>;
+  children: ReactNode;
 }> = ({ isActive, onClick, buttonRef, children }) => (
   <Button
     onClick={onClick}

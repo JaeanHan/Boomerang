@@ -31,6 +31,10 @@ const boardType = {
 
 export type BoardType = (typeof boardType)[keyof typeof boardType];
 
+export const isBoardType = (value: number): value is BoardType => {
+  return Object.values(boardType).some((r) => r === value);
+};
+
 export type CommunityPostData = {
   title: string;
   content: string;
@@ -103,9 +107,15 @@ export const CommunityPosting: React.FC = () => {
 };
 
 const PostingHookButtons = () => {
-  const { postData }: PostDataContextType = useContext(PostDataContext);
+  const postDataContext: PostDataContextType | null =
+    useContext(PostDataContext);
   const { mutate } = useCommunityPostMutation();
   const onClick = () => {
+    if (!postDataContext) {
+      return;
+    }
+
+    const { postData } = postDataContext;
     const { content, title, boardType, location } = postData;
     const { updatedContent, images } = Array.from(imgFileMap.entries()).reduce(
       (acc, [key, value]) => {
@@ -163,18 +173,21 @@ const PostingHookButtons = () => {
 };
 
 const PostingTitleInput = () => {
-  const { setPostData } = useContext(PostDataContext);
-  const onChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const newTitle = e.target.value;
-      setPostData((prev) => ({
-        ...prev,
-        title: newTitle,
-      }));
-    },
-    [setPostData]
-  );
+  const postDataContext: PostDataContextType | null =
+    useContext(PostDataContext);
 
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!postDataContext) {
+      return;
+    }
+
+    const { setPostData } = postDataContext;
+    const newTitle = e.target.value;
+    setPostData((prev: CommunityPostData) => ({
+      ...prev,
+      title: newTitle,
+    }));
+  };
   return (
     <Input
       fontWeight={900}
@@ -200,33 +213,40 @@ const PostingTitleInput = () => {
 };
 
 const categories = [
-  { name: '게시판 유형 - 자유 게시판', value: '자유 게시판' },
+  { name: '게시판 유형 - 자유 게시판', value: boardType.ENTIRE },
   {
     name: '게시판 유형 - 지역 게시판',
-    value: '지역 게시판',
+    value: boardType.LOCATION,
   },
   {
     name: '게시판 유형 - 비밀 게시판',
-    value: '비밀 게시판',
+    value: boardType.SECRETE,
   },
   {
     name: '게시판 유형 - 단계별 게시판',
-    value: '단계별 게시판',
+    value: boardType.STEP,
   },
 ];
 
 const PostingCategorySelection = () => {
-  const { setPostData } = useContext(PostDataContext);
-  const onChange = useCallback(
-    (e: ChangeEvent<HTMLSelectElement>) => {
-      const newBoardType = e.target.value;
-      setPostData((prev) => ({
+  const postDataContext: PostDataContextType | null =
+    useContext(PostDataContext);
+
+  const onChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    if (!postDataContext) {
+      return;
+    }
+
+    const { setPostData } = postDataContext;
+
+    const newBoardType = parseInt(e.target.value);
+    if (isBoardType(newBoardType)) {
+      setPostData((prev: CommunityPostData) => ({
         ...prev,
         boardType: newBoardType,
       }));
-    },
-    [setPostData]
-  );
+    }
+  };
 
   return (
     <Select
