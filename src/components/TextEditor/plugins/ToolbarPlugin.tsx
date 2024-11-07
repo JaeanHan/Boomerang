@@ -7,8 +7,8 @@ import { UndoRedoButtons } from '@components/TextEditor/options/UndoRedoButtons'
 import {
   INSERT_IMAGE_COMMAND,
   InsertImagePayload,
-} from '@components/TextEditor/plugins/ImagePlugin';
-import { getSelectedNode } from '@components/TextEditor/utils';
+  getSelectedNode,
+} from '@components/TextEditor/utils';
 import { HEADER_HEIGHT } from '@components/commons/BasicLayout';
 
 import React, {

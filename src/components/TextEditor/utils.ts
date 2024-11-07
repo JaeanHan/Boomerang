@@ -1,5 +1,17 @@
+import { ImagePayload } from '@components/TextEditor/nodes/ImageNode';
+
 import { $isAtNodeEnd } from '@lexical/selection';
-import { ElementNode, RangeSelection, TextNode } from 'lexical';
+import {
+  ElementNode,
+  LexicalCommand,
+  RangeSelection,
+  TextNode,
+  createCommand,
+} from 'lexical';
+
+export type InsertImagePayload = Readonly<ImagePayload>;
+export const INSERT_IMAGE_COMMAND: LexicalCommand<InsertImagePayload> =
+  createCommand('INSERT_IMAGE_COMMAND');
 
 export const getSelectedNode = (
   selection: RangeSelection

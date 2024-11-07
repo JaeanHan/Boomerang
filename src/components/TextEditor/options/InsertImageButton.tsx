@@ -11,7 +11,7 @@ import React, {
 } from 'react';
 import { createPortal } from 'react-dom';
 
-import { createImagePreviewUrl } from '@/templates/Community/CommunityPosting';
+import { createImagePreviewUrl } from '@/templates/Community/utils';
 import { BoomerangColors } from '@/utils/colors';
 import { useToast } from '@chakra-ui/icons';
 import { Box, Button, Input, Text, VStack } from '@chakra-ui/react';

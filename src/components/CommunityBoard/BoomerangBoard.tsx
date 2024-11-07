@@ -5,8 +5,6 @@ import back from '@images/Comback2.svg';
 
 import MainContent from './MainContent';
 
-let tset = '';
-
 const BoomerangBoard: React.FC = () => (
   <Flex
     overflow="hidden"

@@ -1,8 +1,11 @@
 import {
   $createImageNode,
   ImageNode,
-  ImagePayload,
 } from '@components/TextEditor/nodes/ImageNode';
+import {
+  INSERT_IMAGE_COMMAND,
+  InsertImagePayload,
+} from '@components/TextEditor/utils';
 
 import { useEffect } from 'react';
 
@@ -13,13 +16,7 @@ import {
   $insertNodes,
   $isRootOrShadowRoot,
   COMMAND_PRIORITY_EDITOR,
-  LexicalCommand,
-  createCommand,
 } from 'lexical';
-
-export type InsertImagePayload = Readonly<ImagePayload>;
-export const INSERT_IMAGE_COMMAND: LexicalCommand<InsertImagePayload> =
-  createCommand('INSERT_IMAGE_COMMAND');
 
 export const ImagePlugin = () => {
   const [editor] = useLexicalComposerContext();
