@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Box, Flex } from '@chakra-ui/react';
-import back from '@images/ComBack2.svg';
+import back from '@images/Comback2.svg';
 
 import MainContent from './MainContent';
 
