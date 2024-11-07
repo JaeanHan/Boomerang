@@ -21,7 +21,7 @@ const BoomerangBoard: React.FC = () => (
       bg="#F3F3F3"
       shadow="md"
       w="945.46px"
-      h="1800px"
+      h="1900px"
       overflow="hidden"
       backgroundImage={`url(${back})`}
       backgroundSize="1004.23px 1606.92px"
