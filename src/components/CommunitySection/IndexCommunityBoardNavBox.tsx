@@ -9,7 +9,7 @@ import { Box, Image, Text } from '@chakra-ui/react';
 export interface ICommunityBoardNavBox {
   type: string;
   desc: string;
-  img: any;
+  img: string;
 }
 
 const convertBoardTypeToUri = (type: string): string => {

@@ -9,6 +9,10 @@ import {
 import React, { ChangeEvent, useCallback, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import {
+  createPostContent,
+  flushImagePreviewUrls,
+} from '@/templates/Community/utils';
 import { BoomerangColors } from '@/utils/colors';
 import {
   Box,
@@ -29,9 +33,9 @@ const boardType = {
   STEP: 3,
 } as const;
 
-export type BoardType = (typeof boardType)[keyof typeof boardType];
+type BoardType = (typeof boardType)[keyof typeof boardType];
 
-export const isBoardType = (value: number): value is BoardType => {
+const isBoardType = (value: number): value is BoardType => {
   return Object.values(boardType).some((r) => r === value);
 };
 
@@ -40,26 +44,6 @@ export type CommunityPostData = {
   content: string;
   boardType: BoardType;
   location?: string;
-};
-
-const imgFileMap = new Map<string, File>();
-
-export const createImagePreviewUrl = (image: File): string => {
-  const imgUrl = URL.createObjectURL(image);
-  imgFileMap.set(imgUrl, image);
-  return imgUrl;
-};
-
-export const removeImagePreviewUrl = (imgUrl: string): void => {
-  imgFileMap.delete(imgUrl);
-  URL.revokeObjectURL(imgUrl);
-};
-
-const flushImagePreviewUrls = (): void => {
-  for (const imageUrl of imgFileMap.keys()) {
-    URL.revokeObjectURL(imageUrl);
-  }
-  imgFileMap.clear();
 };
 
 export const CommunityPosting: React.FC = () => {
@@ -117,16 +101,7 @@ const PostingHookButtons = () => {
 
     const { postData } = postDataContext;
     const { content, title, boardType, location } = postData;
-    const { updatedContent, images } = Array.from(imgFileMap.entries()).reduce(
-      (acc, [key, value]) => {
-        if (acc.updatedContent.includes(key)) {
-          acc.updatedContent = acc.updatedContent.replace(key, '?');
-          acc.images.push(value);
-        }
-        return acc;
-      },
-      { updatedContent: content, images: [] as File[] }
-    );
+    const { updatedContent, images } = createPostContent(content);
 
     mutate({
       content: updatedContent,

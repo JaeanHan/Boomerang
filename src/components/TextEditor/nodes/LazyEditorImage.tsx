@@ -11,7 +11,7 @@ import React, {
   useState,
 } from 'react';
 
-import { removeImagePreviewUrl } from '@/templates/Community/CommunityPosting';
+import { removeImagePreviewUrl } from '@/templates/Community/utils';
 import { Box } from '@chakra-ui/react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import useLexicalEditable from '@lexical/react/useLexicalEditable';
