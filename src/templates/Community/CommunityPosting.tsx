@@ -39,6 +39,10 @@ const isBoardType = (value: number): value is BoardType => {
   return Object.values(boardType).some((r) => r === value);
 };
 
+export const isBoardType = (value: number): value is BoardType => {
+  return Object.values(boardType).some((r) => r === value);
+};
+
 export type CommunityPostData = {
   title: string;
   content: string;
