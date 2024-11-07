@@ -35,7 +35,6 @@ export const fetchHotTopics = async (): Promise<HotTopicData[]> => {
       board_type: 'ENTIRE',
       content_length: 10,
     },
-
   });
 
   return response.data.content.map((item: any) => ({
