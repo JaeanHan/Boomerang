@@ -1,9 +1,9 @@
 name: CI / CD
 
 on:
-  push:
+  merge:
     branches:
-      - jaeanhan
+      - Week10
 
 jobs:
   deploy:
