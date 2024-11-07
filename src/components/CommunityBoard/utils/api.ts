@@ -1,15 +1,15 @@
 import apiInstance from '@/apis';
 
-import { HotTopicData, PostData } from '../types';
+import { CommentData, HotTopicData, PostData } from '../types';
 
 type PostItem = {
   id: number;
   title: string;
   content: string;
   writer_email: string;
-  writer_name: string; // 작성자의 이름
-  like_count: number; // 좋아요 수
-  comment_count: number; // 댓글 수
+  writer_name: string;
+  like_count: number;
+  comment_count: number;
 };
 
 type FetchPostResponse = {
@@ -19,20 +19,20 @@ type FetchPostResponse = {
 };
 
 type Comment = {
-  id: number; // 댓글 ID
-  content: string; // 댓글 내용
-  writer_name: string; // 댓글 작성자의 이름
-  created_at: string; // 댓글 생성 날짜 및 시간
+  id: number;
+  content: string;
+  writer_name: string;
+  created_at: string;
 };
 
 type PostDataResponse = {
   comment_list_response_dto: {
-    total_page: number; // 댓글의 총 페이지 수
-    current_page: number; // 현재 페이지 번호
-    content: Comment[]; // 댓글 내용 배열
+    total_page: number;
+    current_page: number;
+    content: Comment[];
   };
-  created_at: string; // 게시물 생성 날짜 및 시간
-  liked: boolean; // 좋아요 여부
+  created_at: string;
+  liked: boolean;
 } & PostItem;
 
 export const fetchPosts = async (page: number) => {
@@ -92,6 +92,19 @@ export const fetchPostById = async (postId: string): Promise<PostData> => {
     comments: data.comment_count,
     writerName: data.writer_name,
     createdAt: data.created_at,
-    commentsList: data.comment_list_response_dto,
+    commentsList: data.comment_list_response_dto.content.map((commentDto) =>
+      toComment(commentDto)
+    ),
+  };
+};
+
+const toComment = (commentDto: Comment): CommentData => {
+  return {
+    id: commentDto.id,
+    writer_email: 'default@example.com',
+    writer_name: commentDto.writer_name,
+    text: commentDto.content,
+    last_modified_at: commentDto.created_at,
+    edited: false,
   };
 };
