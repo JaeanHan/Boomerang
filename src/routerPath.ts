@@ -3,6 +3,7 @@ export const ROUTER_PATH = {
   WELCOME: '/welcome',
   USER: '/user',
   GUIDELINE: '/guideline',
+  JOURNEY_PREVIEW: '/preview',
   PREVENT: '/prevent/:id',
   COMMUNITY: '/community/:type',
   POST_DETAIL: '/community/:type/post',
