@@ -1,122 +1,146 @@
-import React from 'react';
+import React, { useState } from 'react';
 
+import { setGuidelineType } from '@/apis/guideline';
 import { QuestionText } from '@/components/commons/QuestionText';
-import {
-  Box,
-  Button,
-  Flex,
-  Image,
-  Text,
-  Textarea,
-  VStack,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, Image, Text, VStack } from '@chakra-ui/react';
 import cryinFace from '@images/cryingFace.svg';
 import thumbsUp from '@images/thumbsUp.svg';
 
 export interface SurveyQuestions {
+  id: number;
   title: string;
   subtitle: string;
-  type?: 'input' | 'select';
 }
 
 const questions: SurveyQuestions[] = [
   {
-    title: '전세 보증 보험에 가입이 되어있나요?',
-    subtitle: '전세 보증 보험이 무엇인가요?',
-    type: 'input',
+    id: 1,
+    title: '전세권 설정을 하셨나요?',
+    subtitle: '전세권 설정이 무엇인가요?',
   },
   {
-    title: '전세 보증 보험에 가입이 되어있나요?',
-    subtitle: '전세 보증 보험이 무엇인가요?',
-    type: 'input',
-  },
-  {
-    title: '전세 보증 보험에 가입이 되어있나요?',
-    subtitle: '전세 보증 보험이 무엇인가요?',
-    type: 'input',
-  },
-  {
-    title: '전세 보증 보험에 가입이 되어있나요?',
-    subtitle: '전세 보증 보험이 무엇인가요?',
-    type: 'select',
+    id: 2,
+    title: '보증 보험에 가입 되어있나요 ?',
+    subtitle: '보증 보험이 무엇인가요?',
   },
 ];
 
-export const QuestionSection: React.FC = () => (
-  <VStack pt={35} pb={41} pl={120} pr={120} align="stretch">
-    <VStack align="stretch" gap={'35px'}>
-      {questions.map((question, index) =>
-        question.type === 'input' ? (
-          <InputItem key={index} index={index + 1} question={question} />
-        ) : (
-          <SelectItem key={index} index={index + 1} question={question} />
-        )
-      )}
-    </VStack>
-    <Button
-      mt={'67px'}
-      w="415px"
-      h="113px"
-      borderRadius="8px"
-      bg="#176CFF"
-      color="#fff"
-      fontSize="35px"
-      fontWeight={800}
-      alignSelf="center"
-    >
-      다음 단계로 넘어가기
-    </Button>
-  </VStack>
-);
+export const QuestionSection: React.FC = () => {
+  const [isLeaseType, setIsLeaseType] = useState('');
+  const [isInsured, setIsInsured] = useState('');
 
-const InputItem: React.FC<{
-  index: number;
-  question: SurveyQuestions;
-}> = ({ index, question }) => (
-  <Box>
-    <QuestionText index={index} question={question} />
-    <Box
-      h={131}
-      borderRadius={12}
-      bg="#E7F4FF"
-      border="2px solid rgba(23, 108, 255, 0.69)"
-      ml={33}
-      mt={'32px'}
-      p={5}
-    >
-      <Textarea
-        border="none"
-        resize="none"
-        _focus={{
-          boxShadow: 'none',
-        }}
-        placeholder="질문에 맞는 텍스트를 입력해주세요."
-        _placeholder={{
-          color: 'rgba(23, 108, 255, 0.51)',
-          fontSize: '20px',
-        }}
-      />
-    </Box>
-  </Box>
-);
+  const sendType = () => {
+    if (isLeaseType === '') {
+      alert('전세권 설정 여부를 선택해주세요.');
+    } else if (isLeaseType === 'N' && isInsured === '') {
+      alert('보증 보험 가입 여부를 선택해주세요.');
+    } else {
+      const leaseTypeData = isLeaseType === 'Y' ? '전세권' : '임대차';
+      const inInsuredData =
+        isLeaseType === 'Y' ? false : isInsured === 'Y' ? true : false;
+      const response = setGuidelineType(inInsuredData, leaseTypeData);
+      console.log(response);
+    }
+  };
+
+  return (
+    <VStack pt={35} pb={41} pl={120} pr={120} align="stretch">
+      <VStack align="stretch" gap={'35px'}>
+        <SelectItem
+          key={questions[0].id}
+          index={questions[0].id}
+          question={questions[0]}
+          isSelected={isLeaseType}
+          setIsSelected={setIsLeaseType}
+        />
+        {isLeaseType === 'N' && (
+          <SelectItem
+            key={questions[1].id}
+            index={questions[1].id}
+            question={questions[1]}
+            isSelected={isInsured}
+            setIsSelected={setIsInsured}
+          />
+        )}
+      </VStack>
+      <Button
+        mt={'67px'}
+        w="415px"
+        h="113px"
+        borderRadius="8px"
+        bg="#176CFF"
+        color="#fff"
+        fontSize="35px"
+        fontWeight={800}
+        alignSelf="center"
+        onClick={sendType}
+      >
+        다음 단계로 넘어가기
+      </Button>
+    </VStack>
+  );
+};
 
 const SelectItem: React.FC<{
   index: number;
   question: SurveyQuestions;
-}> = ({ index, question }) => {
+  isSelected: string;
+  setIsSelected: (value: string) => void;
+}> = ({ index, question, isSelected, setIsSelected }) => {
   return (
     <Box>
       <QuestionText index={index} question={question} />
       <Flex ml={33} justifyContent="space-between" mt={'32px'}>
-        <Button bgColor="#E7F4FF" border="2px solid #176CFF" h={94} p={22}>
+        <Button
+          bgColor={
+            isSelected === 'Y'
+              ? '#176CFF'
+              : isSelected === 'N'
+                ? '#D9D9D9'
+                : '#E7F4FF'
+          }
+          border="2px solid #176CFF"
+          h={94}
+          p={22}
+          onClick={() => setIsSelected('Y')}
+          _hover={{
+            bgColor: isSelected === 'Y' ? '#145BCC' : '#CFE9FF',
+          }}
+          opacity={isSelected && isSelected !== 'Y' ? 0.6 : 1}
+        >
           <Image src={thumbsUp} />
-          <Text color="#176CFF" fontSize={25} fontWeight="bold" ml={13}>
+          <Text
+            color={isSelected === 'Y' ? '#FFF' : '#176CFF'}
+            fontSize={25}
+            fontWeight="bold"
+            ml={13}
+          >
             네! 가입되어 있어요
           </Text>
         </Button>
-        <Button bgColor="#FFCFCF" border="2px solid #FF3939" h={94}>
+        <Button
+          bgColor={
+            isSelected === 'N'
+              ? '#FF3939'
+              : isSelected === 'Y'
+                ? '#D9D9D9'
+                : '#FFCFCF'
+          }
+          border="2px solid #FF3939"
+          h={94}
+          onClick={() => setIsSelected('N')}
+          _hover={{
+            bgColor: isSelected === 'N' ? '#CC3030' : '#F7B6B6',
+          }}
+          opacity={isSelected && isSelected !== 'N' ? 0.6 : 1}
+        >
           <Image src={cryinFace} />
-          <Text color="#FF3939" fontSize={25} fontWeight="bold" ml={'10px'}>
+          <Text
+            color={isSelected === 'N' ? '#FFF' : '#FF3939'}
+            fontSize={25}
+            fontWeight="bold"
+            ml={'10px'}
+          >
             아니요, 아직 안되어있어요
           </Text>
         </Button>

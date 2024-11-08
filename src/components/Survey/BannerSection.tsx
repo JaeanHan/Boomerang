@@ -19,7 +19,7 @@ export const BannerSection: React.FC = () => (
         color="rgba(255,255,255,0.74)"
         fontSize="40px"
         fontWeight="bold"
-        lineHeight={'44px'}
+        lineHeight={'48px'}
       >
         반가워요!
         <br />
