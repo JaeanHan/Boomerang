@@ -1,7 +1,7 @@
 import { BoomerangColors } from '@/utils/colors';
 import { Button } from '@chakra-ui/react';
 
-export const DocumentBtn: React.FC<{
+export const DocumentAcionButton: React.FC<{
   w: string;
   h: string;
   fontSize: string;

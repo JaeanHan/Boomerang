@@ -1,4 +1,4 @@
-import { DocumentBtn } from '@/components/DocumentForm/Form/DocumentBtn';
+import { DocumentAcionButton } from '@/components/DocumentForm/Form/DocumentBtn';
 import { BoomerangColors } from '@/utils/colors';
 import { Box, Flex, Input, Text } from '@chakra-ui/react';
 
@@ -16,9 +16,9 @@ export const DocumentInput: React.FC<{ label: string }> = ({ label }) => (
           boxShadow: 'none',
         }}
       />
-      <DocumentBtn w="58px" h="29px" fontSize="16px">
+      <DocumentAcionButton w="58px" h="29px" fontSize="16px">
         확인
-      </DocumentBtn>
+      </DocumentAcionButton>
     </Flex>
   </Box>
 );

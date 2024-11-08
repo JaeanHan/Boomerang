@@ -1,4 +1,4 @@
-import { DocumentBtn } from '@/components/DocumentForm/Form/DocumentBtn';
+import { DocumentAcionButton } from '@/components/DocumentForm/Form/DocumentBtn';
 import { DocumentInput } from '@/components/DocumentForm/Form/DocumentInput';
 import { HoverBox } from '@/components/DocumentForm/Form/HoverBox';
 import { FormProps } from '@/pages/DocumentForm';
@@ -37,9 +37,9 @@ export const Form: React.FC<FormProps> = ({
             </VStack>
           </Box>
           <Box alignSelf="flex-end" mt="30px" mb="16px">
-            <DocumentBtn w="139px" h="49px" fontSize="24px">
+            <DocumentAcionButton w="139px" h="49px" fontSize="24px">
               저장하기
-            </DocumentBtn>
+            </DocumentAcionButton>
           </Box>
         </Flex>
       </Flex>
