@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { setGuidelineType } from '@/apis/guideline';
 import { QuestionText } from '@/components/commons/QuestionText';
 import { Box, Button, Flex, Image, Text, VStack } from '@chakra-ui/react';
 import cryinFace from '@images/cryingFace.svg';
@@ -27,6 +28,20 @@ const questions: SurveyQuestions[] = [
 export const QuestionSection: React.FC = () => {
   const [isLeaseType, setIsLeaseType] = useState('');
   const [isInsured, setIsInsured] = useState('');
+
+  const sendType = () => {
+    if (isLeaseType === '') {
+      alert('전세권 설정 여부를 선택해주세요.');
+    } else if (isLeaseType === 'N' && isInsured === '') {
+      alert('보증 보험 가입 여부를 선택해주세요.');
+    } else {
+      const leaseTypeData = isLeaseType === 'Y' ? '전세권' : '임대차';
+      const inInsuredData =
+        isLeaseType === 'Y' ? false : isInsured === 'Y' ? true : false;
+      const response = setGuidelineType(inInsuredData, leaseTypeData);
+      console.log(response);
+    }
+  };
 
   return (
     <VStack pt={35} pb={41} pl={120} pr={120} align="stretch">
@@ -58,6 +73,7 @@ export const QuestionSection: React.FC = () => {
         fontSize="35px"
         fontWeight={800}
         alignSelf="center"
+        onClick={sendType}
       >
         다음 단계로 넘어가기
       </Button>
