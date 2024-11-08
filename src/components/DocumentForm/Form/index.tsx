@@ -1,9 +1,8 @@
-import { DocumentAcionButton } from '@/components/DocumentForm/Form/DocumentBtn';
-import { DocumentInput } from '@/components/DocumentForm/Form/DocumentInput';
+import { DocumentAcionButton } from '@/components/DocumentForm/Form/DocumentAcionButton';
 import { HoverBox } from '@/components/DocumentForm/Form/HoverBox';
 import { FormProps } from '@/pages/DocumentForm';
 import { BoomerangColors } from '@/utils/colors';
-import { Box, Flex, Image, Text, VStack } from '@chakra-ui/react';
+import { Box, Flex, Image, Input, Text, VStack } from '@chakra-ui/react';
 import mesasgeIcon from '@images/questionMessage.svg';
 
 export const Form: React.FC<FormProps> = ({
@@ -46,3 +45,24 @@ export const Form: React.FC<FormProps> = ({
     </Box>
   );
 };
+
+const DocumentInput: React.FC<{ label: string }> = ({ label }) => (
+  <Box>
+    <Text fontSize="14px" fontWeight={800} color={BoomerangColors.deepBlue}>
+      {label}
+    </Text>
+    <Flex borderBottom="1.5px solid #7FADFF" w="533px" mt="3px" pr="17px">
+      <Input
+        fontSize={'20px'}
+        border={'none'}
+        borderRadius={0}
+        _focus={{
+          boxShadow: 'none',
+        }}
+      />
+      <DocumentAcionButton w="58px" h="29px" fontSize="16px">
+        확인
+      </DocumentAcionButton>
+    </Flex>
+  </Box>
+);
