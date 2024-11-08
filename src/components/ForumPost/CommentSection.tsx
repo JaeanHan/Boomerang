@@ -55,7 +55,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => (
           content={comment.text}
           author={comment.writer_name}
           timestamp={comment.last_modified_at}
-          likes={0} // 좋아요 수는 API에서 받아오지 않는다면 기본값 사용
+          likes={0}
         />
       ))}
     </VStack>

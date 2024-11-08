@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { BoomerangColors } from '@/utils/colors';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
@@ -8,11 +8,16 @@ import notice from '@images/noticeboard.svg';
 import secretBoardImage from '@images/secret.svg';
 import stepBoardImage from '@images/steps.svg';
 
+interface CategorySectionProps {
+  selectedTab: string;
+  onTabChange: (boardType: string, selectedTab: string) => void;
+}
+
 const boards = [
-  { type: '자유게시판' },
-  { type: '지역게시판' },
-  { type: '비밀게시판' },
-  { type: '단계별게시판' },
+  { type: '자유게시판', value: 'ENTIRE' },
+  { type: '지역게시판', value: 'LOCATION' },
+  { type: '비밀게시판', value: 'SECRETE' },
+  { type: '단계별게시판', value: 'STEP' },
 ];
 
 const boardContents: {
@@ -36,11 +41,12 @@ const boardContents: {
   },
 };
 
-const CategorySection: React.FC = () => {
-  const [selectedTab, setSelectedTab] = useState<string>(boards[0].type);
-
-  const handleTabClick = (type: string) => {
-    setSelectedTab(type);
+const CategorySection: React.FC<CategorySectionProps> = ({
+  selectedTab,
+  onTabChange,
+}) => {
+  const handleTabClick = (type: string, value: string) => {
+    onTabChange(value, type);
   };
 
   const selectedContent = boardContents[selectedTab];
@@ -91,7 +97,7 @@ const CategorySection: React.FC = () => {
               bg={selectedTab === board.type ? '#2C79FF' : '#D3D3D3'}
               color={BoomerangColors.white}
               cursor="pointer"
-              onClick={() => handleTabClick(board.type)}
+              onClick={() => handleTabClick(board.type, board.value)}
             >
               {board.type}
             </Text>
