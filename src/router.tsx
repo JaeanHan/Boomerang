@@ -8,6 +8,7 @@ import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 
 import Community from '@/pages/Community';
 import { Consulting } from '@/pages/Consulting';
+import { FullProgressGuide } from '@/pages/FullProgressGuide';
 import { Guideline } from '@/pages/Guideline';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
@@ -43,6 +44,7 @@ const guidelineLoader = async () => {
           }
         );
       }
+      // TODO : 로그인 에러시?
       // TODO: 공통 에러 처리 페이지 필요
     }
   }
@@ -56,6 +58,10 @@ export const router = createBrowserRouter([
     loader: guidelineLoader,
     element: <Guideline />,
     errorElement: <Survey />,
+  },
+  {
+    path: ROUTER_PATH.JOURNEY_PREVIEW,
+    element: <FullProgressGuide />,
   },
   { path: ROUTER_PATH.CONSULTING, element: <Consulting /> },
   {
