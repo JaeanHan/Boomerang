@@ -1,3 +1,5 @@
+import { MainStep, ProgressResponse } from '@apis/guideline/types';
+
 import { GuidelineChecklist } from '@components/Guideline/GuidelineChecklist';
 import { GuidelineCloseBanner } from '@components/Guideline/GuidelineCloseBanner';
 import { GuidelineNavHelp } from '@components/Guideline/GuidelineNavHelp';
@@ -12,10 +14,15 @@ import { useLoaderData } from 'react-router-dom';
 import { Flex, VStack } from '@chakra-ui/react';
 
 export const Guideline: React.FC = () => {
-  const { mainStepList, currentMainStep, subStepList } = useLoaderData();
+  const data = useLoaderData() as ProgressResponse;
+  const {
+    main_step_list: mainStepList,
+    current_main_step: currentMainStep,
+    sub_step_list: subStepList,
+  } = data;
 
   const currIdx = mainStepList.findIndex(
-    (ele) => ele.main_step_name === currentMainStep
+    (ele: MainStep) => ele.main_step_name === currentMainStep
   );
 
   return (
