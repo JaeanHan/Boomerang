@@ -1,6 +1,3 @@
-import { getCurrentGuideLineProgress } from '@apis/guideline';
-import { ProgressResponse } from '@apis/guideline/types';
-
 import { GuidelineChecklist } from '@components/Guideline/GuidelineChecklist';
 import { GuidelineCloseBanner } from '@components/Guideline/GuidelineCloseBanner';
 import { GuidelineNavHelp } from '@components/Guideline/GuidelineNavHelp';
@@ -10,21 +7,12 @@ import { GuidelineWarning } from '@components/Guideline/GuidelineWarning';
 import { BasicLayout } from '@components/commons/BasicLayout';
 
 import React from 'react';
+import { useLoaderData } from 'react-router-dom';
 
 import { Flex, VStack } from '@chakra-ui/react';
-import { useSuspenseQuery } from '@tanstack/react-query';
 
 export const Guideline: React.FC = () => {
-  const { data } = useSuspenseQuery<ProgressResponse>({
-    queryFn: getCurrentGuideLineProgress,
-    queryKey: ['guideline-progress'],
-  });
-
-  const {
-    main_step_list: mainStepList,
-    current_main_step: currentMainStep,
-    sub_step_list: subStepList,
-  } = data;
+  const { mainStepList, currentMainStep, subStepList } = useLoaderData();
 
   const currIdx = mainStepList.findIndex(
     (ele) => ele.main_step_name === currentMainStep

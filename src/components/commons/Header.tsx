@@ -41,7 +41,9 @@ export const Header: React.FC<PropH> = ({ h }) => {
         </Link>
         <Text>Q&As</Text>
         <Text>전문가와의 상담</Text>
-        <Text>커뮤니티</Text>
+        <Link to={`${ROUTER_PATH.COMMUNITY}/open-forum`}>
+          <Text cursor={'pointer'}>커뮤니티</Text>
+        </Link>
         {localStorage.getItem('Authorization') ? (
           <Text
             cursor={'pointer'}
