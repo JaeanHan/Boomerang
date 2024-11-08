@@ -40,8 +40,8 @@ const questions: SurveyQuestions[] = [
 ];
 
 export const QuestionSection: React.FC = () => {
-  const [leaseType, setLeaseType] = useState<boolean>(null);
-  const [isInsured, setIsInsured] = useState<boolean>(null);
+  const [leaseType, setLeaseType] = useState<boolean>(true);
+  const [isInsured, setIsInsured] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const [question1, question2] = questions;
