@@ -12,6 +12,7 @@ import { Guideline } from '@/pages/Guideline';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
 import { PreventionResult } from '@/pages/PreventionResult';
+import { Survey } from '@/pages/Survey';
 import { Welcome } from '@/pages/Welcome';
 import { ROUTER_PATH } from '@/routerPath';
 import { CommunityPosting } from '@/templates/Community/CommunityPosting';
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
   { path: ROUTER_PATH.GUIDELINE, element: <Guideline /> },
   { path: ROUTER_PATH.PREVENT_RESULT, element: <PreventionResult /> },
   { path: ROUTER_PATH.CONSULTING, element: <Consulting /> },
+  { path: ROUTER_PATH.SURVEY, element: <Survey /> },
   { path: ROUTER_PATH.DOCUMENT_FORM, element: <DocumentForm /> },
   {
     element: <Community />,
