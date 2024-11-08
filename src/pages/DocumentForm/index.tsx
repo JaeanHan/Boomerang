@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Form } from '@/components/DocumentForm/Form';
+import { 서류필드기입폼 } from '@/components/DocumentForm/서류필드기입폼';
 import { BasicLayout } from '@/components/commons/BasicLayout';
 import { Spacer } from '@chakra-ui/react';
 import documnetImg from '@images/documentImg.svg';
@@ -47,7 +47,7 @@ export const DocumentForm: React.FC = () => {
   return (
     <BasicLayout maxW={1024}>
       {documentsInfo.map((doc) => (
-        <Form
+        <서류필드기입폼
           key={doc.id}
           title={doc.title}
           description={doc.description}

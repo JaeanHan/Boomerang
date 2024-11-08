@@ -1,11 +1,11 @@
-import { DocumentAcionButton } from '@/components/DocumentForm/Form/DocumentAcionButton';
-import { HoverBox } from '@/components/DocumentForm/Form/HoverBox';
+import { DocumentAcionButton } from '@/components/DocumentForm/서류필드기입폼/DocumentAcionButton';
+import { HoverBox } from '@/components/DocumentForm/서류필드기입폼/HoverBox';
 import { FormProps } from '@/pages/DocumentForm';
 import { BoomerangColors } from '@/utils/colors';
 import { Box, Flex, Image, Input, Text, VStack } from '@chakra-ui/react';
 import mesasgeIcon from '@images/questionMessage.svg';
 
-export const Form: React.FC<FormProps> = ({
+export const 서류필드기입폼: React.FC<FormProps> = ({
   title,
   description,
   image,
