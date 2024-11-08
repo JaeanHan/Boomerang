@@ -1,15 +1,7 @@
 import React from 'react';
 
 import { QuestionText } from '@/components/commons/QuestionText';
-import {
-  Box,
-  Button,
-  Flex,
-  Image,
-  Text,
-  Textarea,
-  VStack,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, Image, Text, VStack } from '@chakra-ui/react';
 import cryinFace from '@images/cryingFace.svg';
 import thumbsUp from '@images/thumbsUp.svg';
 
@@ -45,13 +37,9 @@ const questions: SurveyQuestions[] = [
 export const QuestionSection: React.FC = () => (
   <VStack pt={35} pb={41} pl={120} pr={120} align="stretch">
     <VStack align="stretch" gap={'35px'}>
-      {questions.map((question, index) =>
-        question.type === 'input' ? (
-          <InputItem key={index} index={index + 1} question={question} />
-        ) : (
-          <SelectItem key={index} index={index + 1} question={question} />
-        )
-      )}
+      {questions.map((question, index) => (
+        <SelectItem key={index} index={index + 1} question={question} />
+      ))}
     </VStack>
     <Button
       mt={'67px'}
@@ -67,37 +55,6 @@ export const QuestionSection: React.FC = () => (
       다음 단계로 넘어가기
     </Button>
   </VStack>
-);
-
-const InputItem: React.FC<{
-  index: number;
-  question: SurveyQuestions;
-}> = ({ index, question }) => (
-  <Box>
-    <QuestionText index={index} question={question} />
-    <Box
-      h={131}
-      borderRadius={12}
-      bg="#E7F4FF"
-      border="2px solid rgba(23, 108, 255, 0.69)"
-      ml={33}
-      mt={'32px'}
-      p={5}
-    >
-      <Textarea
-        border="none"
-        resize="none"
-        _focus={{
-          boxShadow: 'none',
-        }}
-        placeholder="질문에 맞는 텍스트를 입력해주세요."
-        _placeholder={{
-          color: 'rgba(23, 108, 255, 0.51)',
-          fontSize: '20px',
-        }}
-      />
-    </Box>
-  </Box>
 );
 
 const SelectItem: React.FC<{
