@@ -6,31 +6,21 @@ import cryinFace from '@images/cryingFace.svg';
 import thumbsUp from '@images/thumbsUp.svg';
 
 export interface SurveyQuestions {
+  id: number;
   title: string;
   subtitle: string;
-  type?: 'input' | 'select';
 }
 
 const questions: SurveyQuestions[] = [
   {
-    title: '전세 보증 보험에 가입이 되어있나요?',
-    subtitle: '전세 보증 보험이 무엇인가요?',
-    type: 'input',
+    id: 1,
+    title: '전세권 설정을 하셨나요?',
+    subtitle: '전세권 설정이 무엇인가요?',
   },
   {
-    title: '전세 보증 보험에 가입이 되어있나요?',
-    subtitle: '전세 보증 보험이 무엇인가요?',
-    type: 'input',
-  },
-  {
-    title: '전세 보증 보험에 가입이 되어있나요?',
-    subtitle: '전세 보증 보험이 무엇인가요?',
-    type: 'input',
-  },
-  {
-    title: '전세 보증 보험에 가입이 되어있나요?',
-    subtitle: '전세 보증 보험이 무엇인가요?',
-    type: 'select',
+    id: 2,
+    title: '보증 보험에 가입 되어있나요 ?',
+    subtitle: '보증 보험이 무엇인가요?',
   },
 ];
 
