@@ -1,4 +1,5 @@
 import { getCurrentGuideLineProgress } from '@apis/guideline';
+import { ProgressResponse } from '@apis/guideline/types';
 
 import BoomerangBoard from '@components/CommunityBoard/BoomerangBoard';
 import ForumPostBoard from '@components/ForumPost/ForumPostBoard';
@@ -25,13 +26,9 @@ const PrivateRoute = (): React.ReactElement => {
 
 const guidelineLoader = async () => {
   try {
-    const response = await getCurrentGuideLineProgress();
-    const {
-      main_step_list: mainStepList,
-      current_main_step: currentMainStep,
-      sub_step_list: subStepList,
-    } = response;
-    return { mainStepList, currentMainStep, subStepList };
+    const response: ProgressResponse = await getCurrentGuideLineProgress();
+
+    return response;
   } catch (err) {
     if (axios.isAxiosError(err) && err.response) {
       const data = err.response.data;
