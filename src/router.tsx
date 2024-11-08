@@ -7,6 +7,7 @@ import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 import Community from '@/pages/Community';
 import { Consulting } from '@/pages/Consulting';
 import { DamagePrevention } from '@/pages/DamagePrevention';
+import { DocumentForm } from '@/pages/DocumentForm';
 import { Guideline } from '@/pages/Guideline';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
   { path: ROUTER_PATH.GUIDELINE, element: <Guideline /> },
   { path: ROUTER_PATH.PREVENT_RESULT, element: <PreventionResult /> },
   { path: ROUTER_PATH.CONSULTING, element: <Consulting /> },
+  { path: ROUTER_PATH.DOCUMENT_FORM, element: <DocumentForm /> },
   {
     element: <Community />,
     children: [

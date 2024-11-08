@@ -11,4 +11,5 @@ export const ROUTER_PATH = {
   NOT_FOUND: '*',
   LOGIN: 'login',
   CONSULTING: '/consulting',
+  DOCUMENT_FORM: '/documentForm',
 } as const;
