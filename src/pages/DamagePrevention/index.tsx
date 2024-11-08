@@ -12,10 +12,12 @@ import { Flex, VStack } from '@chakra-ui/react';
 
 export const preventionSurvey: SurveyQuestions[] = [
   {
+    id: 1,
     title: '집 도로명 주소를 입력해주세요.',
     subtitle: '도로명 주소는 어떻게 작성하나요?',
   },
   {
+    id: 2,
     title: '보증금 유형을 선택해주세요.',
     subtitle: '정확히 선택해주셔야 정확한 가이드가 가능합니다.',
   },
