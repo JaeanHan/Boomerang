@@ -107,6 +107,10 @@ const SurveyQuestionLeaseField: React.FC<{
   setValue: (value: boolean) => void;
 }> = ({ index, question, value, setValue }) => {
   const { options } = question;
+  if (!options || options.length < 2) {
+    return <div>선택할 옵션이 주어지지 않았습니다.</div>;
+  }
+
   const [option1, option2] = options;
 
   return (
@@ -144,6 +148,10 @@ const SurveyQuestionInsuranceField: React.FC<{
   setValue: (value: boolean) => void;
 }> = ({ index, question, isActive, value, setValue }) => {
   const { options } = question;
+  if (!options || options.length < 2) {
+    return <div>선택할 옵션이 주어지지 않았습니다.</div>;
+  }
+
   const [option1, option2] = options;
 
   return (
