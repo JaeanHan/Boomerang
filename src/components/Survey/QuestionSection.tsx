@@ -12,7 +12,7 @@ import thumbsUp from '@images/thumbsUp.svg';
 export interface SurveyQuestions {
   title: string;
   subtitle: string;
-  options: [string, boolean][];
+  options?: [string, boolean][];
 }
 
 const LeaseType = {
@@ -92,6 +92,7 @@ export const QuestionSection: React.FC = () => {
         fontSize="35px"
         fontWeight={800}
         alignSelf="center"
+        onClick={sendType}
       >
         다음 단계로 넘어가기
       </Button>
