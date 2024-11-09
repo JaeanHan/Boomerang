@@ -1,5 +1,4 @@
 import react from '@vitejs/plugin-react';
-import * as path from 'path';
 import { defineConfig } from 'vite';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
