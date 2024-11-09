@@ -1,4 +1,5 @@
 import react from '@vitejs/plugin-react';
+import * as path from 'path';
 import { defineConfig } from 'vite';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import svgr from 'vite-plugin-svgr';
@@ -46,9 +47,16 @@ export default defineConfig({
       localsConvention: 'camelCase',
     },
   },
-  resolve: {
-    alias: {
-      '/src/assets/fonts': '/assets/fonts',
+  build: {
+    rollupOptions: {
+      output: {
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name && assetInfo.name.endsWith('.otf')) {
+            return `assets/fonts/${path.basename(assetInfo.name)}`;
+          }
+          return 'assets/[name][extname]';
+        },
+      },
     },
   },
 });
