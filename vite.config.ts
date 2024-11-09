@@ -46,7 +46,7 @@ export default defineConfig({
       targets: [
         {
           src: 'src/assets/fonts/*.otf',
-          dest: 'assets/fonts',
+          dest: 'src/assets/fonts',
         },
       ],
     }),
@@ -54,18 +54,6 @@ export default defineConfig({
   css: {
     modules: {
       localsConvention: 'camelCase',
-    },
-  },
-  build: {
-    rollupOptions: {
-      output: {
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.name && assetInfo.name.endsWith('.otf')) {
-            return `assets/fonts/${path.basename(assetInfo.name)}`;
-          }
-          return 'assets/[name][extname]';
-        },
-      },
     },
   },
 });
