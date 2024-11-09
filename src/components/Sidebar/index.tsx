@@ -16,9 +16,9 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
+import SidebarArrowClose from '@images/SidebarArrowClose.svg?react';
 import blueArrow2 from '@images/blueArrow2.svg';
 import profileImg from '@images/profileImg.svg';
-import SidebarArrowClose from '@images/sidebarArrowClose.svg?react';
 
 export const Sidebar: React.FC<{
   isOpen: boolean;
