@@ -14,7 +14,6 @@ import { ConsultingManagement } from '@/pages/ConsultingManagement';
 import { DocumentForm } from '@/pages/DocumentForm';
 import { FullProgressGuide } from '@/pages/FullProgressGuide';
 import { Guideline } from '@/pages/Guideline';
-import { GuidelineResult } from '@/pages/GuidelineResult';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
 import { Survey } from '@/pages/Survey';
@@ -67,7 +66,6 @@ export const router = createBrowserRouter([
   { path: ROUTER_PATH.CONSULTING, element: <Consulting /> },
   { path: ROUTER_PATH.SURVEY, element: <Survey /> },
   { path: ROUTER_PATH.DOCUMENT_FORM, element: <DocumentForm /> },
-  { path: ROUTER_PATH.GUIDELINE_RESULT, element: <GuidelineResult /> },
   {
     element: <ConsultingManagement />,
     children: [
