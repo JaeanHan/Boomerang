@@ -9,8 +9,11 @@ import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 
 import Community from '@/pages/Community';
 import { Consulting } from '@/pages/Consulting';
+import { ConsultingManagement } from '@/pages/ConsultingManagement';
+import { DocumentForm } from '@/pages/DocumentForm';
 import { FullProgressGuide } from '@/pages/FullProgressGuide';
 import { Guideline } from '@/pages/Guideline';
+import { GuidelineResult } from '@/pages/GuidelineResult';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
 import { Survey } from '@/pages/Survey';
@@ -61,6 +64,13 @@ export const router = createBrowserRouter([
     element: <FullProgressGuide />,
   },
   { path: ROUTER_PATH.CONSULTING, element: <Consulting /> },
+  { path: ROUTER_PATH.SURVEY, element: <Survey /> },
+  { path: ROUTER_PATH.DOCUMENT_FORM, element: <DocumentForm /> },
+  { path: ROUTER_PATH.GUIDELINE_RESULT, element: <GuidelineResult /> },
+  {
+    path: ROUTER_PATH.CONSULTING_MANAGEMENT,
+    element: <ConsultingManagement />,
+  },
   {
     element: <Community />,
     children: [
