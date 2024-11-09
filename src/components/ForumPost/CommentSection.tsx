@@ -84,11 +84,10 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
       );
 
       if (response.status >= 200 && response.status < 300) {
-        // 성공 처리
         const newComment: CommentData = response.data;
 
         setComments((prevComments) => [...prevComments, newComment]);
-        onCommentAdded(newComment); // 댓글 추가 콜백 호출
+        onCommentAdded(newComment);
         setCommentText('');
 
         toast({
@@ -98,7 +97,6 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
           isClosable: true,
         });
       } else {
-        // 실패 처리
         toast({
           title: '댓글 작성에 실패했습니다.',
           description: response.data.message || '서버 오류가 발생했습니다.',
@@ -123,12 +121,10 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
     deleted?: boolean
   ) => {
     if (deleted && updatedComment) {
-      // 댓글 삭제 처리
       setComments((prevComments) =>
         prevComments.filter((c) => c.id !== updatedComment.id)
       );
     } else if (updatedComment) {
-      // 댓글 수정 처리
       setComments((prevComments) =>
         prevComments.map((c) =>
           c.id === updatedComment.id ? updatedComment : c

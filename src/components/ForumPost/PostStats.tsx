@@ -19,12 +19,11 @@ export const PostStats: React.FC<PostStatsProps> = ({
   const [liked, setLiked] = useState(false);
   const toast = useToast();
 
-  // 컴포넌트 마운트 시 사용자가 이미 좋아요를 눌렀는지 확인
   useEffect(() => {
     const fetchLikedStatus = async () => {
       try {
         const authToken = localStorage.getItem('Authorization') || '';
-        if (!authToken) return; // 로그인하지 않은 경우
+        if (!authToken) return;
 
         const response = await axios.get<{ liked: boolean }>(
           `http://3.34.197.198:8080/api/v1/board/${postId}/likes`,
@@ -35,7 +34,7 @@ export const PostStats: React.FC<PostStatsProps> = ({
           }
         );
 
-        setLiked(response.data.liked); // 서버에서 liked 상태를 반환한다고 가정
+        setLiked(response.data.liked);
       } catch (error: unknown) {
         if (axios.isAxiosError(error)) {
           console.error(
@@ -66,7 +65,6 @@ export const PostStats: React.FC<PostStatsProps> = ({
 
     try {
       if (liked) {
-        // 좋아요 취소 요청
         await axios.delete(
           `http://3.34.197.198:8080/api/v1/board/${postId}/likes`,
           {
@@ -78,7 +76,6 @@ export const PostStats: React.FC<PostStatsProps> = ({
         setLiked(false);
         setLikeCount((prevCount) => prevCount - 1);
       } else {
-        // 좋아요 추가 요청
         await axios.post(
           `http://3.34.197.198:8080/api/v1/board/${postId}/likes`,
           {},
