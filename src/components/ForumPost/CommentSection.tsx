@@ -29,15 +29,12 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
   const toast = useToast();
 
   useEffect(() => {
-    // 댓글 불러오기
     const fetchComments = async () => {
       try {
         const response = await axios.get(
           `http://3.34.197.198:8080/api/v1/board/${postId}/comments`
         );
-        console.log('댓글 응답 데이터:', response.data);
 
-        // 응답 데이터에서 댓글 배열 추출
         const commentsData: CommentData[] = response.data.content || [];
         setComments(commentsData);
       } catch (error: unknown) {

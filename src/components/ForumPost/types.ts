@@ -5,6 +5,7 @@ export interface CommentData {
   text: string;
   last_modified_at: string;
   edited: boolean;
+  message: string;
 }
 
 export interface PostData {
