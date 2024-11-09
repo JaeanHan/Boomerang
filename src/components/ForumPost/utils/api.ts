@@ -1,11 +1,9 @@
-import axios from 'axios';
+import apiInstance from '@/apis';
 
 import { PostData } from '../types';
 
-const baseUrl = 'http://3.34.197.198:8080';
-
 export const fetchPostById = async (postId: string): Promise<PostData> => {
-  const response = await axios.get(`${baseUrl}/api/v1/board/${postId}`);
+  const response = await apiInstance.get(`/api/v1/board/${postId}`);
   const data = response.data;
 
   return {

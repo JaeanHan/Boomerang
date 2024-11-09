@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import apiInstance from '@/apis';
 import { Box, Button, Flex, Input, Text, useToast } from '@chakra-ui/react';
 import axios from 'axios';
 
@@ -7,10 +8,7 @@ import { CommentData } from './types';
 
 interface CommentProps {
   comment: CommentData;
-  onCommentUpdatedOrDeleted: (
-    updatedComment?: CommentData,
-    deleted?: boolean
-  ) => void;
+  onCommentUpdatedOrDeleted: () => void;
 }
 
 export const Comment: React.FC<CommentProps> = ({
@@ -27,18 +25,12 @@ export const Comment: React.FC<CommentProps> = ({
 
   const handleEditConfirm = async () => {
     try {
-      const authToken = localStorage.getItem('Authorization') || '';
-      const response = await axios.put<CommentData>(
-        `http://3.34.197.198:8080/api/v1/board/comments/${comment.id}`,
-        { text: editedText },
-        {
-          headers: {
-            Authorization: authToken,
-          },
-        }
+      const response = await apiInstance.put<CommentData>(
+        `/api/v1/board/comments/${comment.id}`,
+        { text: editedText }
       );
       const updatedComment = response.data;
-      onCommentUpdatedOrDeleted(updatedComment);
+      onCommentUpdatedOrDeleted();
       setIsEditing(false);
     } catch (error: unknown) {
       if (
@@ -65,16 +57,8 @@ export const Comment: React.FC<CommentProps> = ({
 
   const handleDelete = async () => {
     try {
-      const authToken = localStorage.getItem('Authorization') || '';
-      await axios.delete(
-        `http://3.34.197.198:8080/api/v1/board/comments/${comment.id}`,
-        {
-          headers: {
-            Authorization: authToken,
-          },
-        }
-      );
-      onCommentUpdatedOrDeleted(comment, true);
+      await apiInstance.delete(`/api/v1/board/comments/${comment.id}`);
+      onCommentUpdatedOrDeleted();
     } catch (error: unknown) {
       if (
         axios.isAxiosError(error) &&
@@ -98,7 +82,6 @@ export const Comment: React.FC<CommentProps> = ({
     }
   };
 
-  // 날짜 형식 변환 함수
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const year = date.getFullYear();

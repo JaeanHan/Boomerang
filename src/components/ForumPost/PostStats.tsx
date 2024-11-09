@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import apiInstance from '@/apis';
 import { ChatIcon, StarIcon } from '@chakra-ui/icons';
 import { Button, Flex, Icon, Text, useToast } from '@chakra-ui/react';
 import axios from 'axios';
@@ -15,9 +16,9 @@ export const PostStats: React.FC<PostStatsProps> = ({
   comments,
   postId,
 }) => {
-  const [likeCount, setLikeCount] = useState(likes);
-  const [liked, setLiked] = useState(false);
   const toast = useToast();
+  const [likeCount, setLikeCount] = useState<number>(likes);
+  const [liked, setLiked] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchLikedStatus = async () => {
@@ -25,8 +26,8 @@ export const PostStats: React.FC<PostStatsProps> = ({
         const authToken = localStorage.getItem('Authorization') || '';
         if (!authToken) return;
 
-        const response = await axios.get<{ liked: boolean }>(
-          `http://3.34.197.198:8080/api/v1/board/${postId}/likes`,
+        const response = await apiInstance.get<{ liked: boolean }>(
+          `/api/v1/board/${postId}/likes`,
           {
             headers: {
               Authorization: authToken,
@@ -36,14 +37,7 @@ export const PostStats: React.FC<PostStatsProps> = ({
 
         setLiked(response.data.liked);
       } catch (error: unknown) {
-        if (axios.isAxiosError(error)) {
-          console.error(
-            '좋아요 상태를 불러오는데 실패했습니다.',
-            error.message
-          );
-        } else {
-          console.error('예상치 못한 에러가 발생했습니다.', error);
-        }
+        console.error('좋아요 상태를 불러오는데 실패했습니다.', error);
       }
     };
 
@@ -65,19 +59,16 @@ export const PostStats: React.FC<PostStatsProps> = ({
 
     try {
       if (liked) {
-        await axios.delete(
-          `http://3.34.197.198:8080/api/v1/board/${postId}/likes`,
-          {
-            headers: {
-              Authorization: authToken,
-            },
-          }
-        );
+        await apiInstance.delete(`/api/v1/board/${postId}/likes`, {
+          headers: {
+            Authorization: authToken,
+          },
+        });
         setLiked(false);
         setLikeCount((prevCount) => prevCount - 1);
       } else {
-        await axios.post(
-          `http://3.34.197.198:8080/api/v1/board/${postId}/likes`,
+        await apiInstance.post(
+          `/api/v1/board/${postId}/likes`,
           {},
           {
             headers: {
@@ -92,21 +83,8 @@ export const PostStats: React.FC<PostStatsProps> = ({
       if (
         axios.isAxiosError(error) &&
         error.response &&
-        error.response.data.code === 'LK003'
-      ) {
-        // 이미 좋아요한 게시물인 경우
-        toast({
-          title: '이미 좋아요를 누르셨습니다.',
-          status: 'info',
-          duration: 2000,
-          isClosable: true,
-        });
-      } else if (
-        axios.isAxiosError(error) &&
-        error.response &&
         error.response.status === 401
       ) {
-        // 로그인 필요
         toast({
           title: '로그인이 필요합니다.',
           status: 'error',
@@ -127,7 +105,7 @@ export const PostStats: React.FC<PostStatsProps> = ({
   return (
     <Flex gap={6} mt={11} fontSize="2xl" color="gray.700">
       <Flex align="center" gap={1}>
-        <Button onClick={handleLike}>
+        <Button onClick={handleLike} variant="ghost">
           <Icon
             as={StarIcon}
             w={6}
