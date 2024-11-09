@@ -9,7 +9,7 @@ import { PostContent } from './PostContent';
 import { PostHeader } from './PostHeader';
 import { PostStats } from './PostStats';
 import { ReportButton } from './ReportButton';
-import { PostData } from './types';
+import { CommentData, PostData } from './types';
 import { fetchPostById } from './utils/api';
 
 const ForumPost: React.FC = () => {
@@ -17,6 +17,18 @@ const ForumPost: React.FC = () => {
   const [post, setPost] = useState<PostData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const handleCommentAdded = (comment: CommentData | null) => {
+    if (comment) {
+      setPost((prev) =>
+        prev ? { ...prev, commentsList: [...prev.commentsList, comment] } : prev
+      );
+    } else {
+      setPost((prev) =>
+        prev ? { ...prev, commentsList: prev.commentsList.slice(0, -1) } : prev
+      );
+    }
+  };
 
   useEffect(() => {
     const loadPost = async () => {
@@ -61,9 +73,17 @@ const ForumPost: React.FC = () => {
           date={post.createdAt}
           content={post.content}
         />
-        <PostStats likes={post.likes} comments={post.comments} />
+        <PostStats
+          likes={post.likes}
+          comments={post.comments}
+          postId={postId!}
+        />
         <ReportButton />
-        <CommentSection comments={post.commentsList} />
+        <CommentSection
+          comments={post.commentsList}
+          postId={postId!}
+          onCommentAdded={handleCommentAdded}
+        />
       </Flex>
     </Box>
   );

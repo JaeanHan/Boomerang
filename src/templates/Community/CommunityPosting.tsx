@@ -1,5 +1,3 @@
-import { useCommunityPostMutation } from '@apis/community';
-
 import TextEditor from '@components/TextEditor';
 import {
   PostDataContext,
@@ -7,7 +5,7 @@ import {
 } from '@components/TextEditor/PostDataContext';
 
 import React, { ChangeEvent, useCallback, useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import {
   createPostContent,
@@ -24,24 +22,22 @@ import {
   Select,
   Text,
   VStack,
+  useToast,
 } from '@chakra-ui/react';
+import axios from 'axios';
 
 const boardType = {
-  ENTIRE: 0,
-  SECRETE: 1,
-  LOCATION: 2,
-  STEP: 3,
+  ENTIRE: 'ENTIRE',
+  SECRETE: 'SECRETE',
+  LOCATION: 'LOCATION',
+  STEP: 'STEP',
 } as const;
 
 type BoardType = (typeof boardType)[keyof typeof boardType];
 
-const isBoardType = (value: number): value is BoardType => {
-  return Object.values(boardType).some((r) => r === value);
+const isBoardType = (value: unknown): value is BoardType => {
+  return Object.values(boardType).includes(value as BoardType);
 };
-
-// export const isBoardType = (value: number): value is BoardType => {
-//   return Object.values(boardType).some((r) => r === value);
-// };
 
 export type CommunityPostData = {
   title: string;
@@ -97,8 +93,10 @@ export const CommunityPosting: React.FC = () => {
 const PostingHookButtons = () => {
   const postDataContext: PostDataContextType | null =
     useContext(PostDataContext);
-  const { mutate } = useCommunityPostMutation();
-  const onClick = () => {
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  const onClick = async () => {
     if (!postDataContext) {
       return;
     }
@@ -107,13 +105,47 @@ const PostingHookButtons = () => {
     const { content, title, boardType, location } = postData;
     const { updatedContent, images } = createPostContent(content);
 
-    mutate({
-      content: updatedContent,
-      title: title,
-      boardType: boardType,
-      location: location,
-      images: images,
-    });
+    const formData = new FormData();
+    formData.append(
+      'data',
+      JSON.stringify({
+        title: title,
+        content: updatedContent,
+        board_type: boardType,
+        location: location || 'BUSAN',
+      })
+    );
+
+    images.forEach((image) => formData.append('images', image));
+
+    try {
+      const authToken = localStorage.getItem('Authorization');
+
+      const headers: { [key: string]: string } = {
+        'Content-Type': 'multipart/form-data',
+        Authorization: authToken || '',
+      };
+
+      await axios.post('http://3.34.197.198:8080/api/v1/board', formData, {
+        headers: headers,
+      });
+
+      toast({
+        title: '게시글이 성공적으로 작성되었습니다.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+
+      navigate('/community/1');
+    } catch {
+      toast({
+        title: '게시글 작성에 실패했습니다.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
 
     flushImagePreviewUrls();
   };
@@ -218,7 +250,7 @@ const PostingCategorySelection = () => {
 
     const { setPostData } = postDataContext;
 
-    const newBoardType = parseInt(e.target.value);
+    const newBoardType = e.target.value as BoardType;
     if (isBoardType(newBoardType)) {
       setPostData((prev: CommunityPostData) => ({
         ...prev,
@@ -235,6 +267,7 @@ const PostingCategorySelection = () => {
       color={BoomerangColors.white}
       bg={BoomerangColors.deepBlue}
       onChange={onChange}
+      value={postDataContext?.postData.boardType}
     >
       {categories.map((item) => (
         <option
