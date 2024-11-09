@@ -46,4 +46,9 @@ export default defineConfig({
       localsConvention: 'camelCase',
     },
   },
+  resolve: {
+    alias: {
+      '/src/assets/fonts': '/assets/fonts',
+    },
+  },
 });

@@ -22,7 +22,7 @@ export const Guideline: React.FC = () => {
   } = data;
 
   const currIdx = mainStepList.findIndex(
-    (ele: MainStep) => ele.main_step_name === currentMainStep
+    (mainStep: MainStep) => mainStep.main_step_name === currentMainStep
   );
 
   return (
