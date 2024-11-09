@@ -15,5 +15,6 @@ export const ROUTER_PATH = {
   SURVEY: '/survey',
   DOCUMENT_FORM: '/documentForm',
   GUIDELINE_RESULT: '/guidelineResult',
-  CONSULTING_MANAGEMENT: '/consultingManagement',
+  CONSULTING_HISTORY: '/consulting/consultingHistory',
+  SELECT_MENTOR: '/consulting/selectMentor',
 } as const;

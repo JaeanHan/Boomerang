@@ -7,6 +7,8 @@ import ForumPostBoard from '@components/ForumPost/ForumPostBoard';
 import React from 'react';
 import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 
+import { ConsultingHistory } from '@/components/ConsultingManagement/ConsultingHistory.tsx';
+import { SelectMentor } from '@/components/ConsultingManagement/SelectMentor.tsx';
 import Community from '@/pages/Community';
 import { Consulting } from '@/pages/Consulting';
 import { ConsultingManagement } from '@/pages/ConsultingManagement';
@@ -68,8 +70,17 @@ export const router = createBrowserRouter([
   { path: ROUTER_PATH.DOCUMENT_FORM, element: <DocumentForm /> },
   { path: ROUTER_PATH.GUIDELINE_RESULT, element: <GuidelineResult /> },
   {
-    path: ROUTER_PATH.CONSULTING_MANAGEMENT,
     element: <ConsultingManagement />,
+    children: [
+      {
+        path: ROUTER_PATH.CONSULTING_HISTORY,
+        element: <ConsultingHistory />,
+      },
+      {
+        path: ROUTER_PATH.SELECT_MENTOR,
+        element: <SelectMentor />,
+      },
+    ],
   },
   {
     element: <Community />,
