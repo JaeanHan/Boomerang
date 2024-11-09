@@ -5,8 +5,8 @@ export const ConsultingManagementHeader = ({
 }: {
   category: string;
 }) => (
-  <Flex boxShadow="0px 2px 9.5px rgba(0, 0, 0, 0.10)" h="125px">
-    <Text fontWeight={800} fontSize="35px" color="#0063D4" mt="52px" ml="104px">
+  <Flex boxShadow="0px 4px 5px rgba(0, 0, 0, 0.10)" h="105px">
+    <Text fontWeight={800} fontSize="31px" color="#0063D4" mt="32px" ml="104px">
       {category}
     </Text>
   </Flex>
