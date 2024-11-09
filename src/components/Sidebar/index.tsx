@@ -32,7 +32,7 @@ export const Sidebar: React.FC<{
     {
       title: '멘토 선택하기',
       icon: MentorPeople,
-      path: '',
+      path: '/consulting/selectMentor',
     },
     {
       title: '상담 진행하기',
