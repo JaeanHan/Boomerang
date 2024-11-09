@@ -1,5 +1,5 @@
-import { MentorDetailSection } from '@/components/ConsultingManagement/SelectMentor.tsx/MentorDetailSection';
-import { MentorSearchSection } from '@/components/ConsultingManagement/SelectMentor.tsx/MentorSearchSection';
+import { MentorDetailSection } from '@/components/ConsultingManagement/SelectMentor/MentorDetailSection';
+import { MentorSearchSection } from '@/components/ConsultingManagement/SelectMentor/MentorSearchSection';
 import { Box, Spacer } from '@chakra-ui/react';
 
 export const SelectMentor = () => {
