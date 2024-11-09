@@ -1,5 +1,4 @@
-import { getCurrentGuideLineProgress } from '@apis/guideline';
-import { ProgressResponse } from '@apis/guideline/types';
+import { MainStep, ProgressResponse } from '@apis/guideline/types';
 
 import { GuidelineChecklist } from '@components/Guideline/GuidelineChecklist';
 import { GuidelineCloseBanner } from '@components/Guideline/GuidelineCloseBanner';
@@ -10,16 +9,12 @@ import { GuidelineWarning } from '@components/Guideline/GuidelineWarning';
 import { BasicLayout } from '@components/commons/BasicLayout';
 
 import React from 'react';
+import { useLoaderData } from 'react-router-dom';
 
 import { Flex, VStack } from '@chakra-ui/react';
-import { useSuspenseQuery } from '@tanstack/react-query';
 
 export const Guideline: React.FC = () => {
-  const { data } = useSuspenseQuery<ProgressResponse>({
-    queryFn: getCurrentGuideLineProgress,
-    queryKey: ['guideline-progress'],
-  });
-
+  const data = useLoaderData() as ProgressResponse;
   const {
     main_step_list: mainStepList,
     current_main_step: currentMainStep,
@@ -27,7 +22,7 @@ export const Guideline: React.FC = () => {
   } = data;
 
   const currIdx = mainStepList.findIndex(
-    (ele) => ele.main_step_name === currentMainStep
+    (ele: MainStep) => ele.main_step_name === currentMainStep
   );
 
   return (

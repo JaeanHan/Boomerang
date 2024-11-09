@@ -14,11 +14,13 @@ export const setGuidelineType = async (
   return response.data;
 };
 
-export const getCurrentGuideLineProgress = async () => {
-  const response = await apiInstance.get<ProgressResponse>('/api/v1/progress');
+export const getCurrentGuideLineProgress =
+  async (): Promise<ProgressResponse> => {
+    const response =
+      await apiInstance.get<ProgressResponse>('/api/v1/progress');
 
-  return response.data;
-};
+    return response.data;
+  };
 
 export const checkASubProgress = async (mainStep: string, subStep: string) => {
   const response = await apiInstance.post(

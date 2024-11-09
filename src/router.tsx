@@ -1,3 +1,6 @@
+import { getCurrentGuideLineProgress } from '@apis/guideline';
+import { ProgressResponse } from '@apis/guideline/types';
+
 import BoomerangBoard from '@components/CommunityBoard/BoomerangBoard';
 import ForumPostBoard from '@components/ForumPost/ForumPostBoard';
 
@@ -6,25 +9,57 @@ import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 
 import Community from '@/pages/Community';
 import { Consulting } from '@/pages/Consulting';
-import { DamagePrevention } from '@/pages/DamagePrevention';
+import { FullProgressGuide } from '@/pages/FullProgressGuide';
 import { Guideline } from '@/pages/Guideline';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
-import { PreventionResult } from '@/pages/PreventionResult';
+import { Survey } from '@/pages/Survey';
 import { Welcome } from '@/pages/Welcome';
 import { ROUTER_PATH } from '@/routerPath';
 import { CommunityPosting } from '@/templates/Community/CommunityPosting';
+import axios from 'axios';
 
 const PrivateRoute = (): React.ReactElement => {
   const auth = true;
   return auth ? <Outlet /> : <Navigate to={ROUTER_PATH.ROOT} />;
 };
 
+const guidelineLoader = async () => {
+  try {
+    const response: ProgressResponse = await getCurrentGuideLineProgress();
+
+    return response;
+  } catch (err) {
+    if (axios.isAxiosError(err) && err.response) {
+      const data = err.response.data;
+      // TODO: CODE ENUM 등록 필요
+      if (data.code === 'PG004') {
+        throw new Response(
+          JSON.stringify({ code: data.code, message: data.message }),
+          {
+            status: 400,
+          }
+        );
+      }
+      // TODO : 로그인 에러시?
+      // TODO: 공통 에러 처리 페이지 필요
+    }
+  }
+};
+
 export const router = createBrowserRouter([
   { index: true, path: ROUTER_PATH.ROOT, element: <Home /> },
   { path: ROUTER_PATH.WELCOME, element: <Welcome /> },
-  { path: ROUTER_PATH.GUIDELINE, element: <Guideline /> },
-  { path: ROUTER_PATH.PREVENT_RESULT, element: <PreventionResult /> },
+  {
+    path: ROUTER_PATH.GUIDELINE,
+    loader: guidelineLoader,
+    element: <Guideline />,
+    errorElement: <Survey />,
+  },
+  {
+    path: ROUTER_PATH.JOURNEY_PREVIEW,
+    element: <FullProgressGuide />,
+  },
   { path: ROUTER_PATH.CONSULTING, element: <Consulting /> },
   {
     element: <Community />,
@@ -47,7 +82,6 @@ export const router = createBrowserRouter([
       },
     ],
   },
-  { path: ROUTER_PATH.PREVENT, element: <DamagePrevention /> },
   {
     element: <PrivateRoute />,
     children: [

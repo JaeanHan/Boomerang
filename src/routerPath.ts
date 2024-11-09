@@ -3,6 +3,7 @@ export const ROUTER_PATH = {
   WELCOME: '/welcome',
   USER: '/user',
   GUIDELINE: '/guideline',
+  JOURNEY_PREVIEW: '/preview',
   PREVENT: '/prevent/:id',
   COMMUNITY: '/community/:type',
   POST_DETAIL: '/community/post/:postId',
@@ -11,4 +12,6 @@ export const ROUTER_PATH = {
   NOT_FOUND: '*',
   LOGIN: 'login',
   CONSULTING: '/consulting',
+  SURVEY: '/survey',
+  DOCUMENT_FORM: '/documentForm',
 } as const;
