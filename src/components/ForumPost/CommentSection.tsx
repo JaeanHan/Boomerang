@@ -17,12 +17,12 @@ import { CommentData } from './types';
 
 interface CommentSectionProps {
   postId: string;
-  onCommentCountChange: (delta: number) => void;
+  onCommentAdded: (comment: CommentData) => void;
 }
 
 export const CommentSection: React.FC<CommentSectionProps> = ({
   postId,
-  onCommentCountChange,
+  onCommentAdded,
 }) => {
   const [commentText, setCommentText] = useState('');
   const [comments, setComments] = useState<CommentData[]>([]);
@@ -40,7 +40,8 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
         // 응답 데이터에서 댓글 배열 추출
         const commentsData: CommentData[] = response.data.content || [];
         setComments(commentsData);
-      } catch {
+      } catch (error: unknown) {
+        console.error('댓글 불러오기 에러:', error);
         toast({
           title: '댓글을 불러오는데 실패했습니다.',
           status: 'error',
@@ -51,7 +52,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
     };
 
     fetchComments();
-  }, [postId]);
+  }, [postId, toast]);
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,22 +70,45 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
     const authToken = localStorage.getItem('Authorization') || '';
 
     try {
-      const response = await axios.post(
+      const response = await axios.post<CommentData>(
         `http://3.34.197.198:8080/api/v1/board/${postId}/comments`,
         { text: commentText },
         {
           headers: {
             Authorization: authToken,
           },
+          validateStatus: function () {
+            return true;
+          },
         }
       );
 
-      const newComment: CommentData = response.data;
+      if (response.status >= 200 && response.status < 300) {
+        // 성공 처리
+        const newComment: CommentData = response.data;
 
-      setComments((prevComments) => [...prevComments, newComment]);
-      onCommentCountChange(1); // 댓글 수 증가
-      setCommentText('');
-    } catch {
+        setComments((prevComments) => [...prevComments, newComment]);
+        onCommentAdded(newComment); // 댓글 추가 콜백 호출
+        setCommentText('');
+
+        toast({
+          title: '댓글이 성공적으로 작성되었습니다.',
+          status: 'success',
+          duration: 2000,
+          isClosable: true,
+        });
+      } else {
+        // 실패 처리
+        toast({
+          title: '댓글 작성에 실패했습니다.',
+          description: response.data.message || '서버 오류가 발생했습니다.',
+          status: 'error',
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    } catch (error: unknown) {
+      console.error('댓글 작성 에러:', error);
       toast({
         title: '댓글 작성에 실패했습니다.',
         status: 'error',
@@ -103,7 +127,6 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
       setComments((prevComments) =>
         prevComments.filter((c) => c.id !== updatedComment.id)
       );
-      onCommentCountChange(-1); // 댓글 수 감소
     } else if (updatedComment) {
       // 댓글 수정 처리
       setComments((prevComments) =>
@@ -140,11 +163,17 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
           border="none"
           color="blue.400"
           flex="1"
-          mb={{ base: 10, md: 20 }}
+          mb={{ base: 10, md: 0 }}
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
         />
-        <Button type="submit" bg="blue.600" color="white" ml={{ md: 4 }}>
+        <Button
+          type="submit"
+          bg="blue.600"
+          color="white"
+          ml={{ md: 4 }}
+          mt={{ base: 4, md: 0 }}
+        >
           댓글 달기
         </Button>
       </Flex>
@@ -153,7 +182,6 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
           <Comment
             key={comment.id}
             comment={comment}
-            postId={postId}
             onCommentUpdatedOrDeleted={handleCommentUpdateOrDelete}
           />
         ))}

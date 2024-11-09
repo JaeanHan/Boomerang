@@ -17,17 +17,13 @@ const ForumPost: React.FC = () => {
   const [post, setPost] = useState<PostData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [commentCount, setCommentCount] = useState<number>(0);
 
-  const handleCommentAdded = (comment: CommentData | null) => {
-    if (comment) {
-      setPost((prev) =>
-        prev ? { ...prev, commentsList: [...prev.commentsList, comment] } : prev
-      );
-    } else {
-      setPost((prev) =>
-        prev ? { ...prev, commentsList: prev.commentsList.slice(0, -1) } : prev
-      );
-    }
+  const handleCommentAdded = (comment: CommentData) => {
+    setPost((prev) =>
+      prev ? { ...prev, commentsList: [...prev.commentsList, comment] } : prev
+    );
+    setCommentCount((prevCount) => prevCount + 1);
   };
 
   useEffect(() => {
@@ -37,6 +33,7 @@ const ForumPost: React.FC = () => {
         if (postId) {
           const data = await fetchPostById(postId);
           setPost(data);
+          setCommentCount(data.commentsList.length);
         } else {
           setError('유효하지 않은 게시글 ID입니다.');
         }
@@ -75,15 +72,11 @@ const ForumPost: React.FC = () => {
         />
         <PostStats
           likes={post.likes}
-          comments={post.comments}
+          comments={commentCount}
           postId={postId!}
         />
         <ReportButton />
-        <CommentSection
-          comments={post.commentsList}
-          postId={postId!}
-          onCommentAdded={handleCommentAdded}
-        />
+        <CommentSection postId={postId!} onCommentAdded={handleCommentAdded} />
       </Flex>
     </Box>
   );
