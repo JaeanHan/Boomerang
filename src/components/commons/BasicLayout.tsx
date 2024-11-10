@@ -7,7 +7,7 @@ export const HEADER_HEIGHT = 55;
 
 export const BasicLayout: React.FC<{
   children: ReactNode;
-  maxW: number;
+  maxW: number | string;
   bg?: string;
 }> = ({ children, maxW, bg = undefined }) => {
   return (

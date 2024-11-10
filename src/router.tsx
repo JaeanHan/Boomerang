@@ -7,8 +7,11 @@ import ForumPostBoard from '@components/ForumPost/ForumPostBoard';
 import React from 'react';
 import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 
+import { ConsultingHistory } from '@/components/ConsultingManagement/ConsultingHistory.tsx';
 import Community from '@/pages/Community';
 import { Consulting } from '@/pages/Consulting';
+import { ConsultingManagement } from '@/pages/ConsultingManagement';
+import { DocumentForm } from '@/pages/DocumentForm';
 import { FullProgressGuide } from '@/pages/FullProgressGuide';
 import { Guideline } from '@/pages/Guideline';
 import { Home } from '@/pages/Home';
@@ -61,6 +64,17 @@ export const router = createBrowserRouter([
     element: <FullProgressGuide />,
   },
   { path: ROUTER_PATH.CONSULTING, element: <Consulting /> },
+  { path: ROUTER_PATH.SURVEY, element: <Survey /> },
+  { path: ROUTER_PATH.DOCUMENT_FORM, element: <DocumentForm /> },
+  {
+    element: <ConsultingManagement />,
+    children: [
+      {
+        path: ROUTER_PATH.CONSULTING_HISTORY,
+        element: <ConsultingHistory />,
+      },
+    ],
+  },
   {
     element: <Community />,
     children: [
