@@ -25,11 +25,10 @@ export const Comment: React.FC<CommentProps> = ({
 
   const handleEditConfirm = async () => {
     try {
-      const response = await apiInstance.put<CommentData>(
+      await apiInstance.put<CommentData>(
         `/api/v1/board/comments/${comment.id}`,
         { text: editedText }
       );
-      const updatedComment = response.data;
       onCommentUpdatedOrDeleted();
       setIsEditing(false);
     } catch (error: unknown) {

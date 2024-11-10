@@ -96,7 +96,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
       if (
         axios.isAxiosError(error) &&
         error.response &&
-        error.response.data.message
+        typeof error.response.data.message === 'string'
       ) {
         toast({
           title: '댓글 작성에 실패했습니다.',

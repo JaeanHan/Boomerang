@@ -5,11 +5,7 @@ import { ChatIcon, StarIcon } from '@chakra-ui/icons';
 import { Button, Flex, Icon, Text, useToast } from '@chakra-ui/react';
 import axios from 'axios';
 
-interface PostStatsProps {
-  likes: number;
-  comments: number;
-  postId: string;
-}
+import { PostStatsProps } from './types';
 
 export const PostStats: React.FC<PostStatsProps> = ({
   likes,

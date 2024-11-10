@@ -33,7 +33,7 @@ const ForumPost: React.FC = () => {
         if (postId) {
           const data = await fetchPostById(postId);
           setPost(data);
-          setCommentCount(data.commentsList.length);
+          setCommentCount(data.comments);
         } else {
           setError('유효하지 않은 게시글 ID입니다.');
         }
