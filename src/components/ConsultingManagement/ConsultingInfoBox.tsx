@@ -42,7 +42,7 @@ const ConsultingInfoItem = ({
 }) => (
   <Flex fontSize="20px" fontWeight="bold" color="#176CFF" gap="210px">
     <Text w="79px">{title}</Text>
-    <Text color="#777" maxW="400px">
+    <Text color="#777" maxW="450px">
       {content}
     </Text>
   </Flex>
