@@ -6,6 +6,7 @@ import { MentorEmergency } from '@/components/Sidebar/sidebarIcons/MentorEmergen
 import { MentorMessage } from '@/components/Sidebar/sidebarIcons/MentorMessage';
 import { MentorPeople } from '@/components/Sidebar/sidebarIcons/MentorPeople';
 import { MentorSearch } from '@/components/Sidebar/sidebarIcons/MentorSearch';
+import { useSidebar } from '@/pages/ConsultingManagement/SidebarContext';
 import { ROUTER_PATH } from '@/routerPath';
 import { BoomerangColors } from '@/utils/colors';
 import {
@@ -21,10 +22,8 @@ import SidebarArrowClose from '@images/SidebarArrowClose.svg?react';
 import blueArrow2 from '@images/blueArrow2.svg';
 import profileImg from '@images/profileImg.svg';
 
-export const Sidebar: React.FC<{
-  isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
-}> = ({ isOpen, setIsOpen }) => {
+export const Sidebar: React.FC = () => {
+  const { isSidebarOpen: isOpen, setSidebarOpen: setIsOpen } = useSidebar();
   const [isHovered, setIsHovered] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
   const navigate = useNavigate();
