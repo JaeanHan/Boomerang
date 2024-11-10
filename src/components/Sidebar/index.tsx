@@ -32,7 +32,7 @@ export const Sidebar: React.FC<{
     {
       title: '멘토 선택하기',
       icon: MentorPeople,
-      path: '',
+      path: '/consulting/selectMentor',
     },
     {
       title: '상담 진행하기',
@@ -67,8 +67,11 @@ export const Sidebar: React.FC<{
       bg="#EBF1F5"
       w={isOpen ? '353px' : '0'}
       transition="width 0.5s"
+      h="calc(100vh - 55px)"
+      position="sticky"
+      top="55px"
+      left="0"
       overflow="hidden"
-      h="100vh"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

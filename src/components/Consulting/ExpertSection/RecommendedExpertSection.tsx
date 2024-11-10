@@ -3,6 +3,21 @@ import { MentorSelectionHeader } from '@/components/Consulting/MentorSelectionHe
 import { Box, Flex } from '@chakra-ui/react';
 import BlueArrow from '@images/blueArrow.svg?react';
 
+const RecommendedExperts = [
+  {
+    name: '김땡땡',
+    matchingCount: 33,
+  },
+  {
+    name: '김땡땡',
+    matchingCount: 33,
+  },
+  {
+    name: '김땡땡',
+    matchingCount: 33,
+  },
+];
+
 export const RecommendedExpertSection = () => {
   return (
     <Box mt="13px" p="26px 31px">
@@ -12,8 +27,14 @@ export const RecommendedExpertSection = () => {
         Icon={<BlueArrow />}
       />
       <Flex gap="63px" mt="25px">
-        {Array.from({ length: 2 }).map((_, index) => (
-          <MentorCard key={index} w="399px" h="189px" />
+        {RecommendedExperts.map((mentor) => (
+          <MentorCard
+            key={mentor.name}
+            w="399px"
+            h="189px"
+            name={mentor.name}
+            matchingCount={mentor.matchingCount}
+          />
         ))}
       </Flex>
     </Box>

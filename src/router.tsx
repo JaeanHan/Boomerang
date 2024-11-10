@@ -7,7 +7,8 @@ import ForumPostBoard from '@components/ForumPost/ForumPostBoard';
 import React from 'react';
 import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 
-import { ConsultingHistory } from '@/components/ConsultingManagement/ConsultingHistory.tsx';
+import { ConsultingHistory } from '@/components/ConsultingManagement/ConsultingHistory';
+import { SelectMentor } from '@/components/ConsultingManagement/SelectMentor';
 import Community from '@/pages/Community';
 import { Consulting } from '@/pages/Consulting';
 import { ConsultingManagement } from '@/pages/ConsultingManagement';
@@ -72,6 +73,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTER_PATH.CONSULTING_HISTORY,
         element: <ConsultingHistory />,
+      },
+      {
+        path: ROUTER_PATH.SELECT_MENTOR,
+        element: <SelectMentor />,
       },
     ],
   },
