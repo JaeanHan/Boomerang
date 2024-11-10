@@ -32,7 +32,6 @@ export const ConsultingStart = () => {
             신청된 상담 내역
           </Text>
           <ConsultingApplicationRecord infoList={ConsultingInfo} />
-          <ConsultingApplicationRecord infoList={ConsultingInfo} />
         </Box>
       </VStack>
     </Box>
