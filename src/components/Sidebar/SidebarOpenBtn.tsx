@@ -8,7 +8,7 @@ export const SidebarOpenBtn: React.FC<{
   setSidebarOpen: (value: boolean) => void;
 }> = ({ isSidebarOpen, setSidebarOpen }) => (
   <IconButton
-    position="absolute"
+    position="fixed"
     icon={<SidebarArrowOpen />}
     aria-label="사이드바 열기"
     onClick={() => setSidebarOpen(!isSidebarOpen)}
