@@ -4,38 +4,30 @@ import { Box, Flex } from '@chakra-ui/react';
 
 const MostAnswersExpert = [
   {
-    name: '김땡땡',
+    name: '김땡땡1',
     matchingCount: 33,
   },
   {
-    name: '김땡땡',
+    name: '김땡땡2',
     matchingCount: 33,
   },
   {
-    name: '김땡땡',
-    matchingCount: 33,
-  },
-  {
-    name: '김땡땡',
+    name: '김땡땡3',
     matchingCount: 33,
   },
 ];
 
 const MostAnswersMentor = [
   {
-    name: '김땡땡',
+    name: '김땡땡1',
     matchingCount: 33,
   },
   {
-    name: '김땡땡',
+    name: '김땡땡2',
     matchingCount: 33,
   },
   {
-    name: '김땡땡',
-    matchingCount: 33,
-  },
-  {
-    name: '김땡땡',
+    name: '김땡땡3',
     matchingCount: 33,
   },
 ];
@@ -54,8 +46,8 @@ export const MostAnswersExpertSection = () => {
               key={mentor.name}
               name={mentor.name}
               matchingCount={mentor.matchingCount}
-              w="300px"
-              h="150px"
+              w="399px"
+              h="189px"
             />
           ))}
         </Flex>
@@ -72,8 +64,8 @@ export const MostAnswersExpertSection = () => {
               key={mentor.name}
               name={mentor.name}
               matchingCount={mentor.matchingCount}
-              w="300px"
-              h="150px"
+              w="399px"
+              h="189px"
             />
           ))}
         </Flex>

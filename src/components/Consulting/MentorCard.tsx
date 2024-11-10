@@ -25,7 +25,7 @@ export const MentorCard: React.FC<
       borderRadius={19}
       bg="#FFF"
       shadow="0px 0px 3.7px rgba(0, 0, 0, 0.31)"
-      p="20px 0"
+      p="20px 10px 20px 0"
     >
       <Flex gap="20px">
         <Image w={100} src={businessman} />
