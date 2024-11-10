@@ -38,7 +38,7 @@ export const Sidebar: React.FC<{
     {
       title: '상담 진행하기',
       icon: MentorMessage,
-      path: '',
+      path: ROUTER_PATH.CONSULTING_START,
     },
     {
       title: '과거 상담 내용 조회하기',
