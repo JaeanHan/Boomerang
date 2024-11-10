@@ -13,7 +13,7 @@ export const MentorCard: React.FC<
   const navigateConsulting = () => {
     console.log('navigateConsulting');
   };
-  
+
   return (
     <VStack
       w={w}
