@@ -8,6 +8,7 @@ import React from 'react';
 import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 
 import { ConsultingHistory } from '@/components/ConsultingManagement/ConsultingHistory';
+import { ConsultingScheduling } from '@/components/ConsultingManagement/ConsultingScheduling';
 import { SelectMentor } from '@/components/ConsultingManagement/SelectMentor';
 import Community from '@/pages/Community';
 import { Consulting } from '@/pages/Consulting';
@@ -77,6 +78,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTER_PATH.SELECT_MENTOR,
         element: <SelectMentor />,
+      },
+      {
+        path: ROUTER_PATH.CONSULTING_SCHEDULING,
+        element: <ConsultingScheduling />,
       },
     ],
   },

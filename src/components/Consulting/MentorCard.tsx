@@ -10,6 +10,10 @@ interface MentorCardProps {
 export const MentorCard: React.FC<
   MentorCardProps & { w: string; h: string }
 > = ({ w, h, name, matchingCount }) => {
+  const navigateConsulting = () => {
+    console.log('navigateConsulting');
+  };
+
   return (
     <VStack
       w={w}
@@ -35,7 +39,12 @@ export const MentorCard: React.FC<
             </Text>
             회
           </Text>
-          <BoomerangButton w="127px" h="41px" fontSize="16px">
+          <BoomerangButton
+            w="127px"
+            h="41px"
+            fontSize="16px"
+            onClick={navigateConsulting}
+          >
             상담하러 가기
           </BoomerangButton>
         </Flex>

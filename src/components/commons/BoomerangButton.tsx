@@ -6,7 +6,8 @@ export const BoomerangButton: React.FC<{
   h: string;
   fontSize: string;
   children: React.ReactNode;
-}> = ({ w, h, fontSize, children }) => (
+  onClick: () => void;
+}> = ({ w, h, fontSize, children, onClick }) => (
   <Button
     width={w}
     height={h}
@@ -16,6 +17,7 @@ export const BoomerangButton: React.FC<{
     color={BoomerangColors.white}
     fontSize={fontSize}
     fontWeight="bold"
+    onClick={onClick}
   >
     {children}
   </Button>
