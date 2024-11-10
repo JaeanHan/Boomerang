@@ -6,6 +6,7 @@ import { MentorEmergency } from '@/components/Sidebar/sidebarIcons/MentorEmergen
 import { MentorMessage } from '@/components/Sidebar/sidebarIcons/MentorMessage';
 import { MentorPeople } from '@/components/Sidebar/sidebarIcons/MentorPeople';
 import { MentorSearch } from '@/components/Sidebar/sidebarIcons/MentorSearch';
+import { ROUTER_PATH } from '@/routerPath';
 import { BoomerangColors } from '@/utils/colors';
 import {
   Box,
@@ -32,7 +33,7 @@ export const Sidebar: React.FC<{
     {
       title: '멘토 선택하기',
       icon: MentorPeople,
-      path: '/consulting/selectMentor',
+      path: ROUTER_PATH.SELECT_MENTOR,
     },
     {
       title: '상담 진행하기',
