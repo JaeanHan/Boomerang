@@ -15,9 +15,17 @@ const MostAnswersExpert = [
     name: '김땡땡',
     matchingCount: 33,
   },
+  {
+    name: '김땡땡',
+    matchingCount: 33,
+  },
 ];
 
 const MostAnswersMentor = [
+  {
+    name: '김땡땡',
+    matchingCount: 33,
+  },
   {
     name: '김땡땡',
     matchingCount: 33,
@@ -46,8 +54,8 @@ export const MostAnswersExpertSection = () => {
               key={mentor.name}
               name={mentor.name}
               matchingCount={mentor.matchingCount}
-              w="399px"
-              h="189px"
+              w="300px"
+              h="150px"
             />
           ))}
         </Flex>
@@ -64,8 +72,8 @@ export const MostAnswersExpertSection = () => {
               key={mentor.name}
               name={mentor.name}
               matchingCount={mentor.matchingCount}
-              w="399px"
-              h="189px"
+              w="300px"
+              h="150px"
             />
           ))}
         </Flex>

@@ -16,6 +16,10 @@ const RecommendedExperts = [
     name: '김땡땡',
     matchingCount: 33,
   },
+  {
+    name: '김땡땡',
+    matchingCount: 33,
+  },
 ];
 
 export const RecommendedExpertSection = () => {
@@ -30,8 +34,8 @@ export const RecommendedExpertSection = () => {
         {RecommendedExperts.map((mentor) => (
           <MentorCard
             key={mentor.name}
-            w="399px"
-            h="189px"
+            w="300px"
+            h="150px"
             name={mentor.name}
             matchingCount={mentor.matchingCount}
           />
