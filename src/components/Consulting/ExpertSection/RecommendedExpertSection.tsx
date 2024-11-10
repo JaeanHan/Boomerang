@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 
 import { MentorCard } from '@/components/Consulting/MentorCard';
 import { MentorSelectionHeader } from '@/components/Consulting/MentorSelectionHeader';
+import { useSidebar } from '@/pages/ConsultingManagement/SidebarContext';
 import { BoomerangColors } from '@/utils/colors';
 import { Box, Flex, keyframes } from '@chakra-ui/react';
 import BlueArrow from '@images/blueArrow.svg?react';
@@ -48,9 +49,16 @@ const scaleUp = keyframes`
   0% { transform: translate(-50%, 0); }
   100% { transform: translate(0, 0); }
 `;
+const cardWidth = 300;
+const gap = 63;
 
 export const RecommendedExpertSection = () => {
-  const [idx, setIdx] = useState<sliceIdx>(() => ({ start: 0, end: 4 }));
+  const [idx, setIdx] = useState<sliceIdx>(() => ({
+    start: 0,
+    end: displayCount,
+  }));
+  const { isSidebarOpen } = useSidebar();
+
   const handlePrevious = useCallback(() => {
     setIdx((prev) => {
       const prevStart = Math.max(prev.start - step, 0);
@@ -70,6 +78,8 @@ export const RecommendedExpertSection = () => {
     });
   }, [setIdx]);
 
+  const translateX = -(idx.start * (cardWidth + gap));
+
   return (
     <Box mt="13px" p="26px 31px" overflow={'hidden'}>
       <MentorSelectionHeader
@@ -77,7 +87,12 @@ export const RecommendedExpertSection = () => {
         subtitle="부메랑이 적극 추천하는 전문가"
         Icon={<BlueArrow />}
       />
-      <Flex gap="63px" mt="25px" position={'relative'}>
+      <Flex
+        gap={`${gap}px`}
+        mt="25px"
+        position={'relative'}
+        width={`calc(100vw - 62px - ${isSidebarOpen ? 353 : 0}px)`}
+      >
         <ArrowButton
           onClick={handlePrevious}
           direction="left"
@@ -88,21 +103,27 @@ export const RecommendedExpertSection = () => {
           direction="right"
           isDisabled={idx.end >= RecommendedExperts.length}
         />
-        {RecommendedExperts.slice(idx.start, idx.end).map((mentor) => (
-          <Box
-            key={mentor.name}
-            animation={`${scaleUp} 0.6s ease-in-out forwards`}
-            transition={'all .5s ease-in-out'}
-          >
-            <MentorCard
+        <Flex
+          transform={`translateX(${translateX}px)`}
+          transition="transform 0.6s ease-in-out"
+          gap={`${gap}px`}
+        >
+          {RecommendedExperts.map((mentor) => (
+            <Box
               key={mentor.name}
-              w="300px"
-              h="max-content"
-              name={mentor.name}
-              matchingCount={mentor.matchingCount}
-            />
-          </Box>
-        ))}
+              animation={`${scaleUp} 0.6s ease-in-out forwards`}
+              transition={'all .5s ease-in-out'}
+            >
+              <MentorCard
+                key={mentor.name}
+                w="300px"
+                h="max-content"
+                name={mentor.name}
+                matchingCount={mentor.matchingCount}
+              />
+            </Box>
+          ))}
+        </Flex>
       </Flex>
     </Box>
   );
