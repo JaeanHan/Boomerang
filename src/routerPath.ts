@@ -17,4 +17,5 @@ export const ROUTER_PATH = {
   CONSULTING_HISTORY: '/consulting/consultingHistory',
   SELECT_MENTOR: '/consulting/selectMentor',
   CONSULTING_SCHEDULING: '/consulting/selectMentor/scheduling/:name',
+  CONSULTING_START: '/consulting/start',
 } as const;
