@@ -18,6 +18,7 @@ export const BoomerangButton: React.FC<{
     fontSize={fontSize}
     fontWeight="bold"
     onClick={onClick}
+    _hover={{}}
   >
     {children}
   </Button>
