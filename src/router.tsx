@@ -9,6 +9,7 @@ import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 
 import { ConsultingHistory } from '@/components/ConsultingManagement/ConsultingHistory';
 import { ConsultingScheduling } from '@/components/ConsultingManagement/ConsultingScheduling';
+import { ConsultingStart } from '@/components/ConsultingManagement/ConsultingStart';
 import { SelectMentor } from '@/components/ConsultingManagement/SelectMentor';
 import Community from '@/pages/Community';
 import { Consulting } from '@/pages/Consulting';
@@ -82,6 +83,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTER_PATH.CONSULTING_SCHEDULING,
         element: <ConsultingScheduling />,
+      },
+      {
+        path: ROUTER_PATH.CONSULTING_START,
+        element: <ConsultingStart />,
       },
     ],
   },

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { useSidebar } from '@/pages/ConsultingManagement/SidebarContext';
 import { IconButton } from '@chakra-ui/react';
