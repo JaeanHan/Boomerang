@@ -4,30 +4,30 @@ import { Box, Flex } from '@chakra-ui/react';
 
 const MostAnswersExpert = [
   {
-    name: '김땡땡',
+    name: '김땡땡1',
     matchingCount: 33,
   },
   {
-    name: '김땡땡',
+    name: '김땡땡2',
     matchingCount: 33,
   },
   {
-    name: '김땡땡',
+    name: '김땡땡3',
     matchingCount: 33,
   },
 ];
 
 const MostAnswersMentor = [
   {
-    name: '김땡땡',
+    name: '김땡땡1',
     matchingCount: 33,
   },
   {
-    name: '김땡땡',
+    name: '김땡땡2',
     matchingCount: 33,
   },
   {
-    name: '김땡땡',
+    name: '김땡땡3',
     matchingCount: 33,
   },
 ];
