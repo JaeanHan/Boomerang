@@ -40,7 +40,9 @@ export const Header: React.FC<PropH> = ({ h }) => {
           <Text>홈</Text>
         </Link>
         <Text>Q&As</Text>
-        <Text>전문가와의 상담</Text>
+        <Link to={`${ROUTER_PATH.SELECT_MENTOR}`}>
+          <Text>전문가와의 상담</Text>
+        </Link>
         <Link to={`${ROUTER_PATH.COMMUNITY}/open-forum`}>
           <Text cursor={'pointer'}>커뮤니티</Text>
         </Link>
