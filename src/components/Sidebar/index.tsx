@@ -23,7 +23,7 @@ import blueArrow2 from '@images/blueArrow2.svg';
 import profileImg from '@images/profileImg.svg';
 
 export const Sidebar: React.FC = () => {
-  const { isSidebarOpen: isOpen, setSidebarOpen: setIsOpen } = useSidebar();
+  const { isSidebarOpen: isOpen, setIsSidebarOpen: setIsOpen } = useSidebar();
   const [isHovered, setIsHovered] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ export const Sidebar: React.FC = () => {
     {
       title: '상담 진행하기',
       icon: MentorMessage,
-      path: '',
+      path: ROUTER_PATH.CONSULTING_START,
     },
     {
       title: '과거 상담 내용 조회하기',

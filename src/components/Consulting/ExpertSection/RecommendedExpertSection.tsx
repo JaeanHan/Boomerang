@@ -129,7 +129,11 @@ export const RecommendedExpertSection = () => {
   );
 };
 
-const ArrowButton = ({ onClick, direction, isDisabled }) => (
+const ArrowButton: React.FC<{
+  onClick: () => void;
+  direction: string;
+  isDisabled: boolean;
+}> = ({ onClick, direction, isDisabled }) => (
   <Box
     onClick={onClick}
     cursor={isDisabled ? 'not-allowed' : 'pointer'}
