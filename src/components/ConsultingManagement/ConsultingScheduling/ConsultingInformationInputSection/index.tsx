@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { ConsultingItemTitle } from '@/components/ConsultingManagement/ConsultingItemTitle';
 import { BoomerangButton } from '@/components/commons/BoomerangButton';
@@ -13,6 +13,12 @@ export const ConsultingInformationInputSection: React.FC<{
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
+  const isSubmitButtonDisabled =
+    selectedDate === null ||
+    selectedTime === '' ||
+    title.trim().length === 0 ||
+    content.trim().length === 0;
+
   return (
     <Box w="951px">
       <ConsultingItemTitle
@@ -20,13 +26,27 @@ export const ConsultingInformationInputSection: React.FC<{
         icon={document}
       />
       <VStack spacing="25px">
-        <ConsultingTitleForm title={title} setTitle={setTitle} />
+        <ConsultingTitleForm setTitle={setTitle} />
         <ConsultingDateForm date={selectedDate} time={selectedTime} />
         <Box mt="14px">
           <Text color="434343" fontSize="24px" fontWeight={800} mb="12px">
             상담 내용 작성하기
           </Text>
-          <ConsultingContentForm content={content} setContent={setContent} />
+          <ConsultingContentForm setContent={setContent} />
+          <Flex
+            justifyContent={'flex-end'}
+            transform={'translate(-20px, -67px)'}
+          >
+            <BoomerangButton
+              w="98px"
+              h="47px"
+              fontSize="24px"
+              isDisabled={isSubmitButtonDisabled}
+              onClick={() => {}}
+            >
+              확인
+            </BoomerangButton>
+          </Flex>
         </Box>
       </VStack>
     </Box>
@@ -34,13 +54,8 @@ export const ConsultingInformationInputSection: React.FC<{
 };
 
 const ConsultingTitleForm: React.FC<{
-  title: string;
   setTitle: (value: string) => void;
-}> = ({ title, setTitle }) => {
-  const handleConfirm = () => {
-    console.log('title: ', title);
-  };
-
+}> = ({ setTitle }) => {
   return (
     <Flex
       w="817px"
@@ -62,7 +77,6 @@ const ConsultingTitleForm: React.FC<{
           fontSize: '24px',
         }}
         fontSize="24px"
-        value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
     </Flex>
@@ -103,12 +117,17 @@ const ConsultingDateForm: React.FC<{ date: Date | null; time: string }> = ({
 );
 
 const ConsultingContentForm: React.FC<{
-  content: string;
   setContent: (value: string) => void;
-}> = ({ content, setContent }) => {
-  const handleConfirm = () => {
-    console.log('content: ', content);
-  };
+}> = ({ setContent }) => {
+  const onChange = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
+      const element = e.target;
+      element.style.height = 'auto';
+      element.style.height = `${element.scrollHeight}px`;
+      setContent(element.value);
+    },
+    [setContent]
+  );
 
   return (
     <Flex
@@ -116,7 +135,7 @@ const ConsultingContentForm: React.FC<{
       minH="211px"
       bg="#EAF0FF"
       borderRadius={4}
-      p="26px 19px 21px 46px"
+      p="26px 19px 68px 46px"
       flexDir="column"
       justifyContent="space-between"
     >
@@ -132,19 +151,9 @@ const ConsultingContentForm: React.FC<{
           fontSize: '24px',
         }}
         fontSize="24px"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
+        resize="none"
+        onChange={onChange}
       />
-      <Box alignSelf="flex-end">
-        <BoomerangButton
-          w="98px"
-          h="47px"
-          fontSize="24px"
-          onClick={handleConfirm}
-        >
-          확인
-        </BoomerangButton>
-      </Box>
     </Flex>
   );
 };
