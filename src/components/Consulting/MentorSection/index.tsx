@@ -16,7 +16,13 @@ export const MentorSection = () => {
         columnGap="35px"
       >
         {Array.from({ length: 6 }).map((_, index) => (
-          <MentorCard key={index} w="479px" h="227px" />
+          <MentorCard
+            key={index}
+            w="479px"
+            h="227px"
+            name="김땡땡"
+            matchingCount={33}
+          />
         ))}
       </Grid>
     </Box>

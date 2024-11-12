@@ -6,6 +6,8 @@ import { MentorEmergency } from '@/components/Sidebar/sidebarIcons/MentorEmergen
 import { MentorMessage } from '@/components/Sidebar/sidebarIcons/MentorMessage';
 import { MentorPeople } from '@/components/Sidebar/sidebarIcons/MentorPeople';
 import { MentorSearch } from '@/components/Sidebar/sidebarIcons/MentorSearch';
+import { useSidebar } from '@/pages/ConsultingManagement/SidebarContext';
+import { ROUTER_PATH } from '@/routerPath';
 import { BoomerangColors } from '@/utils/colors';
 import {
   Box,
@@ -20,10 +22,8 @@ import SidebarArrowClose from '@images/SidebarArrowClose.svg?react';
 import blueArrow2 from '@images/blueArrow2.svg';
 import profileImg from '@images/profileImg.svg';
 
-export const Sidebar: React.FC<{
-  isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
-}> = ({ isOpen, setIsOpen }) => {
+export const Sidebar: React.FC = () => {
+  const { isSidebarOpen: isOpen, setIsSidebarOpen: setIsOpen } = useSidebar();
   const [isHovered, setIsHovered] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
   const navigate = useNavigate();
@@ -32,17 +32,17 @@ export const Sidebar: React.FC<{
     {
       title: '멘토 선택하기',
       icon: MentorPeople,
-      path: '',
+      path: ROUTER_PATH.SELECT_MENTOR,
     },
     {
       title: '상담 진행하기',
       icon: MentorMessage,
-      path: '',
+      path: ROUTER_PATH.CONSULTING_START,
     },
     {
       title: '과거 상담 내용 조회하기',
       icon: MentorSearch,
-      path: '',
+      path: ROUTER_PATH.PREVIOUS_CONSULTING,
     },
     {
       title: '불편 사항 신고',
@@ -67,8 +67,11 @@ export const Sidebar: React.FC<{
       bg="#EBF1F5"
       w={isOpen ? '353px' : '0'}
       transition="width 0.5s"
+      h="calc(100vh - 55px)"
+      position="sticky"
+      top="55px"
+      left="0"
       overflow="hidden"
-      h="100vh"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
