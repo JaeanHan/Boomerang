@@ -22,7 +22,8 @@ const theme = extendTheme({
         fontFamily: 'NanumSquareOTF_ac, sans-serif',
         fontDisplay: 'swap',
         '@media (max-width: 1800px)': {
-          transform: 'scale(0.8)',
+          width: '111vw',
+          transform: 'scale(0.9)',
           transformOrigin: 'top left',
         },
       },
