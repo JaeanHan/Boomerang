@@ -1,5 +1,3 @@
-// src/components/CommuityBoard/ForumPost/types.ts
-
 export interface CommentData {
   id: number;
   writer_email: string;
