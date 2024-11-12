@@ -1,3 +1,4 @@
+// src/components/CommuityBoard/ForumPost/ForumPost.tsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -10,7 +11,7 @@ import { PostHeader } from './PostHeader';
 import { PostStats } from './PostStats';
 import { ReportButton } from './ReportButton';
 import { CommentData, PostData } from './types';
-import { fetchPostById } from './utils/api';
+import { getPostById } from './utils/api';
 
 const ForumPost: React.FC = () => {
   const { postId } = useParams<{ postId: string }>();
@@ -31,7 +32,7 @@ const ForumPost: React.FC = () => {
       setLoading(true);
       try {
         if (postId) {
-          const data = await fetchPostById(postId);
+          const data = await getPostById(postId);
           setPost(data);
           setCommentCount(data.comments);
         } else {

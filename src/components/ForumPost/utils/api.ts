@@ -1,26 +1,32 @@
-import apiInstance from '@/apis';
-
+import {
+  fetchPostById,
+  getLikedStatus,
+  likePost,
+  unlikePost,
+} from '../../../apis/Forumpost';
 import { PostData } from '../types';
 
-export const fetchPostById = async (postId: string): Promise<PostData> => {
-  const response = await apiInstance.get(`/api/v1/board/${postId}`);
-  const data = response.data;
+export const getPostById = async (postId: string): Promise<PostData> => {
+  return await fetchPostById(postId);
+};
 
-  const actualCommentCount = Array.isArray(
-    data.comment_list_response_dto.content
-  )
-    ? data.comment_list_response_dto.content.length
-    : 0;
+export const getLikedStatusAsync = async (
+  postId: string,
+  authToken: string
+): Promise<boolean> => {
+  return await getLikedStatus(postId, authToken);
+};
 
-  return {
-    postId: data.id.toString(),
-    title: data.title,
-    content: data.content,
-    likes: data.like_count,
-    comments: actualCommentCount,
-    writerName: data.writer_name,
-    createdAt: data.created_at,
-    commentsList: data.comment_list_response_dto.content || [],
-    location: data.location,
-  };
+export const likePostAsync = async (
+  postId: string,
+  authToken: string
+): Promise<void> => {
+  return await likePost(postId, authToken);
+};
+
+export const unlikePostAsync = async (
+  postId: string,
+  authToken: string
+): Promise<void> => {
+  return await unlikePost(postId, authToken);
 };

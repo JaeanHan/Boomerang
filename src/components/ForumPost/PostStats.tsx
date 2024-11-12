@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 
-import apiInstance from '@/apis';
 import { ChatIcon, StarIcon } from '@chakra-ui/icons';
 import { Button, Flex, Icon, Text, useToast } from '@chakra-ui/react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
+import { getLikedStatus, likePost, unlikePost } from '../../apis/Forumpost';
 import { PostStatsProps } from './types';
+
+interface ApiError {
+  code: number;
+  message: string;
+}
 
 export const PostStats: React.FC<PostStatsProps> = ({
   likes,
@@ -17,27 +22,19 @@ export const PostStats: React.FC<PostStatsProps> = ({
   const [liked, setLiked] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchLikedStatus = async () => {
+    const fetchLikedStatusAsync = async () => {
+      const authToken = localStorage.getItem('Authorization') || '';
+      if (!authToken) return;
+
       try {
-        const authToken = localStorage.getItem('Authorization') || '';
-        if (!authToken) return;
-
-        const response = await apiInstance.get<{ liked: boolean }>(
-          `/api/v1/board/${postId}/likes`,
-          {
-            headers: {
-              Authorization: authToken,
-            },
-          }
-        );
-
-        setLiked(response.data.liked);
-      } catch (error: unknown) {
+        const isLiked = await getLikedStatus(postId, authToken);
+        setLiked(isLiked);
+      } catch (error) {
         console.error('좋아요 상태를 불러오는데 실패했습니다.', error);
       }
     };
 
-    fetchLikedStatus();
+    fetchLikedStatusAsync();
   }, [postId]);
 
   const handleLike = async () => {
@@ -55,31 +52,19 @@ export const PostStats: React.FC<PostStatsProps> = ({
 
     try {
       if (liked) {
-        await apiInstance.delete(`/api/v1/board/${postId}/likes`, {
-          headers: {
-            Authorization: authToken,
-          },
-        });
+        await unlikePost(postId, authToken);
         setLiked(false);
         setLikeCount((prevCount) => prevCount - 1);
       } else {
-        await apiInstance.post(
-          `/api/v1/board/${postId}/likes`,
-          {},
-          {
-            headers: {
-              Authorization: authToken,
-            },
-          }
-        );
+        await likePost(postId, authToken);
         setLiked(true);
         setLikeCount((prevCount) => prevCount + 1);
       }
-    } catch (error: unknown) {
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiError>;
       if (
-        axios.isAxiosError(error) &&
-        error.response &&
-        error.response.status === 401
+        axios.isAxiosError(axiosError) &&
+        axiosError.response?.status === 401
       ) {
         toast({
           title: '로그인이 필요합니다.',

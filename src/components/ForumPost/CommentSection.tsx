@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense } from 'react';
 
-import apiInstance from '@/apis';
 import {
   Box,
   Button,
@@ -11,8 +10,10 @@ import {
   VStack,
   useToast,
 } from '@chakra-ui/react';
-import axios from 'axios';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
+import { fetchComments, postComment } from '../../apis/Forumpost';
 import { Comment } from './Comment';
 import { CommentData } from './types';
 
@@ -25,40 +26,54 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
   postId,
   onCommentAdded,
 }) => {
-  const [commentText, setCommentText] = useState('');
-  const [comments, setComments] = useState<CommentData[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const toast = useToast();
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const fetchComments = async () => {
-      setIsLoading(true);
-      try {
-        const response = await apiInstance.get(
-          `/api/v1/board/${postId}/comments`
-        );
-        const commentsData: CommentData[] = response.data.content || [];
-        setComments(commentsData);
-      } catch (error) {
-        console.error('댓글 불러오기 에러:', error);
-        toast({
-          title: '댓글을 불러오는데 실패했습니다.',
-          status: 'error',
-          duration: 2000,
-          isClosable: true,
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const { data: comments } = useQuery<CommentData[], AxiosError>({
+    queryKey: ['comments', postId],
+    queryFn: () => fetchComments(postId),
+    suspense: true,
+    retry: false,
+    onError: () => {
+      toast({
+        title: '댓글을 불러오는데 실패했습니다.',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    },
+  });
 
-    fetchComments();
-  }, [postId, toast]);
+  const mutation = useMutation<CommentData, AxiosError, string>({
+    mutationFn: (text: string) => postComment(postId, text),
+    onSuccess: (newComment: CommentData) => {
+      queryClient.invalidateQueries(['comments', postId]);
+      onCommentAdded(newComment);
+      toast({
+        title: '댓글이 성공적으로 작성되었습니다.',
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+      });
+    },
+    onError: (error: AxiosError) => {
+      toast({
+        title: '댓글 작성에 실패했습니다.',
+        description: error.response?.data?.message || '',
+        status: error.response?.status === 401 ? 'error' : 'warning',
+        duration: 2000,
+        isClosable: true,
+      });
+    },
+  });
 
-  const handleCommentSubmit = async (e: React.FormEvent) => {
+  const handleCommentSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+    const form = e.currentTarget;
+    const input = form.elements.namedItem('comment') as HTMLInputElement;
+    const commentText = input.value.trim();
 
-    if (!commentText.trim()) {
+    if (!commentText) {
       toast({
         title: '댓글을 입력해주세요.',
         status: 'warning',
@@ -68,77 +83,8 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
       return;
     }
 
-    const authToken = localStorage.getItem('Authorization') || '';
-
-    try {
-      const response = await apiInstance.post<CommentData>(
-        `/api/v1/board/${postId}/comments`,
-        { text: commentText },
-        {
-          headers: {
-            Authorization: authToken,
-          },
-        }
-      );
-
-      const newComment: CommentData = response.data;
-      setComments((prevComments) => [...prevComments, newComment]);
-      onCommentAdded(newComment);
-      setCommentText('');
-
-      toast({
-        title: '댓글이 성공적으로 작성되었습니다.',
-        status: 'success',
-        duration: 2000,
-        isClosable: true,
-      });
-    } catch (error: unknown) {
-      if (
-        axios.isAxiosError(error) &&
-        error.response &&
-        typeof error.response.data.message === 'string'
-      ) {
-        toast({
-          title: '댓글 작성에 실패했습니다.',
-          description: error.response.data.message,
-          status: 'error',
-          duration: 2000,
-          isClosable: true,
-        });
-      } else {
-        toast({
-          title: '댓글 작성에 실패했습니다.',
-          status: 'error',
-          duration: 2000,
-          isClosable: true,
-        });
-      }
-    }
-  };
-
-  const handleCommentUpdateOrDelete = () => {
-    const fetchComments = async () => {
-      setIsLoading(true);
-      try {
-        const response = await apiInstance.get(
-          `/api/v1/board/${postId}/comments`
-        );
-        const commentsData: CommentData[] = response.data.content || [];
-        setComments(commentsData);
-      } catch (error) {
-        console.error('댓글 불러오기 에러:', error);
-        toast({
-          title: '댓글을 불러오는데 실패했습니다.',
-          status: 'error',
-          duration: 2000,
-          isClosable: true,
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchComments();
+    mutation.mutate(commentText);
+    input.value = '';
   };
 
   return (
@@ -162,14 +108,13 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
         onSubmit={handleCommentSubmit}
       >
         <Input
+          name="comment"
           placeholder="댓글을 입력해주세요."
           fontSize="l"
           border="none"
           color="blue.400"
           flex="1"
           mb={{ base: 10, md: 0 }}
-          value={commentText}
-          onChange={(e) => setCommentText(e.target.value)}
         />
         <Button
           type="submit"
@@ -181,19 +126,23 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
           댓글 달기
         </Button>
       </Flex>
-      <VStack align="stretch" spacing={4} mt={9} bg="#EDEDED" p={5}>
-        {isLoading ? (
-          <Text>댓글을 불러오는 중입니다...</Text>
-        ) : (
-          comments.map((comment) => (
-            <Comment
-              key={comment.id}
-              comment={comment}
-              onCommentUpdatedOrDeleted={handleCommentUpdateOrDelete}
-            />
-          ))
-        )}
-      </VStack>
+      <Suspense fallback={<Text>댓글을 불러오는 중입니다...</Text>}>
+        <VStack align="stretch" spacing={4} mt={9} bg="#EDEDED" p={5}>
+          {comments && comments.length > 0 ? (
+            comments.map((comment) => (
+              <Comment
+                key={comment.id}
+                comment={comment}
+                onCommentUpdatedOrDeleted={() =>
+                  queryClient.invalidateQueries(['comments', postId])
+                }
+              />
+            ))
+          ) : (
+            <Text>등록된 댓글이 없습니다.</Text>
+          )}
+        </VStack>
+      </Suspense>
     </Box>
   );
 };

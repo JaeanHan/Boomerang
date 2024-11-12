@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 
-import apiInstance from '@/apis';
 import { Box, Button, Flex, Input, Text, useToast } from '@chakra-ui/react';
-import axios from 'axios';
+import { AxiosError } from 'axios';
 
+import { deleteComment, updateComment } from '../../apis/Forumpost';
+import { formatDate } from '../../utils/dateUtils';
 import { CommentData } from './types';
 
 interface CommentProps {
@@ -11,12 +12,17 @@ interface CommentProps {
   onCommentUpdatedOrDeleted: () => void;
 }
 
+interface ApiError {
+  code: number;
+  message: string;
+}
+
 export const Comment: React.FC<CommentProps> = ({
   comment,
   onCommentUpdatedOrDeleted,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedText, setEditedText] = useState(comment.text);
+  const [editedText, setEditedText] = useState<string>(comment.text);
   const toast = useToast();
 
   const handleEdit = () => {
@@ -25,70 +31,35 @@ export const Comment: React.FC<CommentProps> = ({
 
   const handleEditConfirm = async () => {
     try {
-      await apiInstance.put<CommentData>(
-        `/api/v1/board/comments/${comment.id}`,
-        { text: editedText }
-      );
+      await updateComment(comment.id, editedText);
       onCommentUpdatedOrDeleted();
       setIsEditing(false);
-    } catch (error: unknown) {
-      if (
-        axios.isAxiosError(error) &&
-        error.response &&
-        error.response.status === 401
-      ) {
-        toast({
-          title: '로그인이 필요합니다.',
-          status: 'error',
-          duration: 2000,
-          isClosable: true,
-        });
-      } else {
-        toast({
-          title: '댓글 수정에 실패했습니다.',
-          status: 'error',
-          duration: 2000,
-          isClosable: true,
-        });
-      }
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiError>;
+      toast({
+        title: '댓글 수정에 실패했습니다.',
+        description: axiosError.response?.data?.message || '',
+        status: axiosError.response?.status === 401 ? 'error' : 'warning',
+        duration: 2000,
+        isClosable: true,
+      });
     }
   };
 
   const handleDelete = async () => {
     try {
-      await apiInstance.delete(`/api/v1/board/comments/${comment.id}`);
+      await deleteComment(comment.id);
       onCommentUpdatedOrDeleted();
-    } catch (error: unknown) {
-      if (
-        axios.isAxiosError(error) &&
-        error.response &&
-        error.response.status === 401
-      ) {
-        toast({
-          title: '로그인이 필요합니다.',
-          status: 'error',
-          duration: 2000,
-          isClosable: true,
-        });
-      } else {
-        toast({
-          title: '댓글 삭제에 실패했습니다.',
-          status: 'error',
-          duration: 2000,
-          isClosable: true,
-        });
-      }
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiError>;
+      toast({
+        title: '댓글 삭제에 실패했습니다.',
+        description: axiosError.response?.data?.message || '',
+        status: axiosError.response?.status === 401 ? 'error' : 'warning',
+        duration: 2000,
+        isClosable: true,
+      });
     }
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = `0${date.getMonth() + 1}`.slice(-2);
-    const day = `0${date.getDate()}`.slice(-2);
-    const hours = `0${date.getHours()}`.slice(-2);
-    const minutes = `0${date.getMinutes()}`.slice(-2);
-    return `${year}-${month}-${day} ${hours}:${minutes}`;
   };
 
   return (
