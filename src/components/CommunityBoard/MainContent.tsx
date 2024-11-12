@@ -26,14 +26,29 @@ const MainContent: React.FC = () => {
   const [boardType, setBoardType] = useState<string>('ENTIRE');
   const [selectedTab, setSelectedTab] = useState<string>(boards[0].type);
 
+  const [searchWord, setSearchWord] = useState<string>('');
+  const [sortType, setSortType] = useState<'ID' | 'LIKE' | 'COMMENT'>('ID');
+
   const { posts, totalPages, loading, error } = usePosts(
     currentPage,
-    boardType
+    boardType,
+    searchWord,
+    sortType
   );
 
   const handleTabChange = (newBoardType: string, newSelectedTab: string) => {
     setBoardType(newBoardType);
     setSelectedTab(newSelectedTab);
+    setCurrentPage(1);
+  };
+
+  const handleSearch = (searchTerm: string) => {
+    setSearchWord(searchTerm);
+    setCurrentPage(1);
+  };
+
+  const handleSortChange = (newSortType: 'ID' | 'LIKE' | 'COMMENT') => {
+    setSortType(newSortType);
     setCurrentPage(1);
   };
 
@@ -70,8 +85,8 @@ const MainContent: React.FC = () => {
           mt={8}
           w="730px"
         >
-          <SearchBar />
-          <SortButtons />
+          <SearchBar onSearch={handleSearch} />
+          <SortButtons sortType={sortType} onSortChange={handleSortChange} />
         </Flex>
         <VStack spacing={4} align="stretch" w="full" mt={5}>
           {posts.map((post) => (
