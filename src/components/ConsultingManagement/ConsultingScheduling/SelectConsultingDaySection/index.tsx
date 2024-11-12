@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Calendar from 'react-calendar';
 
 import { ConsultingItemTitle } from '@/components/ConsultingManagement/ConsultingItemTitle';
@@ -17,10 +16,14 @@ type ReservedTimes = {
   [key: string]: string[];
 };
 
-export const SelectConsultingDaySection: React.FC = () => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedTime, setSelectedTime] = useState<string>('');
-
+export const SelectConsultingDaySection: React.FC<{
+  selectedDate: Date | null;
+  setSelectedDate: (
+    value: ((prevState: Date | null) => Date | null) | Date | null
+  ) => void;
+  selectedTime: string;
+  setSelectedTime: (value: ((prevState: string) => string) | string) => void;
+}> = ({ selectedDate, setSelectedDate, selectedTime, setSelectedTime }) => {
   const reservedTimes: ReservedTimes = {
     '2024-11-12': ['10:00', '12:00'],
     '2024-11-13': ['09:00', '13:00', '15:00'],
@@ -47,7 +50,7 @@ export const SelectConsultingDaySection: React.FC = () => {
         <Flex w="870px" h="394px" borderRadius="17px">
           <Calendar
             onChange={handleDateChange}
-            value={selectedDate}
+            value={selectedTime ?? new Date()}
             locale="ko"
             calendarType="gregory"
             view="month"
