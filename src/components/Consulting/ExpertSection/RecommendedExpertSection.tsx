@@ -1,3 +1,5 @@
+import { sidebarWidth } from '@components/Sidebar/constants';
+
 import { useCallback, useState } from 'react';
 
 import { MentorCard } from '@/components/Consulting/MentorCard';
@@ -91,7 +93,7 @@ export const RecommendedExpertSection = () => {
         gap={`${gap}px`}
         mt="25px"
         position={'relative'}
-        width={`calc(100vw - 62px - ${isSidebarOpen ? 353 : 0}px)`}
+        width={`calc(100vw - 62px - ${isSidebarOpen ? sidebarWidth : 0}px)`}
       >
         <ArrowButton
           onClick={handlePrevious}

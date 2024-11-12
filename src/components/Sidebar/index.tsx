@@ -1,3 +1,5 @@
+import { sidebarWidth } from '@components/Sidebar/constants';
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -65,13 +67,14 @@ export const Sidebar: React.FC = () => {
     <Box
       as="nav"
       bg="#EBF1F5"
-      w={isOpen ? '353px' : '0'}
+      w={isOpen ? `${sidebarWidth}px` : '0'}
       transition="width 0.5s"
       h="calc(100vh - 55px)"
-      position="sticky"
+      position="fixed"
       top="55px"
       left="0"
       overflow="hidden"
+      zIndex={9999}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
