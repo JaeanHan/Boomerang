@@ -18,7 +18,7 @@ export const BasicLayout: React.FC<{
   }, [pathname]);
 
   return (
-    <Container maxW={maxW} minH={'100vh'} p={0} pt={HEADER_HEIGHT} bg={bg}>
+    <Container maxW={maxW} minH={'100%'} p={0} pt={HEADER_HEIGHT} bg={bg}>
       <Header h={HEADER_HEIGHT} />
       {children}
       {/*푸터*/}
