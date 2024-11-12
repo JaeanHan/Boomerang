@@ -21,6 +21,12 @@ const theme = extendTheme({
         bg: '#EDEDED',
         fontFamily: 'NanumSquareOTF_ac, sans-serif',
         fontDisplay: 'swap',
+        '@media (max-width: 1800px)': {
+          transform: 'scale(0.8)',
+          transformOrigin: 'top left',
+          width: '1800px',
+          overflowX: 'hidden',
+        },
       },
       '@font-face': [
         {
