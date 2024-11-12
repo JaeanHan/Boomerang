@@ -1,5 +1,5 @@
 import Calendar from 'react-calendar';
-import { Value } from 'react-calendar/dist/cjs/shared/types';
+import { Value } from 'react-calendar/dist/esm/shared/types';
 
 import { ConsultingItemTitle } from '@/components/ConsultingManagement/ConsultingItemTitle';
 import { BoomerangColors } from '@/utils/colors';
