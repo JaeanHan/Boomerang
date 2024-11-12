@@ -1,4 +1,5 @@
 import Calendar from 'react-calendar';
+import { Value } from 'react-calendar/dist/cjs/shared/types';
 
 import { ConsultingItemTitle } from '@/components/ConsultingManagement/ConsultingItemTitle';
 import { BoomerangColors } from '@/utils/colors';
@@ -29,9 +30,11 @@ export const SelectConsultingDaySection: React.FC<{
     '2024-11-13': ['09:00', '13:00', '15:00'],
   };
 
-  const handleDateChange = (date: Date) => {
-    setSelectedDate(date);
-    setSelectedTime('');
+  const handleDateChange = (value: Value) => {
+    if (value instanceof Date) {
+      setSelectedDate(value);
+      setSelectedTime('');
+    }
   };
 
   const getReservedTimes = (): string[] => {
