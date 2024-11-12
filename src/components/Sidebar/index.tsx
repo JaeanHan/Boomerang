@@ -42,7 +42,7 @@ export const Sidebar: React.FC = () => {
     {
       title: '과거 상담 내용 조회하기',
       icon: MentorSearch,
-      path: '',
+      path: ROUTER_PATH.PREVIOUS_CONSULTING,
     },
     {
       title: '불편 사항 신고',
