@@ -72,7 +72,9 @@ export const SelectConsultingDaySection: React.FC = () => {
                 <Button
                   key={time}
                   onClick={() => setSelectedTime(time)}
-                  isDisabled={getReservedTimes().includes(time)}
+                  isDisabled={
+                    selectedDate == null || getReservedTimes().includes(time)
+                  }
                   border="none"
                   variant={selectedTime === time ? 'solid' : 'outline'}
                   width="70px"
