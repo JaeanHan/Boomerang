@@ -48,7 +48,7 @@ const scaleUp = keyframes`
   0% { transform: translate(-50%, 0); }
   100% { transform: translate(0, 0); }
 `;
-const cardWidth = 300;
+const cardWidth = 280;
 const gap = 63;
 
 export const RecommendedExpertSection = () => {
@@ -118,6 +118,7 @@ export const RecommendedExpertSection = () => {
                 h="max-content"
                 name={mentor.name}
                 matchingCount={mentor.matchingCount}
+                gap="10px"
               />
             </Box>
           ))}
