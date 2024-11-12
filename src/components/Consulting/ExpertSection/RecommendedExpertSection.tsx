@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react';
 
 import { MentorCard } from '@/components/Consulting/MentorCard';
 import { MentorSelectionHeader } from '@/components/Consulting/MentorSelectionHeader';
-import { useSidebar } from '@/pages/ConsultingManagement/SidebarContext';
 import { BoomerangColors } from '@/utils/colors';
 import { Box, Flex, keyframes } from '@chakra-ui/react';
 import BlueArrow from '@images/blueArrow.svg?react';
@@ -57,7 +56,6 @@ export const RecommendedExpertSection = () => {
     start: 0,
     end: displayCount,
   }));
-  const { isSidebarOpen } = useSidebar();
 
   const handlePrevious = useCallback(() => {
     setIdx((prev) => {
@@ -91,7 +89,7 @@ export const RecommendedExpertSection = () => {
         gap={`${gap}px`}
         mt="25px"
         position={'relative'}
-        width={`calc(100vw - 62px - ${isSidebarOpen ? 353 : 0}px)`}
+        width={`calc(${cardWidth * displayCount + gap * (displayCount - 1)}px)`}
       >
         <ArrowButton
           onClick={handlePrevious}
@@ -116,7 +114,7 @@ export const RecommendedExpertSection = () => {
             >
               <MentorCard
                 key={mentor.name}
-                w="300px"
+                w={`${cardWidth}px`}
                 h="max-content"
                 name={mentor.name}
                 matchingCount={mentor.matchingCount}
