@@ -7,12 +7,13 @@ import { Box } from '@chakra-ui/react';
 
 export const ConsultingOutlet = () => {
   const { isSidebarOpen } = useSidebar();
+
   return (
     <Box
       pl={isSidebarOpen ? sidebarWidth : 0}
       transition={isSidebarOpen ? 'padding-left 0.5s ease 0.05s' : undefined}
       overflowX={'hidden'}
-      m={!isSidebarOpen ? '0 auto' : 0}
+      w={'100%'}
     >
       <Outlet />
     </Box>
