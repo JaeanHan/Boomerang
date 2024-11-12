@@ -7,7 +7,6 @@ interface PostHeaderProps {
   boardType?: string;
 }
 
-// TODO : 받아와야함
 export const PostHeader: React.FC<PostHeaderProps> = ({
   boardType = '자유',
 }) => (

@@ -110,6 +110,10 @@ export const router = createBrowserRouter([
         path: ROUTER_PATH.COMMUNITY,
         element: <BoomerangBoard />,
       },
+      {
+        path: ROUTER_PATH.COMMUNITY,
+        element: <BoomerangBoard />,
+      },
     ],
   },
   {

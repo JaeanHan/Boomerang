@@ -7,8 +7,14 @@ export interface CommentData {
   edited: boolean;
 }
 
+export interface CommentListResponseDto {
+  total_page: number;
+  current_page: number;
+  content: CommentData[];
+}
+
 export interface PostData {
-  postId: number;
+  postId: string;
   title: string;
   content: string;
   likes: number;
@@ -17,4 +23,10 @@ export interface PostData {
   createdAt: string;
   commentsList: CommentData[];
   location: string;
+}
+
+export interface PostStatsProps {
+  likes: number;
+  comments: number;
+  postId: string;
 }

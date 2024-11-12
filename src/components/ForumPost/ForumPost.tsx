@@ -9,22 +9,31 @@ import { PostContent } from './PostContent';
 import { PostHeader } from './PostHeader';
 import { PostStats } from './PostStats';
 import { ReportButton } from './ReportButton';
-import { PostData } from './types';
-import { fetchPostById } from './utils/api';
+import { CommentData, PostData } from './types';
+import { getPostById } from './utils/api';
 
 const ForumPost: React.FC = () => {
   const { postId } = useParams<{ postId: string }>();
   const [post, setPost] = useState<PostData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [commentCount, setCommentCount] = useState<number>(0);
+
+  const handleCommentAdded = (comment: CommentData) => {
+    setPost((prev) =>
+      prev ? { ...prev, commentsList: [...prev.commentsList, comment] } : prev
+    );
+    setCommentCount((prevCount) => prevCount + 1);
+  };
 
   useEffect(() => {
     const loadPost = async () => {
       setLoading(true);
       try {
         if (postId) {
-          const data = await fetchPostById(postId);
+          const data = await getPostById(postId);
           setPost(data);
+          setCommentCount(data.comments);
         } else {
           setError('유효하지 않은 게시글 ID입니다.');
         }
@@ -61,9 +70,13 @@ const ForumPost: React.FC = () => {
           date={post.createdAt}
           content={post.content}
         />
-        <PostStats likes={post.likes} comments={post.comments} />
+        <PostStats
+          likes={post.likes}
+          comments={commentCount}
+          postId={postId!}
+        />
         <ReportButton />
-        <CommentSection comments={post.commentsList} />
+        <CommentSection postId={postId!} onCommentAdded={handleCommentAdded} />
       </Flex>
     </Box>
   );

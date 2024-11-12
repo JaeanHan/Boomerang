@@ -35,16 +35,27 @@ type PostDataResponse = {
   liked: boolean;
 } & PostItem;
 
-export const fetchPosts = async (page: number) => {
+export const fetchPosts = async (
+  page: number,
+  boardType: string,
+  searchWord?: string,
+  sortType: 'ID' | 'LIKE' | 'COMMENT' = 'ID'
+): Promise<{ posts: PostData[]; totalPages: number }> => {
+  const params: Record<string, string | number> = {
+    page: page - 1,
+    size: 4,
+    sort_direction: 'DESC',
+    board_sort_type: sortType,
+    board_type: boardType,
+    content_length: 20,
+  };
+
+  if (searchWord && searchWord.trim() !== '') {
+    params.search_word = searchWord.trim();
+  }
+
   const response = await apiInstance.get<FetchPostResponse>('/api/v1/board', {
-    params: {
-      page: page - 1,
-      size: 4,
-      sort_direction: 'DESC',
-      sort_by: 'id',
-      board_type: 'ENTIRE',
-      content_length: 20,
-    },
+    params,
   });
 
   const data = response.data;
@@ -60,13 +71,15 @@ export const fetchPosts = async (page: number) => {
   };
 };
 
-export const fetchHotTopics = async (): Promise<HotTopicData[]> => {
+export const fetchHotTopics = async (
+  boardType: string
+): Promise<HotTopicData[]> => {
   const response = await apiInstance.get<FetchPostResponse>(
     '/api/v1/board/best',
     {
       params: {
         size: 3,
-        board_type: 'ENTIRE',
+        board_type: boardType,
         content_length: 10,
       },
     }

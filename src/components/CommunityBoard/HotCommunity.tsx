@@ -6,8 +6,12 @@ import HotTopic from './HotTopic';
 import LoadingSpinner from './LoadingSpinner';
 import useHotTopics from './hooks/useHotTopics';
 
-const HotCommunity: React.FC = () => {
-  const { hotTopics, loading, error } = useHotTopics();
+interface HotCommunityProps {
+  boardType: string;
+}
+
+const HotCommunity: React.FC<HotCommunityProps> = ({ boardType }) => {
+  const { hotTopics, loading, error } = useHotTopics(boardType);
 
   if (loading) return <LoadingSpinner />;
   if (error) return <Box>{error}</Box>;

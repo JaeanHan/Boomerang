@@ -22,3 +22,10 @@ export interface CommentData {
   last_modified_at: string;
   edited: boolean;
 }
+
+export enum BoardType {
+  ENTIRE = 'ENTIRE',
+  LOCATION = 'LOCATION',
+  SECRETE = 'SECRETE',
+  STEP = 'STEP',
+}

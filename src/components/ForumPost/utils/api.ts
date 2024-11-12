@@ -1,23 +1,32 @@
-import axios from 'axios';
-
+import {
+  fetchPostById,
+  getLikedStatus,
+  likePost,
+  unlikePost,
+} from '../../../apis/Forumpost';
 import { PostData } from '../types';
 
-const baseUrl = 'http://3.34.197.198:8080';
+export const getPostById = async (postId: string): Promise<PostData> => {
+  return await fetchPostById(postId);
+};
 
-export const fetchPostById = async (postId: string): Promise<PostData> => {
-  const response = await axios.get(`${baseUrl}/api/v1/board/${postId}`);
-  const data = response.data;
+export const getLikedStatusAsync = async (
+  postId: string,
+  authToken: string
+): Promise<boolean> => {
+  return await getLikedStatus(postId, authToken);
+};
 
-  return {
-    postId: data.id,
-    title: data.title,
-    content: data.content,
-    likes: data.like_count,
-    comments: data.comment_count,
-    writerName: data.writer_name,
-    createdAt: data.created_at,
-    commentsList:
-      data.comment_list_response_dto?.comment_response_dto_list || [],
-    location: data.location,
-  };
+export const likePostAsync = async (
+  postId: string,
+  authToken: string
+): Promise<void> => {
+  return await likePost(postId, authToken);
+};
+
+export const unlikePostAsync = async (
+  postId: string,
+  authToken: string
+): Promise<void> => {
+  return await unlikePost(postId, authToken);
 };

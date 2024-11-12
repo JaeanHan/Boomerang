@@ -14,9 +14,43 @@ import SearchBar from './SearchBar';
 import SortButtons from './SortButtons';
 import usePosts from './hooks/usePosts';
 
+const boards = [
+  { type: '자유게시판', value: 'ENTIRE' },
+  { type: '지역게시판', value: 'LOCATION' },
+  { type: '비밀게시판', value: 'SECRETE' },
+  { type: '단계별게시판', value: 'STEP' },
+];
+
 const MainContent: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const { posts, totalPages, loading, error } = usePosts(currentPage);
+  const [boardType, setBoardType] = useState<string>('ENTIRE');
+  const [selectedTab, setSelectedTab] = useState<string>(boards[0].type);
+
+  const [searchWord, setSearchWord] = useState<string>('');
+  const [sortType, setSortType] = useState<'ID' | 'LIKE' | 'COMMENT'>('ID');
+
+  const { posts, totalPages, loading, error } = usePosts(
+    currentPage,
+    boardType,
+    searchWord,
+    sortType
+  );
+
+  const handleTabChange = (newBoardType: string, newSelectedTab: string) => {
+    setBoardType(newBoardType);
+    setSelectedTab(newSelectedTab);
+    setCurrentPage(1);
+  };
+
+  const handleSearch = (searchTerm: string) => {
+    setSearchWord(searchTerm);
+    setCurrentPage(1);
+  };
+
+  const handleSortChange = (newSortType: 'ID' | 'LIKE' | 'COMMENT') => {
+    setSortType(newSortType);
+    setCurrentPage(1);
+  };
 
   if (loading) return <LoadingSpinner />;
   if (error) return <Box>{error}</Box>;
@@ -37,8 +71,11 @@ const MainContent: React.FC = () => {
         maxW="1004px"
         minH="100vh"
       >
-        <CategorySection />
-        <HotCommunity />
+        <CategorySection
+          selectedTab={selectedTab}
+          onTabChange={handleTabChange}
+        />
+        <HotCommunity boardType={boardType} />
         <FreeBoardExplorer />
         <Flex
           flexDirection="row"
@@ -48,8 +85,8 @@ const MainContent: React.FC = () => {
           mt={8}
           w="730px"
         >
-          <SearchBar />
-          <SortButtons />
+          <SearchBar onSearch={handleSearch} />
+          <SortButtons sortType={sortType} onSortChange={handleSortChange} />
         </Flex>
         <VStack spacing={4} align="stretch" w="full" mt={5}>
           {posts.map((post) => (
