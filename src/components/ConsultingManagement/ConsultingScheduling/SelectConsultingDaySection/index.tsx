@@ -16,7 +16,7 @@ type ReservedTimes = {
   [key: string]: string[];
 };
 
-type Value = Date | null;
+type Value = Date | Date[] | null;
 
 export const SelectConsultingDaySection: React.FC<{
   selectedDate: Date | null;
