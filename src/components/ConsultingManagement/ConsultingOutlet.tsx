@@ -11,7 +11,11 @@ export const ConsultingOutlet = () => {
   return (
     <Box
       pl={isSidebarOpen ? sidebarWidth : 0}
-      transition={isSidebarOpen ? 'padding-left 0.5s ease 0.05s' : undefined}
+      transition={
+        isSidebarOpen
+          ? 'padding-left 0.5s ease 0.05s'
+          : 'padding-left 0.3s ease 0.02s'
+      }
       overflowX={'hidden'}
       w={'100%'}
     >
