@@ -8,11 +8,12 @@ import businessman from '@images/businessman.svg';
 interface MentorCardProps {
   name: string;
   matchingCount: number;
+  gap?: string;
 }
 
 export const MentorCard: React.FC<
   MentorCardProps & { w: string; h: string }
-> = ({ w, h, name, matchingCount }) => {
+> = ({ w, h, name, matchingCount, gap = '20px' }) => {
   const navigate = useNavigate();
   const navigateConsulting = useCallback(() => {
     navigate(`/consulting/selectMentor/scheduling/${name}`);
@@ -27,7 +28,7 @@ export const MentorCard: React.FC<
       shadow="0px 0px 3.7px rgba(0, 0, 0, 0.31)"
       p="20px 10px 20px 0"
     >
-      <Flex gap="20px">
+      <Flex gap={gap}>
         <Image w={100} src={businessman} />
         <Flex flexDir="column" gap="5px" mt="10px">
           <Text fontWeight={800} fontSize="20px" color="#5C5C5C">
