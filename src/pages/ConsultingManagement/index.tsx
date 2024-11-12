@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { ConsultingOutlet } from '@components/ConsultingManagement/ConsultingOutlet';
 
 import { Sidebar } from '@/components/Sidebar';
 import { SidebarOpenBtn } from '@/components/Sidebar/SidebarOpenBtn';
@@ -13,7 +13,7 @@ export const ConsultingManagement = () => {
         <SidebarProvider>
           <SidebarOpenBtn />
           <Sidebar />
-          <Outlet />
+          <ConsultingOutlet />
         </SidebarProvider>
       </Flex>
     </BasicLayout>
