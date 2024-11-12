@@ -1,13 +1,13 @@
-import React, { Suspense } from 'react';
+import React, { useEffect } from 'react';
 
 import {
   Box,
   Button,
   Divider,
-  Flex,
   Input,
   Text,
   VStack,
+  chakra,
   useToast,
 } from '@chakra-ui/react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -22,6 +22,11 @@ interface CommentSectionProps {
   onCommentAdded: (comment: CommentData) => void;
 }
 
+interface ApiError {
+  code: number;
+  message: string;
+}
+
 export const CommentSection: React.FC<CommentSectionProps> = ({
   postId,
   onCommentAdded,
@@ -29,25 +34,30 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
   const toast = useToast();
   const queryClient = useQueryClient();
 
-  const { data: comments } = useQuery<CommentData[], AxiosError>({
+  const { data: comments, error } = useQuery<
+    CommentData[],
+    AxiosError<ApiError>
+  >({
     queryKey: ['comments', postId],
     queryFn: () => fetchComments(postId),
-    suspense: true,
     retry: false,
-    onError: () => {
+  });
+
+  useEffect(() => {
+    if (error) {
       toast({
         title: '댓글을 불러오는데 실패했습니다.',
         status: 'error',
         duration: 2000,
         isClosable: true,
       });
-    },
-  });
+    }
+  }, [error, toast]);
 
-  const mutation = useMutation<CommentData, AxiosError, string>({
+  const mutation = useMutation<CommentData, AxiosError<ApiError>, string>({
     mutationFn: (text: string) => postComment(postId, text),
     onSuccess: (newComment: CommentData) => {
-      queryClient.invalidateQueries(['comments', postId]);
+      queryClient.invalidateQueries({ queryKey: ['comments', postId] });
       onCommentAdded(newComment);
       toast({
         title: '댓글이 성공적으로 작성되었습니다.',
@@ -56,7 +66,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
         isClosable: true,
       });
     },
-    onError: (error: AxiosError) => {
+    onError: (error: AxiosError<ApiError>) => {
       toast({
         title: '댓글 작성에 실패했습니다.',
         description: error.response?.data?.message || '',
@@ -90,14 +100,15 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
   return (
     <Box w="full" px={{ base: 5, md: 20 }} mt={7}>
       <Divider borderColor="blue.600" borderStyle="dashed" borderWidth="3px" />
-      <Flex mt={8} ml={{ base: 2.5, md: 9 }} align="center" gap={2}>
+      <Box mt={8} ml={{ base: 2.5, md: 9 }} alignItems="center" gap={2}>
         <Text fontSize="2xl" fontWeight="extrabold" color="blue.600">
           댓글 달기
         </Text>
-      </Flex>
-      <Flex
-        as="form"
-        direction={{ base: 'column', md: 'row' }}
+      </Box>
+      <chakra.form
+        onSubmit={handleCommentSubmit}
+        display="flex"
+        flexDirection={{ base: 'column', md: 'row' }}
         bg="gray.50"
         border="2px solid"
         borderColor="blue.300"
@@ -105,7 +116,6 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
         p={5}
         mt={2}
         mx={{ base: 0, md: 4 }}
-        onSubmit={handleCommentSubmit}
       >
         <Input
           name="comment"
@@ -125,24 +135,24 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
         >
           댓글 달기
         </Button>
-      </Flex>
-      <Suspense fallback={<Text>댓글을 불러오는 중입니다...</Text>}>
-        <VStack align="stretch" spacing={4} mt={9} bg="#EDEDED" p={5}>
-          {comments && comments.length > 0 ? (
-            comments.map((comment) => (
-              <Comment
-                key={comment.id}
-                comment={comment}
-                onCommentUpdatedOrDeleted={() =>
-                  queryClient.invalidateQueries(['comments', postId])
-                }
-              />
-            ))
-          ) : (
-            <Text>등록된 댓글이 없습니다.</Text>
-          )}
-        </VStack>
-      </Suspense>
+      </chakra.form>
+      <VStack align="stretch" spacing={4} mt={9} bg="#EDEDED" p={5}>
+        {Array.isArray(comments) && comments.length > 0 ? (
+          comments.map((comment: CommentData) => (
+            <Comment
+              key={comment.id}
+              comment={comment}
+              onCommentUpdatedOrDeleted={() =>
+                queryClient.invalidateQueries({
+                  queryKey: ['comments', postId],
+                })
+              }
+            />
+          ))
+        ) : (
+          <Text>등록된 댓글이 없습니다.</Text>
+        )}
+      </VStack>
     </Box>
   );
 };
