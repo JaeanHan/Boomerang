@@ -7,6 +7,7 @@ import ForumPostBoard from '@components/ForumPost/ForumPostBoard';
 import React from 'react';
 import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 
+import { ConsultingChat } from '@/components/ConsultingManagement/ConsultingChat';
 import { ConsultingHistory } from '@/components/ConsultingManagement/ConsultingHistory';
 import { ConsultingScheduling } from '@/components/ConsultingManagement/ConsultingScheduling';
 import { ConsultingStart } from '@/components/ConsultingManagement/ConsultingStart';
@@ -88,6 +89,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTER_PATH.CONSULTING_START,
         element: <ConsultingStart />,
+      },
+      {
+        path: ROUTER_PATH.CONSULTING_CHAT,
+        element: <ConsultingChat />,
       },
       {
         path: ROUTER_PATH.PREVIOUS_CONSULTING,
