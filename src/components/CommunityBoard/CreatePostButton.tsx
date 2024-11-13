@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ROUTER_PATH } from '@/routerPath';
+import { BoomerangColors } from '@/utils/colors';
 import { Button } from '@chakra-ui/react';
 
 const CreatePostButton: React.FC = () => {
@@ -15,9 +16,9 @@ const CreatePostButton: React.FC = () => {
       fontSize="lg"
       fontWeight="bold"
       color="white"
-      bg="blue.600"
+      bg={BoomerangColors.blue}
       borderRadius="lg"
-      _hover={{ bg: 'blue.500' }}
+      _hover={{}}
       onClick={navigateToPosting}
     >
       게시글 작성하기

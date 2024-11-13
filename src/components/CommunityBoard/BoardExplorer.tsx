@@ -2,16 +2,14 @@ import React from 'react';
 
 import { Box, Text } from '@chakra-ui/react';
 
-const FreeBoardExplorer: React.FC = () => (
-  <Box
-    mt={{ base: 10, md: 14 }}
-    ml={{ base: 2.59, md: 10 }}
-    w={{ base: 'full', md: '732px' }}
-  >
+export const BoardExplorer: React.FC<{
+  boardType: string;
+}> = ({ boardType }) => (
+  <Box mt={10} w={'100%'}>
     <Text fontSize="3xl" fontWeight="extrabold" color="#202020">
-      🔍 자유게시판 탐색하기
+      🔍 {boardType} 탐색하기
     </Text>
-    <Text mt={2} fontSize="lg" color="#878787" lineHeight="short">
+    <Text mt={2} ml={12} fontSize="lg" color="#878787" lineHeight="short">
       전세사기에 대한 고민과 경험을 자유롭게 나누고, 유용한 정보와 조언을
       얻어가세요.
       <br />
@@ -19,5 +17,3 @@ const FreeBoardExplorer: React.FC = () => (
     </Text>
   </Box>
 );
-
-export default FreeBoardExplorer;

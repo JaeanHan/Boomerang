@@ -1,115 +1,93 @@
-import React, { useState } from 'react';
+import { BoardExplorer } from '@components/CommunityBoard/BoardExplorer';
+import { CategorySection } from '@components/CommunityBoard/CategorySection';
+import { CommunityPostPages } from '@components/CommunityBoard/CommunityPostPages';
+import CreatePostButton from '@components/CommunityBoard/CreatePostButton';
+import { HotCommunity } from '@components/CommunityBoard/HotCommunity';
+import {
+  CommunityBoard,
+  SortType,
+  communityBoardTypes,
+} from '@components/CommunityBoard/constants';
 
-import { Box, Flex, VStack } from '@chakra-ui/react';
+import React, { Suspense, useState } from 'react';
 
-import CategorySection from './CategorySection';
-import CreatePostButton from './CreatePostButton';
-import ErrorBoundary from './ErrorBoundary';
-import FreeBoardExplorer from './FreeBoardExplorer';
-import HotCommunity from './HotCommunity';
+import { Box, Flex, Text } from '@chakra-ui/react';
+
 import LoadingSpinner from './LoadingSpinner';
-import Pagination from './Pagination';
-import PostCard from './PostCard';
 import SearchBar from './SearchBar';
 import SortButtons from './SortButtons';
-import usePosts from './hooks/usePosts';
 
-const boards = [
-  { type: '자유게시판', value: 'ENTIRE' },
-  { type: '지역게시판', value: 'LOCATION' },
-  { type: '비밀게시판', value: 'SECRETE' },
-  { type: '단계별게시판', value: 'STEP' },
-];
-
-const MainContent: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [boardType, setBoardType] = useState<string>('ENTIRE');
-  const [selectedTab, setSelectedTab] = useState<string>(boards[0].type);
-
-  const [searchWord, setSearchWord] = useState<string>('');
-  const [sortType, setSortType] = useState<'ID' | 'LIKE' | 'COMMENT'>('ID');
-
-  const { posts, totalPages, loading, error } = usePosts(
-    currentPage,
-    boardType,
-    searchWord,
-    sortType
-  );
-
-  const handleTabChange = (newBoardType: string, newSelectedTab: string) => {
-    setBoardType(newBoardType);
-    setSelectedTab(newSelectedTab);
-    setCurrentPage(1);
-  };
-
-  const handleSearch = (searchTerm: string) => {
-    setSearchWord(searchTerm);
-    setCurrentPage(1);
-  };
-
-  const handleSortChange = (newSortType: 'ID' | 'LIKE' | 'COMMENT') => {
-    setSortType(newSortType);
-    setCurrentPage(1);
-  };
-
-  if (loading) return <LoadingSpinner />;
-  if (error) return <Box>{error}</Box>;
-
+const HotCommunityDescription = () => {
   return (
-    <ErrorBoundary>
-      <Flex
-        as="main"
-        position="relative"
-        flexDirection="column"
-        alignItems="center"
-        zIndex="0"
-        px={{ base: 5, md: 20 }}
-        pt={14}
-        pb={6}
-        mt={-7}
-        w="full"
-        maxW="1004px"
-        minH="100vh"
-      >
-        <CategorySection
-          selectedTab={selectedTab}
-          onTabChange={handleTabChange}
-        />
-        <HotCommunity boardType={boardType} />
-        <FreeBoardExplorer />
-        <Flex
-          flexDirection="row"
-          alignItems="center"
-          justifyContent="space-between"
-          gap={5}
-          mt={8}
-          w="730px"
-        >
-          <SearchBar onSearch={handleSearch} />
-          <SortButtons sortType={sortType} onSortChange={handleSortChange} />
-        </Flex>
-        <VStack spacing={4} align="stretch" w="full" mt={5}>
-          {posts.map((post) => (
-            <PostCard key={post.postId} {...post} />
-          ))}
-        </VStack>
-        <Flex
-          flexDirection="column"
-          alignSelf="flex-end"
-          mt={6}
-          w="full"
-          fontWeight="bold"
-        >
-          <CreatePostButton />
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
-        </Flex>
-      </Flex>
-    </ErrorBoundary>
+    <Box mt={10} w="100%">
+      <Text fontSize="3xl" fontWeight="extrabold" color="#202020">
+        🔥 지금 가장 핫한 커뮤니티
+      </Text>
+      <Text ml={12} mt={2} fontSize="lg" lineHeight="short" color="#878787">
+        지금 커뮤니티에서 가장 뜨거운 토론이 벌어지고 있는 게시글이에요!
+        <br />
+        다양한 의견을 나누고, 당신의 생각도 함께 더해보세요!
+      </Text>
+    </Box>
   );
 };
 
-export default MainContent;
+const SpacedSpinner = () => (
+  <Flex h={'226px'} justifyContent={'center'} alignItems={'center'}>
+    <LoadingSpinner />
+  </Flex>
+);
+
+export const MainContent: React.FC = () => {
+  const [selectedBoard, setSelectedBoard] = useState<CommunityBoard>(
+    communityBoardTypes[0]
+  );
+  const [searchWord, setSearchWord] = useState<string>('');
+  const [sortType, setSortType] = useState<SortType>('ID');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const onClick = (newBoardType: CommunityBoard) =>
+    setSelectedBoard(newBoardType);
+
+  const handleSearch = (searchTerm: string) => setSearchWord(searchTerm);
+
+  const handleSortChange = (newSortType: SortType) => setSortType(newSortType);
+
+  return (
+    <Flex
+      flexDirection="column"
+      alignItems="center"
+      p="32px 100px"
+      minH="100vh"
+    >
+      <CategorySection selectedTab={selectedBoard.type} onClick={onClick} />
+      <HotCommunityDescription />
+      <Suspense fallback={<SpacedSpinner />}>
+        <HotCommunity boardType={selectedBoard.value} />
+      </Suspense>
+      <BoardExplorer boardType={selectedBoard.value} />
+      <Flex
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="space-between"
+        gap={5}
+        mt={8}
+        mb={6}
+        w={'100%'}
+      >
+        <SearchBar onSearch={handleSearch} />
+        <SortButtons sortType={sortType} onSortChange={handleSortChange} />
+      </Flex>
+      <CreatePostButton />
+      <Suspense fallback={<SpacedSpinner />}>
+        <CommunityPostPages
+          boardType={selectedBoard.value}
+          searchWord={searchWord}
+          sortType={sortType}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </Suspense>
+    </Flex>
+  );
+};
