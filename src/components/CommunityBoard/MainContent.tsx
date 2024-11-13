@@ -32,8 +32,10 @@ const HotCommunityDescription = () => {
   );
 };
 
-const SpacedSpinner = () => (
-  <Flex h={'226px'} justifyContent={'center'} alignItems={'center'}>
+const SpacedSpinner: React.FC<{
+  h?: string;
+}> = ({ h = '226px' }) => (
+  <Flex h={h} justifyContent={'center'} alignItems={'center'}>
     <LoadingSpinner />
   </Flex>
 );
@@ -79,7 +81,7 @@ export const MainContent: React.FC = () => {
         <SortButtons sortType={sortType} onSortChange={handleSortChange} />
       </Flex>
       <CreatePostButton />
-      <Suspense fallback={<SpacedSpinner />}>
+      <Suspense fallback={<SpacedSpinner h={'600px'} />}>
         <CommunityPostPages
           boardType={selectedBoard.value}
           searchWord={searchWord}
