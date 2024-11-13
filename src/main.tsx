@@ -1,10 +1,9 @@
 import { createRoot } from 'react-dom/client';
 import { ErrorBoundary } from 'react-error-boundary';
-import { RouterProvider, useNavigate } from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
 
 import { UserProvider } from '@/pages/Login/userContext';
 import { router } from '@/router';
-import { ROUTER_PATH } from '@/routerPath';
 import { Button, ChakraProvider, Flex, extendTheme } from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
