@@ -20,22 +20,5 @@ export const AutoSizingTextarea: React.FC<
     [setContent]
   );
 
-  return (
-    <Textarea
-      {...chakraStyles}
-      border="none"
-      p={0}
-      _focus={{
-        boxShadow: 'none',
-      }}
-      placeholder="상담 내용을 작성해주세요."
-      _placeholder={{
-        color: 'rgba(23, 108, 255, 0.30)',
-        fontSize: '24px',
-      }}
-      fontSize="24px"
-      resize="none"
-      onChange={onChange}
-    />
-  );
+  return <Textarea {...chakraStyles} onChange={onChange} />;
 };
