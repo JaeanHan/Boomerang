@@ -4,6 +4,7 @@ import { Fragment, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import apiInstance from '@/apis';
+import { User, useUserContext } from '@/pages/Login/userContext';
 import { ROUTER_PATH } from '@/routerPath';
 import axios, { AxiosResponse } from 'axios';
 
@@ -26,6 +27,7 @@ interface LoginResponse {
 export const Login = () => {
   const navigate = useNavigate();
   const authCode = new URL(window.location.href).searchParams.get('code');
+  const { login: saveUser } = useUserContext();
 
   const getAccessToken = async () => {
     const params = new URLSearchParams();
@@ -57,10 +59,15 @@ export const Login = () => {
 
   const saveAuth = (res: LoginResponse) => {
     const { member_role, nickname } = res.data;
-    console.log('this is consologing res', res);
     const auth = res.headers['authorization'];
-    // TODO : 저장 방법 변경 필요
+
     localStorage.setItem('Authorization', auth);
+
+    const userData: User = {
+      member_role: member_role,
+      nickname: nickname,
+    };
+    saveUser(userData);
 
     if (member_role === 'COMPLETE_USER') {
       localStorage.setItem('Nickname', nickname);
