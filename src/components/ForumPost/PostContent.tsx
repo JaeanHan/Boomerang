@@ -37,7 +37,7 @@ export const PostContent: React.FC<{
       <Box
         bg="white"
         borderRadius="2xl"
-        p={{ base: 5, md: 10 }}
+        p={'50px 80px'}
         mt={7}
         w={{ base: 'full', md: '867px' }}
       >
