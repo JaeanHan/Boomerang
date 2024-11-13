@@ -1,4 +1,4 @@
-import { fetchPostById } from '@apis/Forumpost';
+import { fetchPostById } from '@apis/forumpost';
 
 import { PostStats } from '@components/ForumPost/PostStats';
 import { ReportButton } from '@components/ForumPost/ReportButton';

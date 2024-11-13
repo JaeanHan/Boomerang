@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 
+import { formatDate } from '@/utils/dateUtils';
 import { Box, Button, Flex, Input, Text, useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 
-import { deleteComment, updateComment } from '../../apis/Forumpost';
-import { formatDate } from '../../utils/dateUtils';
+import { deleteComment, updateComment } from '../../apis/forumpost';
 import { CommentData } from './types';
 
 interface CommentProps {
   comment: CommentData;
-  onCommentUpdatedOrDeleted: () => void;
 }
 
 interface ApiError {
@@ -17,10 +16,7 @@ interface ApiError {
   message: string;
 }
 
-export const Comment: React.FC<CommentProps> = ({
-  comment,
-  onCommentUpdatedOrDeleted,
-}) => {
+export const Comment: React.FC<CommentProps> = ({ comment }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState<string>(comment.text);
   const toast = useToast();
@@ -32,7 +28,7 @@ export const Comment: React.FC<CommentProps> = ({
   const handleEditConfirm = async () => {
     try {
       await updateComment(comment.id, editedText);
-      onCommentUpdatedOrDeleted();
+      // onCommentUpdatedOrDeleted();
       setIsEditing(false);
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
@@ -49,7 +45,7 @@ export const Comment: React.FC<CommentProps> = ({
   const handleDelete = async () => {
     try {
       await deleteComment(comment.id);
-      onCommentUpdatedOrDeleted();
+      // onCommentUpdatedOrDeleted();
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
       toast({

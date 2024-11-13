@@ -1,4 +1,4 @@
-import { addLikeToPost, removeLikeToPost } from '@apis/Forumpost';
+import { addLikeToPost, removeLikeToPost } from '@apis/forumpost';
 
 import { PostStatsProps } from '@components/ForumPost/types';
 
