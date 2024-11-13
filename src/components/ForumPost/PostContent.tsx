@@ -1,7 +1,8 @@
+import { fetchPostById } from '@apis/Forumpost';
+
 import { PostStats } from '@components/ForumPost/PostStats';
 import { ReportButton } from '@components/ForumPost/ReportButton';
 import { CommentData } from '@components/ForumPost/types';
-import { getPostById } from '@components/ForumPost/utils/api';
 
 import React, { Fragment, useEffect } from 'react';
 
@@ -15,7 +16,7 @@ export const PostContent: React.FC<{
   ) => void;
 }> = ({ postId, setComments }) => {
   const { data } = useSuspenseQuery({
-    queryFn: () => getPostById(postId),
+    queryFn: () => fetchPostById(postId),
     queryKey: [`post:${postId}`],
   });
   const { title, date, content, location, comments, commentsList, likes } =
@@ -48,7 +49,7 @@ export const PostContent: React.FC<{
             __html: content,
           }}
         />
-        <PostStats postId={postId} comments={comments} likes={likes} />
+        <PostStats comments={comments} likes={likes} />
       </Box>
       <ReportButton />
     </Fragment>
