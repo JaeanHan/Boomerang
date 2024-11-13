@@ -22,6 +22,7 @@ import { Guideline } from '@/pages/Guideline';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
 import { Survey } from '@/pages/Survey';
+import { User } from '@/pages/User';
 import { Welcome } from '@/pages/Welcome';
 import { ROUTER_PATH } from '@/routerPath';
 import { CommunityPosting } from '@/templates/Community/CommunityPosting';
@@ -126,7 +127,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: ROUTER_PATH.USER,
-        element: <div>private router</div>,
+        element: <User />,
       },
     ],
   },
