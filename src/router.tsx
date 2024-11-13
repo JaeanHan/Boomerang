@@ -2,7 +2,6 @@ import { getCurrentGuideLineProgress } from '@apis/guideline';
 import { ProgressResponse } from '@apis/guideline/types';
 
 import BoomerangBoard from '@components/CommunityBoard/BoomerangBoard';
-import ForumPostBoard from '@components/ForumPost/ForumPostBoard';
 
 import React from 'react';
 import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
@@ -17,6 +16,7 @@ import Community from '@/pages/Community';
 import { Consulting } from '@/pages/Consulting';
 import { ConsultingManagement } from '@/pages/ConsultingManagement';
 import { DocumentForm } from '@/pages/DocumentForm';
+import { ForumPostPage } from '@/pages/ForumPostPage/ForumPostPage';
 import { FullProgressGuide } from '@/pages/FullProgressGuide';
 import { Guideline } from '@/pages/Guideline';
 import { Home } from '@/pages/Home';
@@ -109,7 +109,7 @@ export const router = createBrowserRouter([
       },
       {
         path: ROUTER_PATH.POST_DETAIL,
-        element: <ForumPostBoard />,
+        element: <ForumPostPage />,
       },
       {
         path: ROUTER_PATH.COMMUNITY,

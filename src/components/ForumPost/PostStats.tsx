@@ -1,10 +1,11 @@
+import { getLikedStatus, likePost, unlikePost } from '@apis/Forumpost';
+
 import React, { useEffect, useState } from 'react';
 
 import { ChatIcon, StarIcon } from '@chakra-ui/icons';
 import { Button, Flex, Icon, Text, useToast } from '@chakra-ui/react';
 import axios, { AxiosError } from 'axios';
 
-import { getLikedStatus, likePost, unlikePost } from '../../apis/Forumpost';
 import { PostStatsProps } from './types';
 
 interface ApiError {

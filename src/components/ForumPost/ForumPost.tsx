@@ -1,85 +1,117 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { AsyncBoundary } from '@components/AsyncBoundary';
+import { CommentSection } from '@components/ForumPost/CommentSection';
+import { CommentData } from '@components/ForumPost/types';
 
-import { Box, Flex } from '@chakra-ui/react';
+import React, { Suspense, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import LoadingSpinner from '../CommunityBoard/LoadingSpinner';
-import { CommentSection } from './CommentSection';
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Input,
+  Spinner,
+  Text,
+  chakra,
+} from '@chakra-ui/react';
+
 import { PostContent } from './PostContent';
 import { PostHeader } from './PostHeader';
-import { PostStats } from './PostStats';
-import { ReportButton } from './ReportButton';
-import { CommentData, PostData } from './types';
-import { getPostById } from './utils/api';
 
 const ForumPost: React.FC = () => {
   const { postId } = useParams<{ postId: string }>();
-  const [post, setPost] = useState<PostData | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [commentCount, setCommentCount] = useState<number>(0);
-
-  const handleCommentAdded = (comment: CommentData) => {
-    setPost((prev) =>
-      prev ? { ...prev, commentsList: [...prev.commentsList, comment] } : prev
-    );
-    setCommentCount((prevCount) => prevCount + 1);
-  };
-
-  useEffect(() => {
-    const loadPost = async () => {
-      setLoading(true);
-      try {
-        if (postId) {
-          const data = await getPostById(postId);
-          setPost(data);
-          setCommentCount(data.comments);
-        } else {
-          setError('유효하지 않은 게시글 ID입니다.');
-        }
-      } catch {
-        setError('게시글을 불러오는데 실패했습니다.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadPost();
-  }, [postId]);
-
-  if (loading) return <LoadingSpinner />;
-  if (error) return <Box>{error}</Box>;
-  if (!post) return <Box>게시글이 존재하지 않습니다.</Box>;
+  const [comments, setComments] = useState<CommentData[]>([]);
+  const navigate = useNavigate();
+  if (!postId) {
+    navigate('/404');
+    return null;
+  }
 
   return (
-    <Box bg="white">
-      <Flex
-        direction="column"
-        align="center"
-        pt={16}
-        bg="#EDEDED"
-        borderTopRadius={0}
-        shadow="md"
-        maxW="screen-lg"
-        mx="auto"
+    <Flex
+      direction="column"
+      align="center"
+      pt={'30px'}
+      bg="#EDEDED"
+      borderTopRadius={0}
+      shadow="md"
+      maxW="screen-lg"
+      mx="auto"
+    >
+      <PostHeader />
+      <AsyncBoundary
+        // ref={boundaryRef}
+        pendingFallback={<BlankPage />}
+        // rejectedFallback={
+        //   <button onClick={() => boundaryRef.current?.reset()}>재시도</button>
+        // }
       >
-        <PostHeader />
-        <PostContent
-          title={post.title}
-          location={post.location}
-          date={post.createdAt}
-          content={post.content}
-        />
-        <PostStats
-          likes={post.likes}
-          comments={commentCount}
-          postId={postId!}
-        />
-        <ReportButton />
-        <CommentSection postId={postId!} onCommentAdded={handleCommentAdded} />
-      </Flex>
-    </Box>
+        <PostContent postId={postId} setComments={setComments} />
+      </AsyncBoundary>
+      <CommentWritingSection />
+      <Suspense fallback={<Spinner />}>
+        <CommentSection postId={postId} initialComment={comments} />
+      </Suspense>
+    </Flex>
   );
 };
+
+const CommentWritingSection = () => (
+  <Box w="full" px={{ base: 5, md: 20 }}>
+    <Divider
+      mt={8}
+      borderColor="blue.600"
+      borderStyle="dashed"
+      borderWidth="3px"
+    />
+    <Box mt={8} ml={{ base: 2.5, md: 9 }} alignItems="center" gap={2}>
+      <Text fontSize="2xl" fontWeight="extrabold" color="blue.600">
+        댓글 달기
+      </Text>
+    </Box>
+    <chakra.form
+      // onSubmit={handleCommentSubmit}
+      display="flex"
+      flexDirection={{ base: 'column', md: 'row' }}
+      bg="gray.50"
+      border="2px solid"
+      borderColor="blue.300"
+      borderRadius="2xl"
+      p={5}
+      mt={2}
+      mx={{ base: 0, md: 4 }}
+    >
+      <Input
+        name="comment"
+        placeholder="댓글을 입력해주세요."
+        fontSize="l"
+        border="none"
+        color="blue.400"
+        flex="1"
+        mb={{ base: 10, md: 0 }}
+      />
+      <Button
+        type="submit"
+        bg="blue.600"
+        color="white"
+        ml={{ md: 4 }}
+        mt={{ base: 4, md: 0 }}
+      >
+        댓글 달기
+      </Button>
+    </chakra.form>
+  </Box>
+);
+
+const BlankPage = () => (
+  <Box
+    bg="white"
+    borderRadius="2xl"
+    p={{ base: 5, md: 10 }}
+    mt={7}
+    w={{ base: 'full', md: '867px' }}
+  />
+);
 
 export default ForumPost;

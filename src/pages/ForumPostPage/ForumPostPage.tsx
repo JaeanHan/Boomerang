@@ -1,9 +1,13 @@
-import ForumPostBoard from '@components/ForumPost/ForumPostBoard';
+import ForumPost from '@components/ForumPost/ForumPost';
 
 import React from 'react';
 
-const ForumPostPage: React.FC = () => {
-  return <ForumPostBoard />;
-};
+import { Container } from '@chakra-ui/react';
 
-export default ForumPostPage;
+export const ForumPostPage: React.FC = () => {
+  return (
+    <Container bg={'#EDEDED'} maxW={1024} p={0} borderBottomRadius={20}>
+      <ForumPost />
+    </Container>
+  );
+};
