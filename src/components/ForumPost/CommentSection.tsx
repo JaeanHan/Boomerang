@@ -8,15 +8,23 @@ import { CommentData } from './types';
 interface CommentSectionProps {
   postId: string;
   comments: CommentData[];
+  removeComment: (commentId: number) => void;
 }
 
-export const CommentSection: React.FC<CommentSectionProps> = ({ comments }) => {
+export const CommentSection: React.FC<CommentSectionProps> = ({
+  comments,
+  removeComment,
+}) => {
   return (
     <Box w="full" px={{ base: 5, md: 20 }} mt={7}>
       <VStack align="stretch" spacing={4} mt={9} bg="#EDEDED" p={5}>
         {comments.length > 0 ? (
           comments.map((comment: CommentData) => (
-            <Comment key={comment.id} comment={comment} />
+            <Comment
+              key={comment.id}
+              comment={comment}
+              removeComment={removeComment}
+            />
           ))
         ) : (
           <Text>등록된 댓글이 없습니다.</Text>

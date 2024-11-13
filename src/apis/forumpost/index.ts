@@ -1,6 +1,6 @@
-import apiInstance from '@/apis';
+import { CommentData, PostData } from '@components/ForumPost/types';
 
-import { CommentData, PostData } from '../../components/ForumPost/types';
+import apiInstance from '@/apis';
 
 export const updateComment = async (
   commentId: number,
@@ -14,7 +14,10 @@ export const updateComment = async (
 };
 
 export const deleteComment = async (commentId: number): Promise<void> => {
-  await apiInstance.delete(`/api/v1/board/comments/${commentId}`);
+  const response = await apiInstance.delete(
+    `/api/v1/board/comments/${commentId}`
+  );
+  return response.data;
 };
 
 export const postComment = async (

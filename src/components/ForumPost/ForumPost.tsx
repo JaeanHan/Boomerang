@@ -28,6 +28,10 @@ const ForumPost: React.FC = () => {
     return null;
   }
 
+  const removeComment = (commentId: number) => {
+    setComments((prev) => prev.filter((comment) => comment.id !== commentId));
+  };
+
   return (
     <Flex
       direction="column"
@@ -51,7 +55,11 @@ const ForumPost: React.FC = () => {
       </AsyncBoundary>
       <CommentWritingSection />
       <Suspense fallback={<Spinner />}>
-        <CommentSection postId={postId} comments={comments} />
+        <CommentSection
+          postId={postId}
+          comments={comments}
+          removeComment={removeComment}
+        />
       </Suspense>
     </Flex>
   );
