@@ -1,10 +1,11 @@
-import { Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
-import { RouterProvider } from 'react-router-dom';
+import { ErrorBoundary } from 'react-error-boundary';
+import { RouterProvider, useNavigate } from 'react-router-dom';
 
 import { UserProvider } from '@/pages/Login/userContext';
 import { router } from '@/router';
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { ROUTER_PATH } from '@/routerPath';
+import { Button, ChakraProvider, Flex, extendTheme } from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import './index.css';
@@ -47,16 +48,25 @@ const theme = extendTheme({
   },
 });
 
+const FallbackComponent = () => {
+  const navigate = useNavigate();
+  return (
+    <Flex justifyContent={'center'} alignItems={'center'}>
+      <Button onClick={() => navigate(ROUTER_PATH.HOME)}>
+        홈으로 돌아가기
+      </Button>
+    </Flex>
+  );
+};
+
 createRoot(document.getElementById('root')!).render(
-  // <StrictMode>
   <QueryClientProvider client={queryClient}>
     <ChakraProvider theme={theme}>
-      <UserProvider>
-        <Suspense fallback={<div>로딩중</div>}>
+      <ErrorBoundary FallbackComponent={FallbackComponent}>
+        <UserProvider>
           <RouterProvider router={router} />
-        </Suspense>
-      </UserProvider>
+        </UserProvider>
+      </ErrorBoundary>
     </ChakraProvider>
   </QueryClientProvider>
-  // </StrictMode>
 );
