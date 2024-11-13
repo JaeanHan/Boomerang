@@ -1,8 +1,6 @@
 import { getCurrentGuideLineProgress } from '@apis/guideline';
 import { ProgressResponse } from '@apis/guideline/types';
 
-import BoomerangBoard from '@components/CommunityBoard/BoomerangBoard';
-
 import React from 'react';
 import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 
@@ -12,11 +10,10 @@ import { ConsultingScheduling } from '@/components/ConsultingManagement/Consulti
 import { ConsultingStart } from '@/components/ConsultingManagement/ConsultingStart';
 import { PreviousConsulting } from '@/components/ConsultingManagement/PreviousConsulting';
 import { SelectMentor } from '@/components/ConsultingManagement/SelectMentor';
-import Community from '@/pages/Community';
+import { Community } from '@/pages/Community';
 import { Consulting } from '@/pages/Consulting';
 import { ConsultingManagement } from '@/pages/ConsultingManagement';
 import { DocumentForm } from '@/pages/DocumentForm';
-import { ForumPostPage } from '@/pages/ForumPostPage/ForumPostPage';
 import { FullProgressGuide } from '@/pages/FullProgressGuide';
 import { Guideline } from '@/pages/Guideline';
 import { Home } from '@/pages/Home';
@@ -25,6 +22,8 @@ import { Survey } from '@/pages/Survey';
 import { User } from '@/pages/User';
 import { Welcome } from '@/pages/Welcome';
 import { ROUTER_PATH } from '@/routerPath';
+import { CommunityBoard } from '@/templates/Community/CommunityBoard';
+import { CommunityPostDetail } from '@/templates/Community/CommunityPostDetail';
 import { CommunityPosting } from '@/templates/Community/CommunityPosting';
 import axios from 'axios';
 
@@ -105,20 +104,16 @@ export const router = createBrowserRouter([
     element: <Community />,
     children: [
       {
+        path: ROUTER_PATH.POST_DETAIL,
+        element: <CommunityPostDetail />,
+      },
+      {
+        path: ROUTER_PATH.COMMUNITY,
+        element: <CommunityBoard />,
+      },
+      {
         path: ROUTER_PATH.POSTING,
         element: <CommunityPosting />,
-      },
-      {
-        path: ROUTER_PATH.POST_DETAIL,
-        element: <ForumPostPage />,
-      },
-      {
-        path: ROUTER_PATH.COMMUNITY,
-        element: <BoomerangBoard />,
-      },
-      {
-        path: ROUTER_PATH.COMMUNITY,
-        element: <BoomerangBoard />,
       },
     ],
   },
