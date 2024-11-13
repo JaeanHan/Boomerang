@@ -58,7 +58,7 @@ const ForumPost: React.FC = () => {
         align="center"
         pt={16}
         bg="#EDEDED"
-        borderRadius="3xl"
+        borderTopRadius={0}
         shadow="md"
         maxW="screen-lg"
         mx="auto"
