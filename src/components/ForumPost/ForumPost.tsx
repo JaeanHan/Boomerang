@@ -4,7 +4,7 @@ import { CommentSection } from '@components/ForumPost/CommentSection';
 import { useCommentMutation } from '@components/ForumPost/hooks/useCommentMutation';
 import { CommentData } from '@components/ForumPost/types';
 
-import React, { Suspense, useState } from 'react';
+import React, { ReactNode, Suspense, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import {
@@ -24,6 +24,7 @@ const ForumPost: React.FC = () => {
   const { postId } = useParams<{ postId: string }>();
   const [comments, setComments] = useState<CommentData[]>([]);
   const navigate = useNavigate();
+  const boundaryRef = useRef<{ reset: () => void }>(null);
   if (!postId) {
     navigate('/404');
     return null;
@@ -51,11 +52,18 @@ const ForumPost: React.FC = () => {
     >
       <PostHeader />
       <AsyncBoundary
-        // ref={boundaryRef}
-        pendingFallback={<BlankPage />}
-        // rejectedFallback={
-        //   <button onClick={() => boundaryRef.current?.reset()}>재시도</button>
-        // }
+        ref={boundaryRef}
+        pendingFallback={
+          <BlankPage>
+            <Spinner />
+          </BlankPage>
+        }
+        rejectedFallback={
+          <BlankPage>
+            에러가 발생했습니다
+            <Button onClick={() => boundaryRef.current?.reset()}>재시도</Button>
+          </BlankPage>
+        }
       >
         <PostContent postId={postId} setComments={setComments} />
       </AsyncBoundary>
@@ -142,14 +150,19 @@ const CommentWritingSection: React.FC<{
   );
 };
 
-const BlankPage = () => (
+const BlankPage: React.FC<{
+  children: ReactNode;
+}> = ({ children }) => (
   <Box
     bg="white"
     borderRadius="2xl"
     p={{ base: 5, md: 10 }}
     mt={7}
     w={{ base: 'full', md: '867px' }}
-  />
+    h={'500px'}
+  >
+    {children}
+  </Box>
 );
 
 export default ForumPost;
