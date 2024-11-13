@@ -49,12 +49,9 @@ const theme = extendTheme({
 });
 
 const FallbackComponent = () => {
-  const navigate = useNavigate();
   return (
     <Flex justifyContent={'center'} alignItems={'center'}>
-      <Button onClick={() => navigate(ROUTER_PATH.HOME)}>
-        홈으로 돌아가기
-      </Button>
+      <Button onClick={() => window.location.reload()}>새로 고침</Button>
     </Flex>
   );
 };
