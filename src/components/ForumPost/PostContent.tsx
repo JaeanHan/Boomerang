@@ -28,8 +28,10 @@ export const PostContent: React.FC<PostContentProps> = ({
     <Text fontSize="lg" color="gray.400" mt={2}>
       {location} {date}
     </Text>
-    <Text fontSize="xl" color="gray.600" mt={9}>
-      {content}
-    </Text>
+    <div
+      dangerouslySetInnerHTML={{
+        __html: content,
+      }}
+    />
   </Box>
 );
