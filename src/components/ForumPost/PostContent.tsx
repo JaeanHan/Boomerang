@@ -49,7 +49,7 @@ export const PostContent: React.FC<{
             __html: content,
           }}
         />
-        <PostStats comments={comments} likes={likes} />
+        <PostStats postId={postId} comments={comments} likes={likes} />
       </Box>
       <ReportButton />
     </Fragment>
