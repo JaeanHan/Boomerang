@@ -1,3 +1,5 @@
+import { AutoSizingTextarea } from '@components/AutoSizingTextarea';
+
 import { useCallback, useState } from 'react';
 
 import { ConsultingItemTitle } from '@/components/ConsultingManagement/ConsultingItemTitle';
@@ -119,16 +121,6 @@ const ConsultingDateForm: React.FC<{ date: Date | null; time: string }> = ({
 const ConsultingContentForm: React.FC<{
   setContent: (value: string) => void;
 }> = ({ setContent }) => {
-  const onChange = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
-      const element = e.target;
-      element.style.height = 'auto';
-      element.style.height = `${element.scrollHeight}px`;
-      setContent(element.value);
-    },
-    [setContent]
-  );
-
   return (
     <Flex
       w="817px"
@@ -139,7 +131,8 @@ const ConsultingContentForm: React.FC<{
       flexDir="column"
       justifyContent="space-between"
     >
-      <Textarea
+      <AutoSizingTextarea
+        setContent={setContent}
         border="none"
         p={0}
         _focus={{
@@ -152,7 +145,6 @@ const ConsultingContentForm: React.FC<{
         }}
         fontSize="24px"
         resize="none"
-        onChange={onChange}
       />
     </Flex>
   );
