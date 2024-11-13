@@ -6,8 +6,14 @@ import { CommentData } from '@components/ForumPost/types';
 
 import React, { Fragment, useEffect } from 'react';
 
+import { BoomerangColors } from '@/utils/colors';
 import { Box, Text } from '@chakra-ui/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
+
+const formatDate = (dateStr: string): string => {
+  const replaced = dateStr.replace(/-/g, '/');
+  return replaced.replace(/:\d{2}$/, '');
+};
 
 export const PostContent: React.FC<{
   postId: string;
@@ -19,7 +25,7 @@ export const PostContent: React.FC<{
     queryFn: () => fetchPostById(postId),
     queryKey: [`post:${postId}`],
   });
-  const { title, date, content, location, comments, commentsList, likes } =
+  const { title, content, location, comments, commentsList, likes, createdAt } =
     data;
 
   useEffect(() => {
@@ -39,7 +45,10 @@ export const PostContent: React.FC<{
           {title}
         </Text>
         <Text fontSize="lg" color="gray.400" mt={2}>
-          {location} {date}
+          {location}{' '}
+          <Text as="span" color={BoomerangColors.blue}>
+            {formatDate(createdAt)}
+          </Text>
         </Text>
         <div
           style={{
