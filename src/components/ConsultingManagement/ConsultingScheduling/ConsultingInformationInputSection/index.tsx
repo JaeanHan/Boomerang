@@ -1,11 +1,11 @@
 import { AutoSizingTextarea } from '@components/AutoSizingTextarea';
 
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { ConsultingItemTitle } from '@/components/ConsultingManagement/ConsultingItemTitle';
 import { BoomerangButton } from '@/components/commons/BoomerangButton';
 import { BoomerangColors } from '@/utils/colors';
-import { Box, Flex, Input, Text, Textarea, VStack } from '@chakra-ui/react';
+import { Box, Flex, Input, Text, VStack } from '@chakra-ui/react';
 import document from '@images/document2.svg';
 
 export const ConsultingInformationInputSection: React.FC<{

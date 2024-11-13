@@ -1,14 +1,13 @@
 import { deleteComment, updateComment } from '@apis/forumpost';
 
 import { AutoSizingTextarea } from '@components/AutoSizingTextarea';
+import { CommentData } from '@components/ForumPost/types';
 
 import React, { Fragment, useState } from 'react';
 
 import { useUserContext } from '@/pages/Login/userContext';
 import { formatDate } from '@/utils/dateUtils';
-import { Box, Button, Flex, Input, Text, useToast } from '@chakra-ui/react';
-
-import { CommentData } from './types';
+import { Box, Button, Flex, Text, useToast } from '@chakra-ui/react';
 
 interface CommentProps {
   comment: CommentData;
