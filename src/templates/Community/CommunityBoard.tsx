@@ -1,7 +1,5 @@
 import MainContent from '@components/CommunityBoard/MainContent';
 
-import React from 'react';
-
 import { Container } from '@chakra-ui/react';
 
 export const CommunityBoard = () => {
