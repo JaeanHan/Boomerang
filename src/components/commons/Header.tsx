@@ -43,7 +43,7 @@ export const Header: React.FC<PropH> = ({ h }) => {
         <Link to={`${ROUTER_PATH.SELECT_MENTOR}`}>
           <Text>전문가와의 상담</Text>
         </Link>
-        <Link to={`${ROUTER_PATH.COMMUNITY}/open-forum`}>
+        <Link to={`/community/open-forum`}>
           <Text cursor={'pointer'}>커뮤니티</Text>
         </Link>
         {localStorage.getItem('Authorization') ? (
