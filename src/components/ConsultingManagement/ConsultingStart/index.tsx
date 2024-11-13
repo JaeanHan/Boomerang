@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import {
   ConsultingInfoBox,
   ConsultingInfoItem,
@@ -52,6 +54,14 @@ const ConsultingApplicationRecord = ({
 };
 
 const ConsultingStartBtn = () => {
+  const navigate = useNavigate();
+  //TODO: 추후 수정
+  const chatId = 1;
+
+  const goConsultingChat = () => {
+    navigate(`/consulting/start/${chatId}`);
+  };
+
   //TODO: 상담 기한에 따라 색상, 텍스트 다르게 변경
   return (
     <Button
@@ -63,6 +73,7 @@ const ConsultingStartBtn = () => {
       fontSize="24px"
       fontWeight={800}
       color={BoomerangColors.white}
+      onClick={goConsultingChat}
     >
       상담 시작하기
     </Button>
