@@ -51,58 +51,60 @@ const ForumPost: React.FC = () => {
       </AsyncBoundary>
       <CommentWritingSection />
       <Suspense fallback={<Spinner />}>
-        <CommentSection postId={postId} initialComment={comments} />
+        <CommentSection postId={postId} comments={comments} />
       </Suspense>
     </Flex>
   );
 };
 
-const CommentWritingSection = () => (
-  <Box w="full" px={{ base: 5, md: 20 }}>
-    <Divider
-      mt={8}
-      borderColor="blue.600"
-      borderStyle="dashed"
-      borderWidth="3px"
-    />
-    <Box mt={8} ml={{ base: 2.5, md: 9 }} alignItems="center" gap={2}>
-      <Text fontSize="2xl" fontWeight="extrabold" color="blue.600">
-        댓글 달기
-      </Text>
-    </Box>
-    <chakra.form
-      // onSubmit={handleCommentSubmit}
-      display="flex"
-      flexDirection={{ base: 'column', md: 'row' }}
-      bg="gray.50"
-      border="2px solid"
-      borderColor="blue.300"
-      borderRadius="2xl"
-      p={5}
-      mt={2}
-      mx={{ base: 0, md: 4 }}
-    >
-      <Input
-        name="comment"
-        placeholder="댓글을 입력해주세요."
-        fontSize="l"
-        border="none"
-        color="blue.400"
-        flex="1"
-        mb={{ base: 10, md: 0 }}
+const CommentWritingSection = () => {
+  return (
+    <Box w="full" px={{ base: 5, md: 20 }}>
+      <Divider
+        mt={8}
+        borderColor="blue.600"
+        borderStyle="dashed"
+        borderWidth="3px"
       />
-      <Button
-        type="submit"
-        bg="blue.600"
-        color="white"
-        ml={{ md: 4 }}
-        mt={{ base: 4, md: 0 }}
+      <Box mt={8} ml={{ base: 2.5, md: 9 }} alignItems="center" gap={2}>
+        <Text fontSize="2xl" fontWeight="extrabold" color="blue.600">
+          댓글 달기
+        </Text>
+      </Box>
+      <chakra.form
+        // onSubmit={handleCommentSubmit}
+        display="flex"
+        flexDirection={{ base: 'column', md: 'row' }}
+        bg="gray.50"
+        border="2px solid"
+        borderColor="blue.300"
+        borderRadius="2xl"
+        p={5}
+        mt={2}
+        mx={{ base: 0, md: 4 }}
       >
-        댓글 달기
-      </Button>
-    </chakra.form>
-  </Box>
-);
+        <Input
+          name="comment"
+          placeholder="댓글을 입력해주세요."
+          fontSize="l"
+          border="none"
+          color="blue.400"
+          flex="1"
+          mb={{ base: 10, md: 0 }}
+        />
+        <Button
+          type="submit"
+          bg="blue.600"
+          color="white"
+          ml={{ md: 4 }}
+          mt={{ base: 4, md: 0 }}
+        >
+          댓글 달기
+        </Button>
+      </chakra.form>
+    </Box>
+  );
+};
 
 const BlankPage = () => (
   <Box
