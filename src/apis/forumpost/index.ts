@@ -24,15 +24,9 @@ export const postComment = async (
   postId: string,
   text: string
 ): Promise<CommentData> => {
-  const authToken = localStorage.getItem('Authorization') || '';
   const response = await apiInstance.post<CommentData>(
     `/api/v1/board/${postId}/comments`,
-    { text },
-    {
-      headers: {
-        Authorization: authToken,
-      },
-    }
+    { text }
   );
   return response.data;
 };

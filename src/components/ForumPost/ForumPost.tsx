@@ -1,5 +1,7 @@
 import { AsyncBoundary } from '@components/AsyncBoundary';
+import { AutoSizingTextarea } from '@components/AutoSizingTextarea';
 import { CommentSection } from '@components/ForumPost/CommentSection';
+import { useCommentMutation } from '@components/ForumPost/hooks/useCommentMutation';
 import { CommentData } from '@components/ForumPost/types';
 
 import React, { Suspense, useState } from 'react';
@@ -10,7 +12,6 @@ import {
   Button,
   Divider,
   Flex,
-  Input,
   Spinner,
   Text,
   chakra,
@@ -30,6 +31,11 @@ const ForumPost: React.FC = () => {
 
   const removeComment = (commentId: number) => {
     setComments((prev) => prev.filter((comment) => comment.id !== commentId));
+  };
+
+  const appendNewComment = (newComment: CommentData) => {
+    // TODO : 정렬 어떻게할건지
+    setComments((prev) => [newComment, ...prev]);
   };
 
   return (
@@ -53,7 +59,10 @@ const ForumPost: React.FC = () => {
       >
         <PostContent postId={postId} setComments={setComments} />
       </AsyncBoundary>
-      <CommentWritingSection />
+      <CommentWritingSection
+        postId={postId}
+        appendNewComment={appendNewComment}
+      />
       <Suspense fallback={<Spinner />}>
         <CommentSection
           postId={postId}
@@ -65,7 +74,24 @@ const ForumPost: React.FC = () => {
   );
 };
 
-const CommentWritingSection = () => {
+const CommentWritingSection: React.FC<{
+  postId: string;
+  appendNewComment: (newComment: CommentData) => void;
+}> = ({ postId, appendNewComment }) => {
+  const { mutate } = useCommentMutation(postId, appendNewComment);
+
+  const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const textarea = form.elements.namedItem('comment') as HTMLTextAreaElement;
+    const commentText = textarea.value.trim();
+
+    if (commentText) {
+      mutate(commentText);
+      textarea.value = '';
+    }
+  };
+
   return (
     <Box w="full" px={{ base: 5, md: 20 }}>
       <Divider
@@ -80,7 +106,7 @@ const CommentWritingSection = () => {
         </Text>
       </Box>
       <chakra.form
-        // onSubmit={handleCommentSubmit}
+        onSubmit={onSubmit}
         display="flex"
         flexDirection={{ base: 'column', md: 'row' }}
         bg="gray.50"
@@ -91,14 +117,16 @@ const CommentWritingSection = () => {
         mt={2}
         mx={{ base: 0, md: 4 }}
       >
-        <Input
+        <AutoSizingTextarea
           name="comment"
           placeholder="댓글을 입력해주세요."
-          fontSize="l"
+          _focus={{
+            boxShadow: 'none',
+          }}
           border="none"
-          color="blue.400"
           flex="1"
-          mb={{ base: 10, md: 0 }}
+          mb={4}
+          resize="none"
         />
         <Button
           type="submit"
