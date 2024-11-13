@@ -1,100 +1,87 @@
-import React, { useState } from 'react';
+import { deleteComment, updateComment } from '@apis/forumpost';
 
-import { Box, Button, Flex, Input, Text, useToast } from '@chakra-ui/react';
-import { AxiosError } from 'axios';
+import { AutoSizingTextarea } from '@components/AutoSizingTextarea';
+import { CommentData } from '@components/ForumPost/types';
 
-import { deleteComment, updateComment } from '../../apis/Forumpost';
-import { formatDate } from '../../utils/dateUtils';
-import { CommentData } from './types';
+import React, { Fragment, useState } from 'react';
+
+import { useUserContext } from '@/pages/Login/userContext';
+import { formatDate } from '@/utils/dateUtils';
+import { Box, Button, Flex, Text, useToast } from '@chakra-ui/react';
 
 interface CommentProps {
   comment: CommentData;
-  onCommentUpdatedOrDeleted: () => void;
+  removeComment: (commentId: number) => void;
 }
 
-interface ApiError {
-  code: number;
-  message: string;
-}
-
-export const Comment: React.FC<CommentProps> = ({
-  comment,
-  onCommentUpdatedOrDeleted,
-}) => {
+export const Comment: React.FC<CommentProps> = ({ comment, removeComment }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedText, setEditedText] = useState<string>(comment.text);
+  const [editedText, setEditedText] = useState<string>(() => comment.text);
   const toast = useToast();
+  const { user } = useUserContext();
 
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
-
-  const handleEditConfirm = async () => {
-    try {
-      await updateComment(comment.id, editedText);
-      onCommentUpdatedOrDeleted();
-      setIsEditing(false);
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiError>;
-      toast({
-        title: '댓글 수정에 실패했습니다.',
-        description: axiosError.response?.data?.message || '',
-        status: axiosError.response?.status === 401 ? 'error' : 'warning',
-        duration: 2000,
-        isClosable: true,
+  const handleEditConfirm = () => {
+    updateComment(comment.id, editedText)
+      .then(() => setIsEditing(false))
+      .catch((err) => {
+        setEditedText(comment.text);
+        toast({
+          title: '댓글 수정에 실패했습니다.',
+          description: err.response?.data?.message || '',
+          status: 'error',
+          duration: 2000,
+          isClosable: true,
+        });
       });
-    }
   };
 
   const handleDelete = async () => {
-    try {
-      await deleteComment(comment.id);
-      onCommentUpdatedOrDeleted();
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiError>;
-      toast({
-        title: '댓글 삭제에 실패했습니다.',
-        description: axiosError.response?.data?.message || '',
-        status: axiosError.response?.status === 401 ? 'error' : 'warning',
-        duration: 2000,
-        isClosable: true,
+    deleteComment(comment.id)
+      .then(() => {
+        removeComment(comment.id);
+      })
+      .catch((err) => {
+        toast({
+          title: '댓글 삭제에 실패했습니다.',
+          description: err.response?.data?.message || '',
+          status: 'error',
+          duration: 2000,
+          isClosable: true,
+        });
       });
-    }
   };
 
   return (
     <Box bg="white" p={5} borderRadius="md" shadow="sm">
       {isEditing ? (
-        <>
-          <Input
-            value={editedText}
-            onChange={(e) => setEditedText(e.target.value)}
-            mb={2}
-          />
-          <Button size="sm" onClick={handleEditConfirm} mr={2}>
+        <Fragment>
+          <AutoSizingTextarea setContent={setEditedText} resize={'none'} />
+          <Button size="sm" onClick={handleEditConfirm} mr={2} mt={2}>
             확인
           </Button>
-          <Button size="sm" onClick={() => setIsEditing(false)}>
+          <Button size="sm" onClick={() => setIsEditing(false)} mt={2}>
             취소
           </Button>
-        </>
+        </Fragment>
       ) : (
-        <>
-          <Text fontSize="xl" color="gray.700">
-            {comment.text}
+        <Fragment>
+          <Text fontSize="xl" color="gray.700" whiteSpace={'preserve-breaks'}>
+            {editedText}
           </Text>
           <Text fontSize="sm" color="gray.500" mt={2}>
             {comment.writer_name} {formatDate(comment.last_modified_at)}
           </Text>
-          <Flex mt={2} gap={2}>
-            <Button size="sm" onClick={handleEdit}>
-              수정
-            </Button>
-            <Button size="sm" onClick={handleDelete}>
-              삭제
-            </Button>
-          </Flex>
-        </>
+          {comment.writer_name === user?.nickname ? (
+            <Flex mt={2} gap={2}>
+              <Button size="sm" onClick={() => setIsEditing(true)}>
+                수정
+              </Button>
+              <Button size="sm" onClick={handleDelete}>
+                삭제
+              </Button>
+            </Flex>
+          ) : null}
+        </Fragment>
       )}
     </Box>
   );

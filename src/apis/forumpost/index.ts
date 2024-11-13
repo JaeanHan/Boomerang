@@ -1,6 +1,6 @@
-import apiInstance from '@/apis';
+import { CommentData, PostData } from '@components/ForumPost/types';
 
-import { CommentData, PostData } from '../../components/ForumPost/types';
+import apiInstance from '@/apis';
 
 export const updateComment = async (
   commentId: number,
@@ -14,22 +14,19 @@ export const updateComment = async (
 };
 
 export const deleteComment = async (commentId: number): Promise<void> => {
-  await apiInstance.delete(`/api/v1/board/comments/${commentId}`);
+  const response = await apiInstance.delete(
+    `/api/v1/board/comments/${commentId}`
+  );
+  return response.data;
 };
 
 export const postComment = async (
   postId: string,
   text: string
 ): Promise<CommentData> => {
-  const authToken = localStorage.getItem('Authorization') || '';
   const response = await apiInstance.post<CommentData>(
     `/api/v1/board/${postId}/comments`,
-    { text },
-    {
-      headers: {
-        Authorization: authToken,
-      },
-    }
+    { text }
   );
   return response.data;
 };
@@ -64,43 +61,17 @@ export const fetchPostById = async (postId: string): Promise<PostData> => {
   };
 };
 
-export const getLikedStatus = async (
-  postId: string,
-  authToken: string
-): Promise<boolean> => {
+export const getLikedStatus = async (postId: string): Promise<boolean> => {
   const response = await apiInstance.get<{ liked: boolean }>(
-    `/api/v1/board/${postId}/likes`,
-    {
-      headers: {
-        Authorization: authToken,
-      },
-    }
+    `/api/v1/board/${postId}/likes`
   );
   return response.data.liked;
 };
 
-export const likePost = async (
-  postId: string,
-  authToken: string
-): Promise<void> => {
-  await apiInstance.post(
-    `/api/v1/board/${postId}/likes`,
-    {},
-    {
-      headers: {
-        Authorization: authToken,
-      },
-    }
-  );
+export const addLikeToPost = async (postId: string) => {
+  return await apiInstance.post(`api/v1/board/${postId}/likes`);
 };
 
-export const unlikePost = async (
-  postId: string,
-  authToken: string
-): Promise<void> => {
-  await apiInstance.delete(`/api/v1/board/${postId}/likes`, {
-    headers: {
-      Authorization: authToken,
-    },
-  });
+export const removeLikeToPost = async (postId: string) => {
+  return await apiInstance.delete(`api/v1/board${postId}/likes`);
 };

@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 
+import { UserProvider } from '@/pages/Login/userContext';
 import { router } from '@/router';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -21,11 +22,6 @@ const theme = extendTheme({
         bg: '#EDEDED',
         fontFamily: 'NanumSquareOTF_ac, sans-serif',
         fontDisplay: 'swap',
-        '@media (max-width: 1800px)': {
-          width: '111vw',
-          transform: 'scale(0.9)',
-          transformOrigin: 'top left',
-        },
       },
       '@font-face': [
         {
@@ -55,9 +51,11 @@ createRoot(document.getElementById('root')!).render(
   // <StrictMode>
   <QueryClientProvider client={queryClient}>
     <ChakraProvider theme={theme}>
-      <Suspense fallback={<div>로딩중</div>}>
-        <RouterProvider router={router} />
-      </Suspense>
+      <UserProvider>
+        <Suspense fallback={<div>로딩중</div>}>
+          <RouterProvider router={router} />
+        </Suspense>
+      </UserProvider>
     </ChakraProvider>
   </QueryClientProvider>
   // </StrictMode>
