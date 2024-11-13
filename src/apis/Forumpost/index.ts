@@ -64,43 +64,17 @@ export const fetchPostById = async (postId: string): Promise<PostData> => {
   };
 };
 
-export const getLikedStatus = async (
-  postId: string,
-  authToken: string
-): Promise<boolean> => {
+export const getLikedStatus = async (postId: string): Promise<boolean> => {
   const response = await apiInstance.get<{ liked: boolean }>(
-    `/api/v1/board/${postId}/likes`,
-    {
-      headers: {
-        Authorization: authToken,
-      },
-    }
+    `/api/v1/board/${postId}/likes`
   );
   return response.data.liked;
 };
 
-export const likePost = async (
-  postId: string,
-  authToken: string
-): Promise<void> => {
-  await apiInstance.post(
-    `/api/v1/board/${postId}/likes`,
-    {},
-    {
-      headers: {
-        Authorization: authToken,
-      },
-    }
-  );
+export const addLikeToPost = async (postId: string) => {
+  return await apiInstance.post(`api/v1/board/${postId}/likes`);
 };
 
-export const unlikePost = async (
-  postId: string,
-  authToken: string
-): Promise<void> => {
-  await apiInstance.delete(`/api/v1/board/${postId}/likes`, {
-    headers: {
-      Authorization: authToken,
-    },
-  });
+export const removeLikeToPost = async (postId: string) => {
+  return await apiInstance.delete(`api/v1/board${postId}/likes`);
 };
