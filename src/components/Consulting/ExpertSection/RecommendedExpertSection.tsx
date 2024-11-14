@@ -93,6 +93,7 @@ export const RecommendedExpertSection: React.FC<{
                 matchingCount={33}
                 gap="10px"
                 imgSrc={mentor.profile_image}
+                id={mentor.id}
               />
             </Box>
           ))}

@@ -19,6 +19,7 @@ export const ConsultingOutlet = () => {
       }
       outline={`4000px solid ${BoomerangColors.white}`}
       margin={!isSidebarOpen ? '0 auto' : undefined}
+      w={'100%'}
     >
       <Outlet />
     </Box>

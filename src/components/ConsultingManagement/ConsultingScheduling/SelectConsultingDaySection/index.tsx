@@ -1,9 +1,13 @@
+import { getMentorSchedule } from '@apis/mentee';
+
+import { Suspense } from 'react';
 import Calendar from 'react-calendar';
 
 import { ConsultingItemTitle } from '@/components/ConsultingManagement/ConsultingItemTitle';
 import { BoomerangColors } from '@/utils/colors';
-import { Box, Button, Flex, VStack } from '@chakra-ui/react';
+import { Box, Button, Flex, Spinner, VStack } from '@chakra-ui/react';
 import pointer from '@images/pointer.svg';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 import './index.css';
 
@@ -11,10 +15,6 @@ const times: string[] = Array.from({ length: 15 }, (_, i) => {
   const hour = (9 + i).toString().padStart(2, '0');
   return `${hour}:00`;
 });
-
-type ReservedTimes = {
-  [key: string]: string[];
-};
 
 type ValuePiece = Date | null;
 
@@ -27,23 +27,13 @@ export const SelectConsultingDaySection: React.FC<{
   ) => void;
   selectedTime: string;
   setSelectedTime: (value: ((prevState: string) => string) | string) => void;
-}> = ({ selectedDate, setSelectedDate, selectedTime, setSelectedTime }) => {
-  const reservedTimes: ReservedTimes = {
-    '2024-11-12': ['10:00', '12:00'],
-    '2024-11-13': ['09:00', '13:00', '15:00'],
-  };
-
+  id: number;
+}> = ({ selectedDate, setSelectedDate, selectedTime, setSelectedTime, id }) => {
   const handleDateChange = (value: Value) => {
     if (value instanceof Date) {
       setSelectedDate(value);
       setSelectedTime('');
     }
-  };
-
-  const getReservedTimes = (): string[] => {
-    if (!selectedDate) return [];
-    const dateString = selectedDate.toISOString().split('T')[0];
-    return reservedTimes[dateString] || [];
   };
 
   return (
@@ -68,36 +58,74 @@ export const SelectConsultingDaySection: React.FC<{
             borderTop={`2px solid ${BoomerangColors.deepBlue}`}
             borderBottom={`2px solid ${BoomerangColors.deepBlue}`}
           >
-            <Flex
-              maxW={300}
-              wrap="wrap"
-              justifyContent="center"
-              alignItems="center"
-              gap={2}
-              h="100%"
-              p="5px 0"
-            >
-              {times.map((time) => (
-                <Button
-                  key={time}
-                  onClick={() => setSelectedTime(time)}
-                  isDisabled={
-                    selectedDate == null || getReservedTimes().includes(time)
-                  }
-                  border="none"
-                  variant={selectedTime === time ? 'solid' : 'outline'}
-                  width="70px"
-                  height="40px"
-                  fontSize="1rem"
-                  fontWeight={500}
-                >
-                  {time}
-                </Button>
-              ))}
-            </Flex>
+            <Suspense fallback={<Spinner />}>
+              <TimePicker
+                selectedTime={selectedTime}
+                setSelectedTime={setSelectedTime}
+                selectedDate={selectedDate}
+                id={id}
+              />
+            </Suspense>
           </Box>
         </Flex>
       </VStack>
     </Box>
+  );
+};
+
+const formatDate = (date: Date): string => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+};
+
+const formatTime = (hour: number): string => {
+  return `${String(hour).padStart(2, '0')}:00`;
+};
+
+const TimePicker: React.FC<{
+  selectedDate: Date | null;
+  selectedTime: string;
+  setSelectedTime: (value: ((prevState: string) => string) | string) => void;
+  id: number;
+}> = ({ setSelectedTime, selectedTime, selectedDate, id }) => {
+  const { data } = useSuspenseQuery({
+    queryFn: () => getMentorSchedule(id),
+    queryKey: [`${id}`],
+  });
+  const { list } = data;
+
+  const availables: string[] = !selectedDate
+    ? []
+    : (list[formatDate(selectedDate)]?.map((time) => formatTime(time)) ?? []);
+
+  return (
+    <Flex
+      maxW={300}
+      wrap="wrap"
+      justifyContent="center"
+      alignItems="center"
+      gap={2}
+      h="100%"
+      p="5px 0"
+    >
+      {times.map((time) => (
+        <Button
+          key={time}
+          onClick={() => setSelectedTime(time)}
+          isDisabled={selectedDate == null || !availables.includes(time)}
+          border="none"
+          variant={selectedTime === time ? 'solid' : 'outline'}
+          width="70px"
+          height="40px"
+          fontSize="1rem"
+          fontWeight={500}
+        >
+          {time}
+        </Button>
+      ))}
+    </Flex>
   );
 };

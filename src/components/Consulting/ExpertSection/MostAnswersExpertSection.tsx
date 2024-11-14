@@ -25,6 +25,7 @@ export const MostAnswersExpertSection: React.FC<{
               h="189px"
               mentorType={MentorTypeConvertor[mentor.mentor_type]}
               imgSrc={mentor.profile_image}
+              id={mentor.id}
             />
           ))}
         </Flex>
@@ -37,6 +38,7 @@ export const MostAnswersExpertSection: React.FC<{
         <Flex gap="63px" mt="25px">
           {normalMentors.slice(0, 3).map((mentor) => (
             <MentorCard
+              id={mentor.id}
               key={mentor.id}
               name={mentor.nickname}
               matchingCount={22}
