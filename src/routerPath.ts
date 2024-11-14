@@ -16,7 +16,7 @@ export const ROUTER_PATH = {
   DOCUMENT_FORM: '/documentForm',
   CONSULTING_HISTORY: '/consulting/consultingHistory',
   SELECT_MENTOR: '/consulting/selectMentor',
-  CONSULTING_SCHEDULING: '/consulting/selectMentor/scheduling/:name',
+  CONSULTING_SCHEDULING: '/consulting/selectMentor/scheduling/:id',
   CONSULTING_START: '/consulting/start',
   PREVIOUS_CONSULTING: '/consulting/previous',
   REPORTDETAIL: '/preventResult/detail',
