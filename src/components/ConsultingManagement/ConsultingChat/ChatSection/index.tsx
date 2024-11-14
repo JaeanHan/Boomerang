@@ -9,18 +9,24 @@ import chatBgImg from '@images/chatBgImg.svg';
 export const ChatSection = () => {
   const [messages, setMessages] = useState([
     {
+      nickname: '멘토1',
       message:
         '고객님, 신청해주신 상담내역을 확인했습니다! 상담을 시작하겠습니다.',
-      isUser: false,
     },
     {
+      nickname: '멘티11',
       message:
         '안녕하세요, 다른 아니라 주택 전세 사기에 관하여 질문드릴 게 있는데요, 제가.... 어쩌고 저쩌고 때문에 지금 너무 힘들어요. 보통 이런 경우는 어떻게 대처해야 하나요? 부탁드릴게요',
-      isUser: true,
     },
-    { message: '현재, 그런 상황이시군요. 비슷한 사례로는 ...', isUser: false },
+    {
+      nickname: '멘토1',
+      message: '현재, 그런 상황이시군요. 비슷한 사례로는 ...',
+    },
   ]);
+
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  //임시
+  const myNickname = '멘티11';
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -44,13 +50,18 @@ export const ChatSection = () => {
         <VStack flex="1" w="full">
           <ChatDate date="2024-10-22" />
           <ChatStatusBubble status="PENDING" />
-          {messages.map((msg, index) => (
-            <ChatMessage
-              key={index}
-              message={msg.message}
-              isUser={msg.isUser}
-            />
-          ))}
+          {messages.map((msg) => {
+            const isMine = msg.nickname === myNickname;
+            const isMentor = !isMine;
+            return (
+              <ChatMessage
+                key={msg.message}
+                message={msg.message}
+                isMine={isMine}
+                isMentor={isMentor}
+              />
+            );
+          })}
           <ChatStatusBubble status="FINISHED" />
         </VStack>
         <Box
@@ -63,12 +74,16 @@ export const ChatSection = () => {
           bgSize="auto"
         />
       </VStack>
-      <ChatInput messages={messages} setMessages={setMessages} />
+      <ChatInput
+        messages={messages}
+        setMessages={setMessages}
+        userNickname={myNickname}
+      />
     </VStack>
   );
 };
 
-const ChatDate = ({ date }: { date: string }) => (
+export const ChatDate = ({ date }: { date: string }) => (
   <Text fontSize="15px" color="#7B7B7B" mt="17px">
     {date}
   </Text>
