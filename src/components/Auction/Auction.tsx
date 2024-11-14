@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Box, Heading, Image, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
+import money from '@images/Auctionmoney.svg';
 import liner from '@images/liner.svg';
 
 import InfoBox from './InfoBox';
@@ -48,7 +49,6 @@ const Auction: React.FC<AuctionProps> = ({ resultData }) => {
 
   const auctionPrice = house_price * 0.75;
   const priority = mortgages.length + 1;
-  const totalMortgageAmountFormatted = total_mortgage_amount.toLocaleString();
 
   return (
     <Box
@@ -73,17 +73,22 @@ const Auction: React.FC<AuctionProps> = ({ resultData }) => {
         bg="white"
         maxW="1029px"
       >
-        <Heading
-          as="h1"
+        <Flex
           alignSelf="flex-start"
           ml={{ base: 2.5, md: 32 }}
-          fontSize="3xl"
-          fontWeight="extrabold"
-          textAlign="center"
-          color="#0071DE"
+          alignItems="center"
         >
-          내가 되돌려 받을 수 있는 보증금은?
-        </Heading>
+          <Image src={money} alt="money" mr={4} />
+          <Heading
+            as="h1"
+            fontSize="3xl"
+            fontWeight="extrabold"
+            textAlign="center"
+            color="#0071DE"
+          >
+            내가 되돌려 받을 수 있는 보증금은?
+          </Heading>
+        </Flex>
         <Box
           alignSelf="flex-start"
           px={{ base: 5, md: 16 }}
@@ -102,7 +107,7 @@ const Auction: React.FC<AuctionProps> = ({ resultData }) => {
         <InfoBox
           auctionPrice={auctionPrice}
           priority={priority}
-          totalMortgageAmount={totalMortgageAmountFormatted}
+          totalMortgageAmount={total_mortgage_amount}
         />
         <Image
           loading="lazy"

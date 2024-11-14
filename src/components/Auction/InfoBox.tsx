@@ -13,7 +13,7 @@ import ex from '@images/exclamation.svg';
 interface InfoBoxProps {
   auctionPrice: number;
   priority: number;
-  totalMortgageAmount: string;
+  totalMortgageAmount: number;
 }
 
 const InfoBox: React.FC<InfoBoxProps> = ({
@@ -70,7 +70,7 @@ const InfoBox: React.FC<InfoBoxProps> = ({
         <ListItem>
           먼저 줄 서있는 돈은{' '}
           <Text as="span" color="red.600">
-            {Math.round(Number(totalMortgageAmount) / 10000).toLocaleString()}원
+            {Math.round(totalMortgageAmount / 10000).toLocaleString()}만원
           </Text>
           이에요.
         </ListItem>

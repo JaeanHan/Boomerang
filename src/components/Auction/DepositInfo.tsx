@@ -26,7 +26,7 @@ const DepositInfo: React.FC<DepositInfoProps> = ({
     },
     {
       color: 'red.500',
-      label: '위험한 금액',
+      label: '위험한 금액(채권)',
       amount: `${Math.round(dangerAmount / 10000).toLocaleString()}만원`,
     },
   ];
