@@ -22,6 +22,8 @@ export const MentorDateRegistration = () => {
           setSelectedDate={setSelectedDate}
           selectedTime={selectedTime}
           setSelectedTime={setSelectedTime}
+          /*TODO: 임시 아이디*/
+          id={1}
         />
         <Flex justifyContent="flex-end" w="876px" mt="15px">
           <BoomerangButton
