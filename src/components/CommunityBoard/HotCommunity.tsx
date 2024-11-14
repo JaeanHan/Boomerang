@@ -1,31 +1,24 @@
+import { fetchHotTopics } from '@components/CommunityBoard/utils/api';
+
 import React from 'react';
 
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 import HotTopic from './HotTopic';
-import LoadingSpinner from './LoadingSpinner';
-import useHotTopics from './hooks/useHotTopics';
 
 interface HotCommunityProps {
   boardType: string;
 }
 
-const HotCommunity: React.FC<HotCommunityProps> = ({ boardType }) => {
-  const { hotTopics, loading, error } = useHotTopics(boardType);
-
-  if (loading) return <LoadingSpinner />;
-  if (error) return <Box>{error}</Box>;
+export const HotCommunity: React.FC<HotCommunityProps> = ({ boardType }) => {
+  const { data: hotTopics } = useSuspenseQuery({
+    queryFn: () => fetchHotTopics(boardType),
+    queryKey: [`hot topic ${boardType}`],
+  });
 
   return (
-    <Box as="section" mt={20} w="729px">
-      <Text fontSize="3xl" fontWeight="extrabold" color="#202020">
-        🔥 지금 가장 핫한 커뮤니티
-      </Text>
-      <Text mt={2} fontSize="lg" lineHeight="short" color="#878787">
-        지금 커뮤니티에서 가장 뜨거운 토론이 벌어지고 있는 게시글이에요!
-        <br />
-        다양한 의견을 나누고, 당신의 생각도 함께 더해보세요!
-      </Text>
+    <Box width={'100%'}>
       <Flex
         flexDirection="column"
         pl={2}
@@ -41,5 +34,3 @@ const HotCommunity: React.FC<HotCommunityProps> = ({ boardType }) => {
     </Box>
   );
 };
-
-export default HotCommunity;

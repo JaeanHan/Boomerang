@@ -23,4 +23,5 @@ export const ROUTER_PATH = {
   CHANGEALERT: '/preventResult/alert',
   AUCTION: '/preventResult/auction',
   CHANNEL: '/preventResult/channel',
+  CONSULTING_CHAT: '/consulting/start/:id',
 } as const;

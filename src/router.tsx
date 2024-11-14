@@ -1,12 +1,10 @@
 import { getCurrentGuideLineProgress } from '@apis/guideline';
 import { ProgressResponse } from '@apis/guideline/types';
 
-import BoomerangBoard from '@components/CommunityBoard/BoomerangBoard';
-import ForumPostBoard from '@components/ForumPost/ForumPostBoard';
-
 import React from 'react';
 import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 
+import { ConsultingChat } from '@/components/ConsultingManagement/ConsultingChat';
 import { ConsultingHistory } from '@/components/ConsultingManagement/ConsultingHistory';
 import { ConsultingScheduling } from '@/components/ConsultingManagement/ConsultingScheduling';
 import { ConsultingStart } from '@/components/ConsultingManagement/ConsultingStart';
@@ -14,7 +12,7 @@ import { PreviousConsulting } from '@/components/ConsultingManagement/PreviousCo
 import { SelectMentor } from '@/components/ConsultingManagement/SelectMentor';
 import Auction from '@/pages/Auction';
 import Channel from '@/pages/Channel';
-import Community from '@/pages/Community';
+import { Community } from '@/pages/Community';
 import { Consulting } from '@/pages/Consulting';
 import { ConsultingManagement } from '@/pages/ConsultingManagement';
 import { DocumentForm } from '@/pages/DocumentForm';
@@ -25,8 +23,11 @@ import { Login } from '@/pages/Login';
 import { PreventionResult } from '@/pages/PreventionResult';
 import ReportDetail from '@/pages/ReportDetail';
 import { Survey } from '@/pages/Survey';
+import { User } from '@/pages/User';
 import { Welcome } from '@/pages/Welcome';
 import { ROUTER_PATH } from '@/routerPath';
+import { CommunityBoard } from '@/templates/Community/CommunityBoard';
+import { CommunityPostDetail } from '@/templates/Community/CommunityPostDetail';
 import { CommunityPosting } from '@/templates/Community/CommunityPosting';
 import axios from 'axios';
 
@@ -97,6 +98,10 @@ export const router = createBrowserRouter([
         element: <ConsultingStart />,
       },
       {
+        path: ROUTER_PATH.CONSULTING_CHAT,
+        element: <ConsultingChat />,
+      },
+      {
         path: ROUTER_PATH.PREVIOUS_CONSULTING,
         element: <PreviousConsulting />,
       },
@@ -106,20 +111,16 @@ export const router = createBrowserRouter([
     element: <Community />,
     children: [
       {
+        path: ROUTER_PATH.POST_DETAIL,
+        element: <CommunityPostDetail />,
+      },
+      {
+        path: ROUTER_PATH.COMMUNITY,
+        element: <CommunityBoard />,
+      },
+      {
         path: ROUTER_PATH.POSTING,
         element: <CommunityPosting />,
-      },
-      {
-        path: ROUTER_PATH.POST_DETAIL,
-        element: <ForumPostBoard />,
-      },
-      {
-        path: ROUTER_PATH.COMMUNITY,
-        element: <BoomerangBoard />,
-      },
-      {
-        path: ROUTER_PATH.COMMUNITY,
-        element: <BoomerangBoard />,
       },
     ],
   },
@@ -128,7 +129,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: ROUTER_PATH.USER,
-        element: <div>private router</div>,
+        element: <User />,
       },
     ],
   },

@@ -1,15 +1,25 @@
+import { AutoSizingTextarea } from '@components/AutoSizingTextarea';
+
 import { useState } from 'react';
 
 import { ConsultingItemTitle } from '@/components/ConsultingManagement/ConsultingItemTitle';
 import { BoomerangButton } from '@/components/commons/BoomerangButton';
 import { BoomerangColors } from '@/utils/colors';
-import { Box, Flex, Input, Text, Textarea, VStack } from '@chakra-ui/react';
+import { Box, Flex, Input, Text, VStack } from '@chakra-ui/react';
 import document from '@images/document2.svg';
 
-export const ConsultingInformationInputSection = () => {
+export const ConsultingInformationInputSection: React.FC<{
+  selectedDate: Date | null;
+  selectedTime: string;
+}> = ({ selectedDate, selectedTime }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const consultingDate = '24/10/25 오후 3시 ~ 오후 4시';
+
+  const isSubmitButtonDisabled =
+    selectedDate === null ||
+    selectedTime === '' ||
+    title.trim().length === 0 ||
+    content.trim().length === 0;
 
   return (
     <Box w="951px">
@@ -18,13 +28,27 @@ export const ConsultingInformationInputSection = () => {
         icon={document}
       />
       <VStack spacing="25px">
-        <ConsultingTitleForm title={title} setTitle={setTitle} />
-        <ConsultingDateForm date={consultingDate} />
+        <ConsultingTitleForm setTitle={setTitle} />
+        <ConsultingDateForm date={selectedDate} time={selectedTime} />
         <Box mt="14px">
           <Text color="434343" fontSize="24px" fontWeight={800} mb="12px">
             상담 내용 작성하기
           </Text>
-          <ConsultingContentForm content={content} setContent={setContent} />
+          <ConsultingContentForm setContent={setContent} />
+          <Flex
+            justifyContent={'flex-end'}
+            transform={'translate(-20px, -67px)'}
+          >
+            <BoomerangButton
+              w="98px"
+              h="47px"
+              fontSize="24px"
+              isDisabled={isSubmitButtonDisabled}
+              onClick={() => {}}
+            >
+              확인
+            </BoomerangButton>
+          </Flex>
         </Box>
       </VStack>
     </Box>
@@ -32,13 +56,8 @@ export const ConsultingInformationInputSection = () => {
 };
 
 const ConsultingTitleForm: React.FC<{
-  title: string;
   setTitle: (value: string) => void;
-}> = ({ title, setTitle }) => {
-  const handleConfirm = () => {
-    console.log('title: ', title);
-  };
-
+}> = ({ setTitle }) => {
   return (
     <Flex
       w="817px"
@@ -60,22 +79,25 @@ const ConsultingTitleForm: React.FC<{
           fontSize: '24px',
         }}
         fontSize="24px"
-        value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
-      <BoomerangButton
-        w="98px"
-        h="47px"
-        fontSize="24px"
-        onClick={handleConfirm}
-      >
-        확인
-      </BoomerangButton>
     </Flex>
   );
 };
 
-const ConsultingDateForm = ({ date }: { date: string }) => (
+const addOneHour = (time: string): string => {
+  const [hour] = time.split(':').map(Number);
+
+  let newHour = hour + 1;
+  if (newHour === 24) newHour = 0;
+
+  return `${newHour.toString().padStart(2, '0')}:00`;
+};
+
+const ConsultingDateForm: React.FC<{ date: Date | null; time: string }> = ({
+  date,
+  time,
+}) => (
   <Flex
     w="817px"
     h="82px"
@@ -88,31 +110,29 @@ const ConsultingDateForm = ({ date }: { date: string }) => (
     <Text color={BoomerangColors.deepBlue} fontSize="24px" fontWeight={800}>
       상담 일시
     </Text>
-    <Text color="#484848" fontSize="24px" fontWeight="bold">
-      {date}
-    </Text>
+    {date != null && (
+      <Text color="#484848" fontSize="24px" fontWeight="bold">
+        {`${date.toISOString().split('T')[0]} ${time && `${time} ~ ${addOneHour(time)}`}`}
+      </Text>
+    )}
   </Flex>
 );
 
 const ConsultingContentForm: React.FC<{
-  content: string;
   setContent: (value: string) => void;
-}> = ({ content, setContent }) => {
-  const handleConfirm = () => {
-    console.log('content: ', content);
-  };
-
+}> = ({ setContent }) => {
   return (
     <Flex
       w="817px"
-      h="211px"
+      minH="211px"
       bg="#EAF0FF"
       borderRadius={4}
-      p="26px 19px 21px 46px"
+      p="26px 19px 68px 46px"
       flexDir="column"
       justifyContent="space-between"
     >
-      <Textarea
+      <AutoSizingTextarea
+        setContent={setContent}
         border="none"
         p={0}
         _focus={{
@@ -125,19 +145,7 @@ const ConsultingContentForm: React.FC<{
         }}
         fontSize="24px"
         resize="none"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
       />
-      <Box alignSelf="flex-end">
-        <BoomerangButton
-          w="98px"
-          h="47px"
-          fontSize="24px"
-          onClick={handleConfirm}
-        >
-          확인
-        </BoomerangButton>
-      </Box>
     </Flex>
   );
 };

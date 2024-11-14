@@ -7,7 +7,8 @@ export const BoomerangButton: React.FC<{
   fontSize: string;
   children: React.ReactNode;
   onClick: () => void;
-}> = ({ w, h, fontSize, children, onClick }) => (
+  isDisabled?: boolean;
+}> = ({ w, h, fontSize, children, onClick, isDisabled = false }) => (
   <Button
     width={w}
     height={h}
@@ -18,6 +19,8 @@ export const BoomerangButton: React.FC<{
     fontSize={fontSize}
     fontWeight="bold"
     onClick={onClick}
+    _hover={{}}
+    isDisabled={isDisabled}
   >
     {children}
   </Button>
