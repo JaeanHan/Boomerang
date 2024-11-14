@@ -1,23 +1,29 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import { Message } from '@/components/ConsultingManagement/ConsultingChat/ChatSection/Chat/ChatMessage';
 import { BoomerangColors } from '@/utils/colors';
 import { Button, Flex, IconButton, Textarea, VStack } from '@chakra-ui/react';
 import Clip from '@images/clip2.svg?react';
 
+interface ChatMessage {
+  nickname: string;
+  message: string;
+}
+
 interface ChatInputProps {
-  messages: Message[];
-  setMessages: Dispatch<SetStateAction<Message[]>>;
+  messages: ChatMessage[];
+  userNickname: string;
+  setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
 }
 
 export const ChatInput: React.FC<ChatInputProps> = ({
   messages,
   setMessages,
+  userNickname,
 }) => {
   const [newMessage, setNewMessage] = useState('');
 
   const handleSend = () => {
-    setMessages([...messages, { message: newMessage, isUser: true }]);
+    setMessages([...messages, { nickname: userNickname, message: newMessage }]);
     setNewMessage('');
   };
 
