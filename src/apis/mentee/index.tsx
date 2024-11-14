@@ -55,10 +55,12 @@ export const getMentorSchedule = async (
   return response.data;
 };
 
+type ConsultStatus = 'RECEIVED' | 'PENDING' | 'ONGOING' | 'FINISHED';
+
 const getInfiniteConsultRecords = async (
   pageParam: number,
-  status: 'RECEIVED' | 'PENDING' | 'ONGOING' | 'FINISHED',
-  size = 10
+  status: ConsultStatus,
+  size: number = 10
 ): Promise<InfiniteIConsultationResponse> => {
   const response = await apiInstance.get('/api/v1/member/consultation', {
     params: {
@@ -83,7 +85,7 @@ export const useInfiniteConsultRecords = (status, size) => {
       }
       return undefined;
     },
-    getPreviousPageParam: (firstPage, allPages, firstPageParam) => {
+    getPreviousPageParam: (_firstPage, _allPages, firstPageParam) => {
       if (firstPageParam === 1) return undefined;
       return firstPageParam - 1;
     },
