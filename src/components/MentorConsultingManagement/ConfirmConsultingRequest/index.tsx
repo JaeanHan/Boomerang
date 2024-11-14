@@ -9,19 +9,20 @@ import {
   ConsultingInfoItem,
 } from '@/components/ConsultingManagement/ConsultingInfoBox';
 import { ConsultingManagementHeader } from '@/components/ConsultingManagement/ConsultingManagementHeader';
-import { BoomerangButton } from '@/components/commons/BoomerangButton';
 import { BoomerangColors } from '@/utils/colors';
-import { Box, Button, Flex, Image, Text, VStack } from '@chakra-ui/react';
+import { Box, Flex, Image, Text, VStack, useToast } from '@chakra-ui/react';
 import roundCheck from '@images/roundCheck.svg';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
+import { LoadingButton } from './LoadingButton';
 
 export const ConfirmConsultingRequest = () => {
   const { data, isLoading, isError } = useQuery<ConsultationListResponse>({
     queryKey: [
       'consultations',
-      { page: 0, size: 10, consultation_status: 'RECEIVED' },
+      { page: 0, size: 20, consultation_status: 'RECEIVED' },
     ],
-    queryFn: () => getConsultations(0, 10, 'RECEIVED'),
+    queryFn: () => getConsultations(0, 20, 'RECEIVED'),
   });
 
   if (isLoading) {
@@ -53,7 +54,7 @@ export const ConfirmConsultingRequest = () => {
         <Flex gap="15px" mb="45px" w="883px">
           <Image src={roundCheck} alt="Round Check" />
           <Text fontWeight="bold" fontSize="30px" color="#373737">
-            현재 {data!.content.length}건의 상담 신청이 들어왔어요!
+            현재 {data.content.length}건의 상담 신청이 들어왔어요!
           </Text>
         </Flex>
         <Box>
@@ -97,6 +98,7 @@ const ConsultingRequestRecord = ({
   consultationId: number;
 }) => {
   const queryClient = useQueryClient();
+  const toast = useToast();
 
   const confirmMutation = useMutation({
     mutationFn: () => confirmConsultation(consultationId),
@@ -104,13 +106,23 @@ const ConsultingRequestRecord = ({
       queryClient.invalidateQueries({
         queryKey: [
           'consultations',
-          { page: 0, size: 10, consultation_status: 'RECEIVED' },
+          { page: 0, size: 20, consultation_status: 'RECEIVED' },
         ],
       });
+      toast({
+        title: '상담 확정 완료',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
     },
-    onError: (_error) => {
-      //TODO: 에러처리
-      console.log(_error);
+    onError: () => {
+      toast({
+        title: '상담 확정 실패',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
     },
   });
 
@@ -120,13 +132,23 @@ const ConsultingRequestRecord = ({
       queryClient.invalidateQueries({
         queryKey: [
           'consultations',
-          { page: 0, size: 10, consultation_status: 'RECEIVED' },
+          { page: 0, size: 20, consultation_status: 'RECEIVED' },
         ],
       });
+      toast({
+        title: '상담 거절 완료',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
     },
-    onError: (_error) => {
-      //TODO: 에러처리
-      console.log(_error);
+    onError: () => {
+      toast({
+        title: '상담 거절 실패',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
     },
   });
 
@@ -134,34 +156,35 @@ const ConsultingRequestRecord = ({
     <VStack spacing={0} alignItems="flex-end" mb="68px">
       <ConsultingInfoBox infoList={infoList} />
       <Flex gap="34px" mt="15px">
-        <BoomerangButton
+        <LoadingButton
           w="179px"
           h="51px"
           fontSize="22px"
           onClick={() => {
             confirmMutation.mutate();
           }}
-          // TODO : isLoading prop 에러 해결해야함
-        >
-          {confirmMutation.isLoading ? '로딩 중...' : '상담 확정하기'}
-        </BoomerangButton>
-        <Button
-          width="133px"
-          height="51px"
+          isLoading={confirmMutation.status === 'pending'}
+          bg="blue.500"
+          color="white"
           borderRadius={5}
-          bg="#FC5C7D"
-          shadow="1px 1px 4px rgba(0, 0, 0, 0.25)"
-          color={BoomerangColors.white}
+        >
+          상담 확정하기
+        </LoadingButton>
+        <LoadingButton
+          w="133px"
+          h="51px"
           fontSize="22px"
-          fontWeight="bold"
           onClick={() => {
             rejectMutation.mutate();
           }}
-          isLoading={rejectMutation.isLoading}
-          _hover={{}}
+          isLoading={rejectMutation.status === 'pending'}
+          bg="#FC5C7D"
+          shadow="1px 1px 4px rgba(0, 0, 0, 0.25)"
+          color={BoomerangColors.white}
+          borderRadius={5}
         >
           거절하기
-        </Button>
+        </LoadingButton>
       </Flex>
     </VStack>
   );
