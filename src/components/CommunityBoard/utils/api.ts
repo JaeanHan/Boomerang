@@ -1,3 +1,5 @@
+import { SortType } from '@components/CommunityBoard/constants';
+
 import apiInstance from '@/apis';
 
 import { CommentData, HotTopicData, PostData } from '../types';
@@ -39,7 +41,7 @@ export const fetchPosts = async (
   page: number,
   boardType: string,
   searchWord?: string,
-  sortType: 'ID' | 'LIKE' | 'COMMENT' = 'ID'
+  sortType: SortType = 'ID'
 ): Promise<{ posts: PostData[]; totalPages: number }> => {
   const params: Record<string, string | number> = {
     page: page - 1,
@@ -72,15 +74,17 @@ export const fetchPosts = async (
 };
 
 export const fetchHotTopics = async (
-  boardType: string
+  boardType: string,
+  size = 3,
+  contentLength = 10
 ): Promise<HotTopicData[]> => {
   const response = await apiInstance.get<FetchPostResponse>(
     '/api/v1/board/best',
     {
       params: {
-        size: 3,
+        size: size,
         board_type: boardType,
-        content_length: 10,
+        content_length: contentLength,
       },
     }
   );

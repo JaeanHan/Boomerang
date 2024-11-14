@@ -1,4 +1,4 @@
-import MainContent from '@components/CommunityBoard/MainContent';
+import { MainContent } from '@components/CommunityBoard/MainContent';
 
 import { Container } from '@chakra-ui/react';
 import communityBoardBg from '@images/communityBoardBg.svg';
