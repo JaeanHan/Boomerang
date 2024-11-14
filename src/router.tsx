@@ -12,6 +12,7 @@ import { PreviousConsulting } from '@/components/ConsultingManagement/PreviousCo
 import { SelectMentor } from '@/components/ConsultingManagement/SelectMentor';
 import { ConfirmConsultingRequest } from '@/components/MentorConsultingManagement/ConfirmConsultingRequest';
 import { MentorChat } from '@/components/MentorConsultingManagement/MentorChat';
+import { MentorConsultingHistory } from '@/components/MentorConsultingManagement/MentorConsultingHistory';
 import { MentorDateRegistration } from '@/components/MentorConsultingManagement/MentorDateRegistration';
 import { MentorScheduledConsulting } from '@/components/MentorConsultingManagement/MentorScheduledConsulting';
 import AuctionPage from '@/pages/Auction';
@@ -130,6 +131,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTER_PATH.MENTOR_CHAT,
         element: <MentorChat />,
+      },
+      {
+        path: ROUTER_PATH.MENTOR_CONSULTING_HISTORY,
+        element: <MentorConsultingHistory />,
       },
     ],
   },
