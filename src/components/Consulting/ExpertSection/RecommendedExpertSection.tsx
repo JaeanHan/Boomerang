@@ -1,3 +1,5 @@
+import { MentorType, MentorTypeConvertor } from '@apis/mentee/types';
+
 import { useCallback, useState } from 'react';
 
 import { MentorCard } from '@/components/Consulting/MentorCard';
@@ -5,37 +7,6 @@ import { MentorSelectionHeader } from '@/components/Consulting/MentorSelectionHe
 import { BoomerangColors } from '@/utils/colors';
 import { Box, Flex, keyframes } from '@chakra-ui/react';
 import BlueArrow from '@images/blueArrow.svg?react';
-
-const RecommendedExperts = [
-  {
-    name: '김땡땡1',
-    matchingCount: 33,
-  },
-  {
-    name: '김땡땡2',
-    matchingCount: 33,
-  },
-  {
-    name: '김땡땡3',
-    matchingCount: 33,
-  },
-  {
-    name: '김땡땡4',
-    matchingCount: 33,
-  },
-  {
-    name: '김땡땡5',
-    matchingCount: 33,
-  },
-  {
-    name: '김땡땡6',
-    matchingCount: 33,
-  },
-  {
-    name: '김땡땡7',
-    matchingCount: 33,
-  },
-];
 
 type sliceIdx = {
   start: number;
@@ -51,7 +22,9 @@ const scaleUp = keyframes`
 const cardWidth = 280;
 const gap = 63;
 
-export const RecommendedExpertSection = () => {
+export const RecommendedExpertSection: React.FC<{
+  recommendedMentors: MentorType[];
+}> = ({ recommendedMentors }) => {
   const [idx, setIdx] = useState<sliceIdx>(() => ({
     start: 0,
     end: displayCount,
@@ -69,12 +42,12 @@ export const RecommendedExpertSection = () => {
     setIdx((prev) => {
       const nextStart = Math.min(
         prev.start + step,
-        RecommendedExperts.length - displayCount
+        recommendedMentors.length - displayCount
       );
       const nextEnd = nextStart + displayCount;
       return { start: nextStart, end: nextEnd };
     });
-  }, [setIdx]);
+  }, [setIdx, recommendedMentors]);
 
   const translateX = -(idx.start * (cardWidth + gap));
 
@@ -99,26 +72,27 @@ export const RecommendedExpertSection = () => {
         <ArrowButton
           onClick={handleNext}
           direction="right"
-          isDisabled={idx.end >= RecommendedExperts.length}
+          isDisabled={idx.end >= recommendedMentors.length}
         />
         <Flex
           transform={`translateX(${translateX}px)`}
           transition="transform 0.6s ease-in-out"
           gap={`${gap}px`}
         >
-          {RecommendedExperts.map((mentor) => (
+          {recommendedMentors.map((mentor) => (
             <Box
-              key={mentor.name}
+              key={mentor.id}
               animation={`${scaleUp} 0.6s ease-in-out forwards`}
               transition={'all .5s ease-in-out'}
             >
               <MentorCard
-                key={mentor.name}
                 w={`${cardWidth}px`}
                 h="max-content"
-                name={mentor.name}
-                matchingCount={mentor.matchingCount}
+                mentorType={MentorTypeConvertor[mentor.mentor_type]}
+                name={mentor.nickname ?? '김멘토'}
+                matchingCount={33}
                 gap="10px"
+                imgSrc={mentor.profile_image}
               />
             </Box>
           ))}

@@ -14,6 +14,8 @@ import { ConfirmConsultingRequest } from '@/components/MentorConsultingManagemen
 import { MentorChat } from '@/components/MentorConsultingManagement/MentorChat';
 import { MentorDateRegistration } from '@/components/MentorConsultingManagement/MentorDateRegistration';
 import { MentorScheduledConsulting } from '@/components/MentorConsultingManagement/MentorScheduledConsulting';
+import AuctionPage from '@/pages/Auction';
+import Channel from '@/pages/Channel';
 import { Community } from '@/pages/Community';
 import { Consulting } from '@/pages/Consulting';
 import { ConsultingManagement } from '@/pages/ConsultingManagement';
@@ -23,6 +25,8 @@ import { Guideline } from '@/pages/Guideline';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
 import { MentorConsultingManagement } from '@/pages/MentorConsultingManagement';
+import { PreventionResult } from '@/pages/PreventionResult';
+import ReportDetail from '@/pages/ReportDetail';
 import { Survey } from '@/pages/Survey';
 import { User } from '@/pages/User';
 import { Welcome } from '@/pages/Welcome';
@@ -31,6 +35,9 @@ import { CommunityBoard } from '@/templates/Community/CommunityBoard';
 import { CommunityPostDetail } from '@/templates/Community/CommunityPostDetail';
 import { CommunityPosting } from '@/templates/Community/CommunityPosting';
 import axios from 'axios';
+
+import ChangeAlert from './pages/ChageAlert';
+import { DamagePrevention } from './pages/DamagePrevention';
 
 const PrivateRoute = (): React.ReactElement => {
   const auth = true;
@@ -159,5 +166,29 @@ export const router = createBrowserRouter([
   {
     path: '*',
     element: <div>404</div>,
+  },
+  {
+    path: ROUTER_PATH.PREVENT,
+    element: <DamagePrevention />,
+  },
+  {
+    path: ROUTER_PATH.PREVENT_RESULT,
+    element: <PreventionResult />,
+  },
+  {
+    path: ROUTER_PATH.REPORTDETAIL,
+    element: <ReportDetail />,
+  },
+  {
+    path: ROUTER_PATH.CHANGEALERT,
+    element: <ChangeAlert />,
+  },
+  {
+    path: ROUTER_PATH.AUCTION,
+    element: <AuctionPage />,
+  },
+  {
+    path: ROUTER_PATH.CHANNEL,
+    element: <Channel />,
   },
 ]);
