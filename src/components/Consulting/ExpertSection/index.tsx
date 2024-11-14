@@ -1,5 +1,5 @@
-import { MostAnswersExpertSection } from '@/components/Consulting/ExpertSection/MostAnswersExpertSection';
-import { RecommendedExpertSection } from '@/components/Consulting/ExpertSection/RecommendedExpertSection';
+// import { MostAnswersExpertSection } from '@/components/Consulting/ExpertSection/MostAnswersExpertSection';
+// import { RecommendedExpertSection } from '@/components/Consulting/ExpertSection/RecommendedExpertSection';
 import { Box, Flex, Image, Text, VStack } from '@chakra-ui/react';
 import cloud from '@images/cloud.svg';
 
@@ -22,8 +22,8 @@ export const ExpertSection = () => {
           부메랑 서비스에서 인증된 컨설턴트들에게 답변받아보아요!
         </Text>
       </VStack>
-      <RecommendedExpertSection />
-      <MostAnswersExpertSection />
+      {/*<RecommendedExpertSection />*/}
+      {/*<MostAnswersExpertSection />*/}
     </Box>
   );
 };

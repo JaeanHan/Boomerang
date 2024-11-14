@@ -1,4 +1,3 @@
-import { MentorCard } from '@/components/Consulting/MentorCard';
 import { MentorSelectionHeader } from '@/components/Consulting/MentorSelectionHeader';
 import { Box, Grid } from '@chakra-ui/react';
 
@@ -15,15 +14,15 @@ export const MentorSection = () => {
         rowGap="15px"
         columnGap="35px"
       >
-        {Array.from({ length: 6 }).map((_, index) => (
-          <MentorCard
-            key={index}
-            w="479px"
-            h="227px"
-            name="김땡땡"
-            matchingCount={33}
-          />
-        ))}
+        {/*{Array.from({ length: 6 }).map((_, index) => (*/}
+        {/*  <MentorCard*/}
+        {/*    key={index}*/}
+        {/*    w="479px"*/}
+        {/*    h="227px"*/}
+        {/*    name="김땡땡"*/}
+        {/*    matchingCount={33}*/}
+        {/*  />*/}
+        {/*))}*/}
       </Grid>
     </Box>
   );

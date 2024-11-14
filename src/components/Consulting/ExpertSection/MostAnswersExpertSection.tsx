@@ -1,38 +1,13 @@
+import { MentorType, MentorTypeConvertor } from '@apis/mentee/types';
+
 import { MentorCard } from '@/components/Consulting/MentorCard';
 import { MentorSelectionHeader } from '@/components/Consulting/MentorSelectionHeader';
 import { Box, Flex } from '@chakra-ui/react';
 
-const MostAnswersExpert = [
-  {
-    name: '김땡땡1',
-    matchingCount: 33,
-  },
-  {
-    name: '김땡땡2',
-    matchingCount: 33,
-  },
-  {
-    name: '김땡땡3',
-    matchingCount: 33,
-  },
-];
-
-const MostAnswersMentor = [
-  {
-    name: '김땡땡1',
-    matchingCount: 33,
-  },
-  {
-    name: '김땡땡2',
-    matchingCount: 33,
-  },
-  {
-    name: '김땡땡3',
-    matchingCount: 33,
-  },
-];
-
-export const MostAnswersExpertSection = () => {
+export const MostAnswersExpertSection: React.FC<{
+  expertMentors: MentorType[];
+  normalMentors: MentorType[];
+}> = ({ expertMentors, normalMentors }) => {
   return (
     <Box h="669px" bg="#F3F3F3" borderRadius={22} mt="25px" p="26px 31px">
       <Box>
@@ -41,31 +16,34 @@ export const MostAnswersExpertSection = () => {
           subtitle="전세사기 위원회 경력 3년 이상"
         />
         <Flex gap="63px" mt="25px">
-          {MostAnswersExpert.map((mentor) => (
+          {expertMentors.slice(0, 3).map((mentor) => (
             <MentorCard
-              key={mentor.name}
-              name={mentor.name}
-              matchingCount={mentor.matchingCount}
+              key={mentor.id}
+              name={mentor.nickname}
+              matchingCount={22}
               w="399px"
               h="189px"
+              mentorType={MentorTypeConvertor[mentor.mentor_type]}
+              imgSrc={mentor.profile_image}
             />
           ))}
         </Flex>
       </Box>
-
       <Box mt="50px">
         <MentorSelectionHeader
           title="가장 답변을 많이 단 경험자🧾"
           subtitle="보험없이 소송으로 해결한 경험자"
         />
         <Flex gap="63px" mt="25px">
-          {MostAnswersMentor.map((mentor) => (
+          {normalMentors.slice(0, 3).map((mentor) => (
             <MentorCard
-              key={mentor.name}
-              name={mentor.name}
-              matchingCount={mentor.matchingCount}
+              key={mentor.id}
+              name={mentor.nickname}
+              matchingCount={22}
               w="399px"
               h="189px"
+              mentorType={MentorTypeConvertor[mentor.mentor_type]}
+              imgSrc={mentor.profile_image}
             />
           ))}
         </Flex>
