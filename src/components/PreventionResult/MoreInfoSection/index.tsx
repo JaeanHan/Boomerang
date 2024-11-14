@@ -10,23 +10,28 @@ const moreInfoData = [
     title: '집주인은 누구?',
     subtitle: '집주인을 조회해드릴게요.',
     icon: homeOwner,
+    link: 'detail',
   },
   {
     title: '전세사기,\n경매 이후라면?',
     subtitle: '부메랑 서비스를 이용해요.',
     icon: judgeStick,
+    link: 'auction',
   },
   {
     title: '등기부등본 변경시\n알림 서비스',
     subtitle: '변경 시 알림을 전송해요.',
     icon: bell,
+    link: 'channel',
   },
   {
     title: '보증 보험 가입서',
     subtitle: '보험이 없어요.',
     icon: clip,
+    link: 'alert',
   },
 ];
+
 export const MoreInfoSection = () => {
   return (
     <Box h={'503px'} mb={'64px'} p="44px 94px 69px">
@@ -44,9 +49,11 @@ export const MoreInfoSection = () => {
       >
         {moreInfoData.map((data) => (
           <MoreInfoBox
+            key={data.title}
             title={data.title}
             subtitle={data.subtitle}
             icon={data.icon}
+            link={data.link}
           />
         ))}
       </Grid>
