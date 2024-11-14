@@ -3,11 +3,12 @@ import {
   ConsultationRequest,
   ConsultationResponse,
   ConsultationScheduleResponse,
+  InfiniteIConsultationResponse,
   LandingMentorsResponse,
 } from '@apis/mentee/types';
 
 import apiInstance from '@/apis';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 export const getMentorsList = async () => {
@@ -52,4 +53,39 @@ export const getMentorSchedule = async (
     `/api/v1/consultation/schedule/${mentorId}`
   );
   return response.data;
+};
+
+const getInfiniteConsultRecords = async (
+  pageParam: number,
+  status: 'RECEIVED' | 'PENDING' | 'ONGOING' | 'FINISHED',
+  size = 10
+): Promise<InfiniteIConsultationResponse> => {
+  const response = await apiInstance.get('/api/v1/member/consultation', {
+    params: {
+      page: pageParam,
+      size: size,
+      consultation_status: status,
+    },
+  });
+
+  return response.data;
+};
+
+export const useInfiniteConsultRecords = (status, size) => {
+  return useSuspenseInfiniteQuery({
+    queryKey: [`${status}`],
+    queryFn: async ({ pageParam }) =>
+      getInfiniteConsultRecords(pageParam as number, status, size),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.current_page < lastPage.total_page - 1) {
+        return lastPage.current_page + 1;
+      }
+      return undefined;
+    },
+    getPreviousPageParam: (firstPage, allPages, firstPageParam) => {
+      if (firstPageParam === 1) return undefined;
+      return firstPageParam - 1;
+    },
+  });
 };
