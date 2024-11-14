@@ -1,4 +1,3 @@
-import { MentorCard } from '@/components/Consulting/MentorCard';
 import { MentorSelectionHeader } from '@/components/Consulting/MentorSelectionHeader';
 import { Box, Grid } from '@chakra-ui/react';
 
