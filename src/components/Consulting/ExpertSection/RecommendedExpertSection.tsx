@@ -1,3 +1,5 @@
+import { MentorType, MentorTypeConvertor } from '@apis/mentor/types';
+
 import { useCallback, useState } from 'react';
 
 import { MentorCard } from '@/components/Consulting/MentorCard';
@@ -51,7 +53,9 @@ const scaleUp = keyframes`
 const cardWidth = 280;
 const gap = 63;
 
-export const RecommendedExpertSection = () => {
+export const RecommendedExpertSection: React.FC<{
+  recommendedMentors: MentorType[];
+}> = ({ recommendedMentors }) => {
   const [idx, setIdx] = useState<sliceIdx>(() => ({
     start: 0,
     end: displayCount,
@@ -106,19 +110,21 @@ export const RecommendedExpertSection = () => {
           transition="transform 0.6s ease-in-out"
           gap={`${gap}px`}
         >
-          {RecommendedExperts.map((mentor) => (
+          {/*{RecommendedExperts.map((mentor) => (*/}
+          {recommendedMentors.map((mentor) => (
             <Box
-              key={mentor.name}
+              key={mentor.id}
               animation={`${scaleUp} 0.6s ease-in-out forwards`}
               transition={'all .5s ease-in-out'}
             >
               <MentorCard
-                key={mentor.name}
                 w={`${cardWidth}px`}
                 h="max-content"
-                name={mentor.name}
-                matchingCount={mentor.matchingCount}
+                mentorType={MentorTypeConvertor[mentor.mentor_type]}
+                name={mentor.nickname ?? '김멘토'}
+                matchingCount={33}
                 gap="10px"
+                imgSrc={mentor.profile_image}
               />
             </Box>
           ))}
