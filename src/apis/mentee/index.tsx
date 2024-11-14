@@ -1,4 +1,4 @@
-import { LandingMentorsResponse } from '@apis/mentor/types';
+import { LandingMentorsResponse } from '@apis/mentee/types';
 
 import apiInstance from '@/apis';
 

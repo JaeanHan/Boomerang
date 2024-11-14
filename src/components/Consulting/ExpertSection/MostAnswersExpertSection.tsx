@@ -1,4 +1,4 @@
-import { MentorType, MentorTypeConvertor } from '@apis/mentor/types';
+import { MentorType, MentorTypeConvertor } from '@apis/mentee/types';
 
 import { MentorCard } from '@/components/Consulting/MentorCard';
 import { MentorSelectionHeader } from '@/components/Consulting/MentorSelectionHeader';

@@ -1,4 +1,4 @@
-import { MentorType, MentorTypeConvertor } from '@apis/mentor/types';
+import { MentorType, MentorTypeConvertor } from '@apis/mentee/types';
 
 import { useCallback, useState } from 'react';
 

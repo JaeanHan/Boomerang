@@ -1,4 +1,4 @@
-import { getLandingMentors } from '@apis/mentor';
+import { getLandingMentors } from '@apis/mentee';
 
 import { MostAnswersExpertSection } from '@components/Consulting/ExpertSection/MostAnswersExpertSection';
 import { RecommendedExpertSection } from '@components/Consulting/ExpertSection/RecommendedExpertSection';
