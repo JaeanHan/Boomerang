@@ -110,6 +110,7 @@ const ConsultingRequestRecord = ({
     },
     onError: (_error) => {
       //TODO: 에러처리
+      console.log(_error);
     },
   });
 
@@ -125,6 +126,7 @@ const ConsultingRequestRecord = ({
     },
     onError: (_error) => {
       //TODO: 에러처리
+      console.log(_error);
     },
   });
 
