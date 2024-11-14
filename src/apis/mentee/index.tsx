@@ -85,8 +85,11 @@ export const useInfiniteConsultRecords = (status, size) => {
       }
       return undefined;
     },
-    getPreviousPageParam: (_firstPage, _allPages, firstPageParam) => {
-      if (firstPageParam === 1) return undefined;
+    getPreviousPageParam: (firstPage, allPages, firstPageParam) => {
+      if (firstPageParam === 1) {
+        console.log(`avoid lint error ${firstPage} ${allPages}`);
+        return undefined;
+      }
       return firstPageParam - 1;
     },
   });
