@@ -13,7 +13,6 @@ import { MentorPeople } from '@/components/Sidebar/sidebarIcons/MentorPeople';
 import { MentorSearch } from '@/components/Sidebar/sidebarIcons/MentorSearch';
 import { useSidebar } from '@/pages/ConsultingManagement/SidebarContext';
 import { ROUTER_PATH } from '@/routerPath';
-import { BoomerangColors } from '@/utils/colors';
 import {
   Box,
   Button,
@@ -24,7 +23,6 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import SidebarArrowClose from '@images/SidebarArrowClose.svg?react';
-import blueArrow2 from '@images/blueArrow2.svg';
 import profileImg from '@images/profileImg.svg';
 
 export const Sidebar: React.FC = () => {
@@ -130,7 +128,7 @@ export const Sidebar: React.FC = () => {
           opacity={isHovered ? 1 : 0}
         />
         <UserProfileSection />
-        <Box height="59px" w="100%" borderBottom="0.8px solid #BCD1DF" />
+        <Box height="138px" w="100%" borderBottom="0.8px solid #BCD1DF" />
         {sidebarCategories.map((category) => (
           <Button
             key={category.title}
@@ -171,7 +169,7 @@ const UserProfileSection = () => {
   };
 
   return (
-    <Box mt="23px">
+    <Box mt="23px" w="266px">
       <Flex alignItems="center" gap="15px">
         <Image src={user.profile ? user.profile : profileImg} />
         <Box>
@@ -183,19 +181,6 @@ const UserProfileSection = () => {
           </Text>
         </Box>
       </Flex>
-      <Button
-        borderRadius="7px"
-        bg={BoomerangColors.white}
-        border="1px solid #BFBFBF"
-        w="266px"
-        h="52px"
-        mt="28px"
-      >
-        <Text fontSize="18px" fontWeight="bold" color="#6B6B6B">
-          {user.type} 사용자
-        </Text>
-        <Image src={blueArrow2} position="absolute" top="13px" right="17px" />
-      </Button>
     </Box>
   );
 };
