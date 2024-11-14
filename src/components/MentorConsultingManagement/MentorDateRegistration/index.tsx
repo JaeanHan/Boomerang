@@ -82,7 +82,7 @@ export const MentorDateRegistration = () => {
           selectedTimes={selectedTimes}
           setSelectedTimes={setSelectedTimes}
         />
-        <Flex justifyContent="flex-end" w="876px" mt="15px">
+        <Flex justifyContent="flex-end" w="876px" mt="15px" gap="15px">
           <BoomerangButton
             w="154px"
             h="47px"
