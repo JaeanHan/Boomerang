@@ -11,7 +11,7 @@ const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=cod
 
 export const Header: React.FC<PropH> = ({ h }) => {
   const navigate = useNavigate();
-  const { user, logout } = useUserContext();
+  const { user } = useUserContext();
 
   return (
     <Box
@@ -49,13 +49,7 @@ export const Header: React.FC<PropH> = ({ h }) => {
           <Text cursor={'pointer'}>커뮤니티</Text>
         </Link>
         {user ? (
-          <Text
-            cursor={'pointer'}
-            onClick={() => {
-              logout();
-              navigate(ROUTER_PATH.ROOT);
-            }}
-          >
+          <Text cursor={'pointer'} onClick={() => navigate(ROUTER_PATH.USER)}>
             {user.nickname}
           </Text>
         ) : (
