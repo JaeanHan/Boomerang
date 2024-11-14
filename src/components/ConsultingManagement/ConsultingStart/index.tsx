@@ -12,6 +12,22 @@ import { ConsultingManagementHeader } from '@/components/ConsultingManagement/Co
 import { BoomerangColors } from '@/utils/colors';
 import { Box, Button, Flex, Spinner, Text, VStack } from '@chakra-ui/react';
 
+const ConsultingInfo: ConsultingInfoItem[] = [
+  {
+    title: '상담 일정',
+    content: '24/10/22 오후 3시~ 오후 4시',
+  },
+  {
+    title: '멘토명',
+    content: '김땡땡',
+  },
+  {
+    title: '신청 내용',
+    content:
+      '주택 전세사기를 당했어요... 주택 전세사기를 당했어요...주택 전세사기를 당했어요...주택 전세사기를 당했어요...',
+  },
+];
+
 const toConsultingInfo = (
   consultation: IConsultation
 ): ConsultingInfoItem[] => {
@@ -91,6 +107,8 @@ const ConsultingRecords: React.FC<{
           );
         });
       })}
+      // TODO : TEST
+      <ConsultingApplicationRecord infoList={ConsultingInfo} />
     </Fragment>
   );
 };
