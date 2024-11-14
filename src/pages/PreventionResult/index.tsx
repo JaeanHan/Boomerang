@@ -34,11 +34,7 @@ export const PreventionResult: React.FC = () => {
 
   useEffect(() => {
     const state = location.state as LocationState | undefined;
-    if (state && state.resultData) {
-      setResultData(state.resultData);
-    } else {
-      navigate('/');
-    }
+    setResultData(state.resultData);
   }, [location, navigate]);
 
   return (

@@ -4,6 +4,10 @@ import { Button, Image, Text } from '@chakra-ui/react';
 import kakao from '@images/kakaologo.svg';
 
 const KakaoButton: React.FC = () => {
+  const handleClick = () => {
+    window.open('http://pf.kakao.com/_KkxlZn', '_blank');
+  };
+
   return (
     <Button
       display="flex"
@@ -23,6 +27,9 @@ const KakaoButton: React.FC = () => {
       borderRadius="lg"
       w="330px"
       h="68px"
+      onClick={handleClick}
+      _active={{ bg: '#FEE500' }}
+      _focus={{ bg: '#FEE500' }}
     >
       <Image
         loading="lazy"

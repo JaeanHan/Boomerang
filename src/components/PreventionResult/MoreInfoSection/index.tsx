@@ -7,8 +7,8 @@ import judgeStick from '@images/judgeStick.svg';
 
 const moreInfoData = [
   {
-    title: '집주인은 누구?',
-    subtitle: '집주인을 조회해드릴게요.',
+    title: '집 셀프 진단',
+    subtitle: '위험 요소를 알려드려요',
     icon: homeOwner,
     link: 'detail',
   },
