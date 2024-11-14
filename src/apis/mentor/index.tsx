@@ -1,7 +1,10 @@
 import apiInstance from '@/apis';
 
-import { ScheduleListResponse, ScheduleRegisterRequest } from './types';
-import { ConsultationListResponse } from './types';
+import {
+  ConsultationListResponse,
+  ScheduleListResponse,
+  ScheduleRegisterRequest,
+} from './types';
 
 export const getSchedule = async (): Promise<ScheduleListResponse> => {
   const response = await apiInstance.get<ScheduleListResponse>(
