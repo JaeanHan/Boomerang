@@ -48,12 +48,20 @@ export const MainContent: React.FC = () => {
   const [sortType, setSortType] = useState<SortType>('ID');
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const onClick = (newBoardType: CommunityBoard) =>
+  const onClick = (newBoardType: CommunityBoard) => {
     setSelectedBoard(newBoardType);
+    setCurrentPage(1);
+  };
 
-  const handleSearch = (searchTerm: string) => setSearchWord(searchTerm);
+  const handleSearch = (searchTerm: string) => {
+    setSearchWord(searchTerm);
+    setCurrentPage(1);
+  };
 
-  const handleSortChange = (newSortType: SortType) => setSortType(newSortType);
+  const handleSortChange = (newSortType: SortType) => {
+    setSortType(newSortType);
+    setCurrentPage(1);
+  };
 
   return (
     <Flex

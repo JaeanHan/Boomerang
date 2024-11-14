@@ -70,7 +70,6 @@ export const Login = () => {
     saveUser(userData);
 
     if (member_role === 'COMPLETE_USER') {
-      localStorage.setItem('Nickname', nickname);
       navigate(ROUTER_PATH.ROOT);
     } else {
       navigate(ROUTER_PATH.WELCOME);
