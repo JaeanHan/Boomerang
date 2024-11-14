@@ -27,18 +27,24 @@ export const ProcedureBar: React.FC<{ nowStep: number; totalStep: number }> = ({
         현재 진행 상황도
       </Text>
       <Text fontSize={'40px'} fontWeight={800} color="#FFF">
-        {(100 / totalStep) * (nowStep - 1)}%
+        {Math.floor(((nowStep - 1) / totalStep) * 100)}%
       </Text>
-      <Box h={25} w={804} bgColor="#F1F1F1" borderRadius={199.8}>
+      <Box
+        h={25}
+        w={804}
+        bgColor="#F1F1F1"
+        borderRadius={199.8}
+        position="relative"
+      >
         <Box
           h={25}
-          w={(804 / (totalStep + 1)) * nowStep}
+          w={`${((nowStep - 1) / totalStep) * 100}%`}
           borderRadius={65}
           bgColor="#0042B6"
           position="absolute"
         />
         <Flex justifyContent="space-evenly" alignItems="center" h={25}>
-          {Array.from({ length: totalStep }, (_, index) => (
+          {Array.from({ length: totalStep - 1 }, (_, index) => (
             <Box
               zIndex={3}
               key={index}

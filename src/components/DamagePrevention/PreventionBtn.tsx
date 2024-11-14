@@ -7,11 +7,13 @@ interface PreventionBtnProps {
   children: ReactNode;
   bgColor: string;
   onClick: () => void;
+  isDisabled?: boolean;
 }
 export const PreventionBtn: React.FC<PreventionBtnProps> = ({
   children,
   bgColor,
   onClick,
+  isDisabled = false,
 }) => (
   <Button
     onClick={onClick}
@@ -22,6 +24,7 @@ export const PreventionBtn: React.FC<PreventionBtnProps> = ({
     fontWeight={800}
     fontSize={'30px'}
     h={'63px'}
+    isDisabled={isDisabled}
   >
     {children}
   </Button>

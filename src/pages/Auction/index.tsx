@@ -1,10 +1,8 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { MoreInfoSection } from '@/components/PreventionResult/MoreInfoSection';
-import { ReportResultSection } from '@/components/PreventionResult/ReportResultSection';
+import Auction from '@/components/Auction/Auction';
 import { BasicLayout } from '@/components/commons/BasicLayout';
-import { Box } from '@chakra-ui/react';
 
 interface Mortgage {
   amount: number;
@@ -25,7 +23,7 @@ interface LocationState {
   resultData: ResultData;
 }
 
-export const PreventionResult: React.FC = () => {
+const AuctionPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const state = location.state as LocationState | undefined;
@@ -38,11 +36,10 @@ export const PreventionResult: React.FC = () => {
   const { resultData } = state;
 
   return (
-    <BasicLayout maxW={1024}>
-      <Box bg="#FFF" borderRadius={20}>
-        <ReportResultSection resultData={resultData} />
-        <MoreInfoSection resultData={resultData} />
-      </Box>
+    <BasicLayout maxW="full">
+      <Auction resultData={resultData} />
     </BasicLayout>
   );
 };
+
+export default AuctionPage;
