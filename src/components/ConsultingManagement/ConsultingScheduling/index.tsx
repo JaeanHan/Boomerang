@@ -14,11 +14,13 @@ export const ConsultingScheduling = () => {
   const [selectedTime, setSelectedTime] = useState<string>('');
   const { isSidebarOpen } = useSidebar();
   const navigate = useNavigate();
-  const { id } = useParams<{ id: number }>();
+  const { id } = useParams<{ id: string }>();
   if (!id) {
     navigate(ROUTER_PATH.SELECT_MENTOR);
     return null;
   }
+
+  const nId = parseInt(id);
 
   return (
     <Box flex="1" bg="white">
@@ -35,12 +37,12 @@ export const ConsultingScheduling = () => {
           setSelectedDate={setSelectedDate}
           selectedTime={selectedTime}
           setSelectedTime={setSelectedTime}
-          id={id}
+          id={nId}
         />
         <ConsultingInformationInputSection
           selectedDate={selectedDate}
           selectedTime={selectedTime}
-          id={id}
+          id={nId}
         />
       </VStack>
     </Box>
