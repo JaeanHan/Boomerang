@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { PropH } from '@/components/commons/types';
+import { useUserContext } from '@/pages/Login/userContext';
 import { ROUTER_PATH } from '@/routerPath';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import logo from '@images/logo.svg';
@@ -10,6 +11,7 @@ const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=cod
 
 export const Header: React.FC<PropH> = ({ h }) => {
   const navigate = useNavigate();
+  const { user, logout } = useUserContext();
 
   return (
     <Box
@@ -46,16 +48,15 @@ export const Header: React.FC<PropH> = ({ h }) => {
         <Link to={`/community/open-forum`}>
           <Text cursor={'pointer'}>커뮤니티</Text>
         </Link>
-        {localStorage.getItem('Authorization') ? (
+        {user ? (
           <Text
             cursor={'pointer'}
             onClick={() => {
-              localStorage.removeItem('Authorization');
-              localStorage.removeItem('Nickname');
+              logout();
               navigate(ROUTER_PATH.ROOT);
             }}
           >
-            {localStorage.getItem('Nickname')}
+            {user.nickname}
           </Text>
         ) : (
           <a href={kakaoLoginUrl}>
