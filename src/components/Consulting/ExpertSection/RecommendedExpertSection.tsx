@@ -8,37 +8,6 @@ import { BoomerangColors } from '@/utils/colors';
 import { Box, Flex, keyframes } from '@chakra-ui/react';
 import BlueArrow from '@images/blueArrow.svg?react';
 
-const RecommendedExperts = [
-  {
-    name: '김땡땡1',
-    matchingCount: 33,
-  },
-  {
-    name: '김땡땡2',
-    matchingCount: 33,
-  },
-  {
-    name: '김땡땡3',
-    matchingCount: 33,
-  },
-  {
-    name: '김땡땡4',
-    matchingCount: 33,
-  },
-  {
-    name: '김땡땡5',
-    matchingCount: 33,
-  },
-  {
-    name: '김땡땡6',
-    matchingCount: 33,
-  },
-  {
-    name: '김땡땡7',
-    matchingCount: 33,
-  },
-];
-
 type sliceIdx = {
   start: number;
   end: number;
@@ -73,12 +42,12 @@ export const RecommendedExpertSection: React.FC<{
     setIdx((prev) => {
       const nextStart = Math.min(
         prev.start + step,
-        RecommendedExperts.length - displayCount
+        recommendedMentors.length - displayCount
       );
       const nextEnd = nextStart + displayCount;
       return { start: nextStart, end: nextEnd };
     });
-  }, [setIdx]);
+  }, [setIdx, recommendedMentors]);
 
   const translateX = -(idx.start * (cardWidth + gap));
 
@@ -103,14 +72,13 @@ export const RecommendedExpertSection: React.FC<{
         <ArrowButton
           onClick={handleNext}
           direction="right"
-          isDisabled={idx.end >= RecommendedExperts.length}
+          isDisabled={idx.end >= recommendedMentors.length}
         />
         <Flex
           transform={`translateX(${translateX}px)`}
           transition="transform 0.6s ease-in-out"
           gap={`${gap}px`}
         >
-          {/*{RecommendedExperts.map((mentor) => (*/}
           {recommendedMentors.map((mentor) => (
             <Box
               key={mentor.id}

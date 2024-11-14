@@ -9,14 +9,17 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 
 export const ConsultingExperts = () => {
   const { data } = useSuspenseQuery({
-    queryFn: () => getLandingMentors(),
-    queryKey: ['asd'],
+    queryFn: () => getLandingMentors(8, 3, 3, 0),
+    queryKey: ['landing'],
   });
-  const { recommendedMentors, expertMentors } = data;
+  const { recommendedMentors, expertMentors, normalMentors } = data;
   return (
     <Fragment>
       <RecommendedExpertSection recommendedMentors={recommendedMentors} />
-      <MostAnswersExpertSection />
+      <MostAnswersExpertSection
+        expertMentors={expertMentors}
+        normalMentors={normalMentors}
+      />
     </Fragment>
   );
 };
