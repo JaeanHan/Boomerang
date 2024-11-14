@@ -2,11 +2,33 @@ import React from 'react';
 
 import { Box, Flex, Text } from '@chakra-ui/react';
 
-const DepositInfo: React.FC = () => {
+interface DepositInfoProps {
+  safeAmount: number;
+  cautionAmount: number;
+  dangerAmount: number;
+}
+
+const DepositInfo: React.FC<DepositInfoProps> = ({
+  safeAmount,
+  cautionAmount,
+  dangerAmount,
+}) => {
   const depositData = [
-    { color: 'green.500', label: '안전한 금액', amount: '7,000만원' },
-    { color: 'yellow.400', label: '주의가 필요한 금액', amount: '200만원' },
-    { color: 'red.500', label: '위험한 금액', amount: '300만원' },
+    {
+      color: 'green.500',
+      label: '안전한 금액',
+      amount: `${Math.round(safeAmount / 10000).toLocaleString()}만원`,
+    },
+    {
+      color: 'yellow.400',
+      label: '주의가 필요한 금액',
+      amount: `${Math.round(cautionAmount / 10000).toLocaleString()}만원`,
+    },
+    {
+      color: 'red.500',
+      label: '위험한 금액',
+      amount: `${Math.round(dangerAmount / 10000).toLocaleString()}만원`,
+    },
   ];
 
   return (
@@ -22,7 +44,12 @@ const DepositInfo: React.FC = () => {
         color="gray.600"
       >
         {depositData.map((item, index) => (
-          <Flex key={index} gap={3} mt={index !== 0 ? { base: 10, md: 20 } : 0}>
+          <Flex
+            key={index}
+            gap={3}
+            mt={index !== 0 ? { base: 10, md: 20 } : 0}
+            alignItems="center"
+          >
             <Box bg={item.color} borderRadius="md" w="26px" h="26px" />
             <Text>
               {item.label} :{' '}

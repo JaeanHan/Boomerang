@@ -4,7 +4,22 @@ import { Box, Flex } from '@chakra-ui/react';
 
 import DepositInfo from './DepositInfo';
 
-const SafetyMeter: React.FC = () => {
+interface SafetyMeterProps {
+  safeAmount: number;
+  cautionAmount: number;
+  dangerAmount: number;
+}
+
+const SafetyMeter: React.FC<SafetyMeterProps> = ({
+  safeAmount,
+  cautionAmount,
+  dangerAmount,
+}) => {
+  const totalAmount = safeAmount + cautionAmount + dangerAmount;
+  const safeHeight = (safeAmount / totalAmount) * 100;
+  const cautionHeight = (cautionAmount / totalAmount) * 100;
+  const dangerHeight = (dangerAmount / totalAmount) * 100;
+
   return (
     <Box
       display="flex"
@@ -29,37 +44,42 @@ const SafetyMeter: React.FC = () => {
               mt={{ base: 10, md: 0 }}
             >
               <Box
-                display="flex"
-                flexDirection="column"
-                pt={2}
-                pb={{ base: 24, md: 32 }}
-                bg="red.500"
-                borderRadius="lg"
+                position="relative"
+                width="100px"
+                height="400px"
+                bg="gray.200"
+                borderRadius="md"
+                overflow="hidden"
               >
                 <Box
-                  display="flex"
-                  flexDirection="column"
-                  pb={20}
-                  bg="yellow.500"
-                  borderRadius="2xl"
-                >
-                  <Box
-                    zIndex={10}
-                    mt={-2}
-                    bg="sky.500"
-                    borderRadius="lg"
-                    h="269px"
-                  />
-                </Box>
+                  position="absolute"
+                  bottom="0"
+                  width="100%"
+                  height={`${dangerHeight}%`}
+                  bg="red.500"
+                />
+                <Box
+                  position="absolute"
+                  bottom={`${dangerHeight}%`}
+                  width="100%"
+                  height={`${cautionHeight}%`}
+                  bg="yellow.400"
+                />
+                <Box
+                  position="absolute"
+                  bottom={`${dangerHeight + cautionHeight}%`}
+                  width="100%"
+                  height={`${safeHeight}%`}
+                  bg="green.500"
+                />
               </Box>
-              <Box
-                display={{ base: 'none', md: 'flex' }}
-                flexDirection="column"
-                mt={2}
-              ></Box>
             </Flex>
           </Box>
-          <DepositInfo />
+          <DepositInfo
+            safeAmount={safeAmount}
+            cautionAmount={cautionAmount}
+            dangerAmount={dangerAmount}
+          />
         </Flex>
       </Box>
     </Box>

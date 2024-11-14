@@ -10,7 +10,17 @@ import {
 } from '@chakra-ui/react';
 import ex from '@images/exclamation.svg';
 
-const InfoBox: React.FC = () => {
+interface InfoBoxProps {
+  auctionPrice: number;
+  priority: number;
+  totalMortgageAmount: string;
+}
+
+const InfoBox: React.FC<InfoBoxProps> = ({
+  auctionPrice,
+  priority,
+  totalMortgageAmount,
+}) => {
   return (
     <Box
       display="flex"
@@ -46,21 +56,21 @@ const InfoBox: React.FC = () => {
         <ListItem>
           약{' '}
           <Text as="span" color="red.600">
-            5,815만원
+            {Math.round(auctionPrice / 10000).toLocaleString()}만원
           </Text>
           에 팔릴 것으로 예상돼요.
         </ListItem>
         <ListItem>
           나는{' '}
           <Text as="span" color="red.600">
-            두 번째
+            {priority}번째
           </Text>
           로 돈을 받을 수 있어요.
         </ListItem>
         <ListItem>
           먼저 줄 서있는 돈은{' '}
           <Text as="span" color="red.600">
-            16억 3,200만원
+            {Math.round(Number(totalMortgageAmount) / 10000).toLocaleString()}원
           </Text>
           이에요.
         </ListItem>
