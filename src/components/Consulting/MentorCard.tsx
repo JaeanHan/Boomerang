@@ -9,6 +9,7 @@ interface MentorCardProps {
   name: string;
   matchingCount: number;
   mentorType: string;
+  id: number;
   gap?: string;
   imgSrc?: string;
 }
@@ -21,13 +22,14 @@ export const MentorCard: React.FC<
   name,
   matchingCount,
   mentorType,
+  id,
   gap = '20px',
   imgSrc = businessman,
 }) => {
   const navigate = useNavigate();
   const navigateConsulting = useCallback(() => {
-    navigate(`/consulting/selectMentor/scheduling/${name}`);
-  }, [name]);
+    navigate(`/consulting/selectMentor/scheduling/${id}`);
+  }, [id]);
 
   return (
     <VStack

@@ -1,3 +1,6 @@
+import { useConsultationMutation } from '@apis/mentee';
+import { ConsultationRequest } from '@apis/mentee/types';
+
 import { AutoSizingTextarea } from '@components/AutoSizingTextarea';
 
 import { useState } from 'react';
@@ -5,21 +8,72 @@ import { useState } from 'react';
 import { ConsultingItemTitle } from '@/components/ConsultingManagement/ConsultingItemTitle';
 import { BoomerangButton } from '@/components/commons/BoomerangButton';
 import { BoomerangColors } from '@/utils/colors';
+import { useToast } from '@chakra-ui/icons';
 import { Box, Flex, Input, Text, VStack } from '@chakra-ui/react';
 import document from '@images/document2.svg';
+
+const toISO8601 = (selectedDate: Date, selectedTime: string): string => {
+  const year = selectedDate.getFullYear();
+  const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+  const day = String(selectedDate.getDate()).padStart(2, '0');
+
+  const [hours, minutes] = selectedTime.split(':').map(Number);
+
+  const date = new Date(year, Number(month) - 1, Number(day), hours, minutes);
+
+  return date.toISOString().replace(/\.\d{3}Z$/, '');
+};
 
 export const ConsultingInformationInputSection: React.FC<{
   selectedDate: Date | null;
   selectedTime: string;
-}> = ({ selectedDate, selectedTime }) => {
+  id: number;
+}> = ({ selectedDate, selectedTime, id }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const { mutateAsync } = useConsultationMutation();
+  const toast = useToast();
 
   const isSubmitButtonDisabled =
     selectedDate === null ||
     selectedTime === '' ||
     title.trim().length === 0 ||
     content.trim().length === 0;
+
+  const requestConsulting = () => {
+    if (
+      !selectedDate ||
+      title.trim().length === 0 ||
+      content.trim().length === 0
+    ) {
+      return;
+    }
+
+    const request: ConsultationRequest = {
+      content: content,
+      title: title,
+      mentor_id: id,
+      consultation_date_time: toISO8601(selectedDate, selectedTime),
+    };
+
+    mutateAsync(request)
+      .then(() => {
+        toast({
+          title: '멘토링 신청에 성공했습니다..',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
+      })
+      .catch(() => {
+        toast({
+          title: '멘토링 신청에 실패했습니다.',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      });
+  };
 
   return (
     <Box w="951px">
@@ -44,7 +98,7 @@ export const ConsultingInformationInputSection: React.FC<{
               h="47px"
               fontSize="24px"
               isDisabled={isSubmitButtonDisabled}
-              onClick={() => {}}
+              onClick={() => requestConsulting()}
             >
               확인
             </BoomerangButton>
