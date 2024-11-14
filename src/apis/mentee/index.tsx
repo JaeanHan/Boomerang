@@ -73,7 +73,10 @@ const getInfiniteConsultRecords = async (
   return response.data;
 };
 
-export const useInfiniteConsultRecords = (status, size) => {
+export const useInfiniteConsultRecords = (
+  status: ConsultStatus,
+  size: number
+) => {
   return useSuspenseInfiniteQuery({
     queryKey: [`${status}`],
     queryFn: async ({ pageParam }) =>
