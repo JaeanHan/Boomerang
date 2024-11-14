@@ -54,7 +54,7 @@ export const DamagePrevention: React.FC = () => {
   const goToNextStep = async () => {
     if (currentId === totalStep) {
       try {
-        const response = await apiInstance.post('/api/v1/prevention', {
+        await apiInstance.post('/api/v1/prevention', {
           address,
           house_price: Number(housePrice),
           deposit_amount: Number(depositAmount),
@@ -62,8 +62,15 @@ export const DamagePrevention: React.FC = () => {
         });
 
         const resultData = {
-          ...response.data,
-          date: new Date().toLocaleString(),
+          address,
+          house_price: Number(housePrice),
+          deposit_amount: Number(depositAmount),
+          mortgages,
+          total_mortgage_amount: mortgages.reduce(
+            (sum, mortgage) => sum + mortgage.amount,
+            0
+          ),
+          date: new Date().toLocaleDateString(),
         };
 
         navigate(ROUTER_PATH.PREVENT_RESULT, { state: { resultData } });

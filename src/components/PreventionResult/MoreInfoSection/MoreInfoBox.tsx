@@ -3,11 +3,27 @@ import { useNavigate } from 'react-router-dom';
 
 import { Flex, Image, Text } from '@chakra-ui/react';
 
+interface Mortgage {
+  amount: number;
+  creditor: string;
+  registration_date: string;
+}
+
+interface ResultData {
+  address: string;
+  house_price: number;
+  deposit_amount: number;
+  total_mortgage_amount: number;
+  date: string;
+  mortgages: Mortgage[];
+}
+
 interface MoreInfoBoxProps {
   title: string;
   subtitle: string;
   icon: string;
   link: string;
+  resultData: ResultData;
 }
 
 export const MoreInfoBox: React.FC<MoreInfoBoxProps> = ({
@@ -15,11 +31,12 @@ export const MoreInfoBox: React.FC<MoreInfoBoxProps> = ({
   subtitle,
   icon,
   link,
+  resultData,
 }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(link);
+    navigate(`/${link}`, { state: { resultData } });
   };
 
   return (

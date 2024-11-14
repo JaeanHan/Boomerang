@@ -7,20 +7,18 @@ import noFaceIcon from '@images/noFaceIcon.svg';
 import preventResultBg from '@images/preventResultBg.svg';
 
 interface Mortgage {
-  id: number;
   amount: number;
   creditor: string;
-  registration_date: number[];
+  registration_date: string;
 }
 
 interface ResultData {
-  id: number;
   address: string;
   house_price: number;
   deposit_amount: number;
-  mortgages: Mortgage[];
   total_mortgage_amount: number;
   date: string;
+  mortgages: Mortgage[];
 }
 
 interface ReportResultSectionProps {
