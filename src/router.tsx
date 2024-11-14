@@ -10,6 +10,11 @@ import { ConsultingScheduling } from '@/components/ConsultingManagement/Consulti
 import { ConsultingStart } from '@/components/ConsultingManagement/ConsultingStart';
 import { PreviousConsulting } from '@/components/ConsultingManagement/PreviousConsulting';
 import { SelectMentor } from '@/components/ConsultingManagement/SelectMentor';
+import { ConfirmConsultingRequest } from '@/components/MentorConsultingManagement/ConfirmConsultingRequest';
+import { MentorChat } from '@/components/MentorConsultingManagement/MentorChat';
+import { MentorConsultingHistory } from '@/components/MentorConsultingManagement/MentorConsultingHistory';
+import { MentorDateRegistration } from '@/components/MentorConsultingManagement/MentorDateRegistration';
+import { MentorScheduledConsulting } from '@/components/MentorConsultingManagement/MentorScheduledConsulting';
 import AuctionPage from '@/pages/Auction';
 import Channel from '@/pages/Channel';
 import { Community } from '@/pages/Community';
@@ -20,6 +25,7 @@ import { FullProgressGuide } from '@/pages/FullProgressGuide';
 import { Guideline } from '@/pages/Guideline';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
+import { MentorConsultingManagement } from '@/pages/MentorConsultingManagement';
 import { PreventionResult } from '@/pages/PreventionResult';
 import ReportDetail from '@/pages/ReportDetail';
 import { Survey } from '@/pages/Survey';
@@ -104,6 +110,31 @@ export const router = createBrowserRouter([
       {
         path: ROUTER_PATH.PREVIOUS_CONSULTING,
         element: <PreviousConsulting />,
+      },
+    ],
+  },
+  {
+    element: <MentorConsultingManagement />,
+    children: [
+      {
+        path: ROUTER_PATH.MENTOR_DATE_REGISTRATION,
+        element: <MentorDateRegistration />,
+      },
+      {
+        path: ROUTER_PATH.MENTOR_CONFIRM_REQUEST,
+        element: <ConfirmConsultingRequest />,
+      },
+      {
+        path: ROUTER_PATH.MENTOR_SCHEDULED,
+        element: <MentorScheduledConsulting />,
+      },
+      {
+        path: ROUTER_PATH.MENTOR_CHAT,
+        element: <MentorChat />,
+      },
+      {
+        path: ROUTER_PATH.MENTOR_CONSULTING_HISTORY,
+        element: <MentorConsultingHistory />,
       },
     ],
   },

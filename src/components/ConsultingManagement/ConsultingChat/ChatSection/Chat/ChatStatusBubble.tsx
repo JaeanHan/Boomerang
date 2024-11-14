@@ -16,7 +16,7 @@ export const ChatStatusBubble: React.FC<StatusType> = ({ status }) => {
   return (
     <VStack>
       <VStack
-        zIndex={99}
+        zIndex={9}
         bg="rgba(0, 0, 0, 0.65)"
         borderRadius={50}
         p="10px 40px"

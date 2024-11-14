@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { ChatDate } from '@/components/ConsultingManagement/ConsultingChat/ChatSection';
 import { ChatInput } from '@/components/ConsultingManagement/ConsultingChat/ChatSection/Chat/ChatInput';
 import { ChatMessage } from '@/components/ConsultingManagement/ConsultingChat/ChatSection/Chat/ChatMessage';
 import { ChatStatusBubble } from '@/components/ConsultingManagement/ConsultingChat/ChatSection/Chat/ChatStatusBubble';
-import { Box, Text, VStack } from '@chakra-ui/react';
+import { Box, VStack } from '@chakra-ui/react';
 import chatBgImg from '@images/chatBgImg.svg';
 
-export const ChatSection = () => {
+export const MentorChatSection = () => {
   const [messages, setMessages] = useState([
     {
       nickname: '멘토1',
@@ -26,7 +27,7 @@ export const ChatSection = () => {
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   //임시
-  const myNickname = '멘티11';
+  const myNickname = '멘토1';
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -52,7 +53,7 @@ export const ChatSection = () => {
           <ChatStatusBubble status="PENDING" />
           {messages.map((msg) => {
             const isMine = msg.nickname === myNickname;
-            const isMentor = !isMine;
+            const isMentor = isMine;
             return (
               <ChatMessage
                 key={msg.message}
@@ -62,7 +63,6 @@ export const ChatSection = () => {
               />
             );
           })}
-          <ChatStatusBubble status="FINISHED" />
         </VStack>
         <Box
           w="100%"
@@ -82,9 +82,3 @@ export const ChatSection = () => {
     </VStack>
   );
 };
-
-export const ChatDate = ({ date }: { date: string }) => (
-  <Text fontSize="15px" color="#7B7B7B" mt="17px">
-    {date}
-  </Text>
-);
