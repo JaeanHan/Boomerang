@@ -20,4 +20,8 @@ export const ROUTER_PATH = {
   CONSULTING_START: '/consulting/start',
   PREVIOUS_CONSULTING: '/consulting/previous',
   CONSULTING_CHAT: '/consulting/start/:id',
+  MENTOR_DATE_REGISTRATION: '/mentor/registration',
+  MENTOR_CONFIRM_REQUEST: '/mentor/confirm',
+  MENTOR_SCHEDULED: 'mentor/scheduled',
+  MENTOR_CHAT: 'mentor/scheduled/chat/:id',
 } as const;

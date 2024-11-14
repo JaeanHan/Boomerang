@@ -10,6 +10,10 @@ import { ConsultingScheduling } from '@/components/ConsultingManagement/Consulti
 import { ConsultingStart } from '@/components/ConsultingManagement/ConsultingStart';
 import { PreviousConsulting } from '@/components/ConsultingManagement/PreviousConsulting';
 import { SelectMentor } from '@/components/ConsultingManagement/SelectMentor';
+import { ConfirmConsultingRequest } from '@/components/MentorConsultingManagement/ConfirmConsultingRequest';
+import { MentorChat } from '@/components/MentorConsultingManagement/MentorChat';
+import { MentorDateRegistration } from '@/components/MentorConsultingManagement/MentorDateRegistration';
+import { MentorScheduledConsulting } from '@/components/MentorConsultingManagement/MentorScheduledConsulting';
 import { Community } from '@/pages/Community';
 import { Consulting } from '@/pages/Consulting';
 import { ConsultingManagement } from '@/pages/ConsultingManagement';
@@ -18,6 +22,7 @@ import { FullProgressGuide } from '@/pages/FullProgressGuide';
 import { Guideline } from '@/pages/Guideline';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
+import { MentorConsultingManagement } from '@/pages/MentorConsultingManagement';
 import { Survey } from '@/pages/Survey';
 import { User } from '@/pages/User';
 import { Welcome } from '@/pages/Welcome';
@@ -97,6 +102,27 @@ export const router = createBrowserRouter([
       {
         path: ROUTER_PATH.PREVIOUS_CONSULTING,
         element: <PreviousConsulting />,
+      },
+    ],
+  },
+  {
+    element: <MentorConsultingManagement />,
+    children: [
+      {
+        path: ROUTER_PATH.MENTOR_DATE_REGISTRATION,
+        element: <MentorDateRegistration />,
+      },
+      {
+        path: ROUTER_PATH.MENTOR_CONFIRM_REQUEST,
+        element: <ConfirmConsultingRequest />,
+      },
+      {
+        path: ROUTER_PATH.MENTOR_SCHEDULED,
+        element: <MentorScheduledConsulting />,
+      },
+      {
+        path: ROUTER_PATH.MENTOR_CHAT,
+        element: <MentorChat />,
       },
     ],
   },
