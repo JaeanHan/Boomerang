@@ -10,7 +10,7 @@ import { ConsultingScheduling } from '@/components/ConsultingManagement/Consulti
 import { ConsultingStart } from '@/components/ConsultingManagement/ConsultingStart';
 import { PreviousConsulting } from '@/components/ConsultingManagement/PreviousConsulting';
 import { SelectMentor } from '@/components/ConsultingManagement/SelectMentor';
-import Auction from '@/pages/Auction';
+import AuctionPage from '@/pages/Auction';
 import Channel from '@/pages/Channel';
 import { Community } from '@/pages/Community';
 import { Consulting } from '@/pages/Consulting';
@@ -159,7 +159,7 @@ export const router = createBrowserRouter([
   },
   {
     path: ROUTER_PATH.AUCTION,
-    element: <Auction />,
+    element: <AuctionPage />,
   },
   {
     path: ROUTER_PATH.CHANNEL,
