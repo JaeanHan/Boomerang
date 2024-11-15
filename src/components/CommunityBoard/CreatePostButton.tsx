@@ -1,13 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useUserContext } from '@/pages/Login/userContext';
 import { ROUTER_PATH } from '@/routerPath';
 import { BoomerangColors } from '@/utils/colors';
 import { Button } from '@chakra-ui/react';
 
 const CreatePostButton: React.FC = () => {
   const navigate = useNavigate();
-  const navigateToPosting = () => navigate(ROUTER_PATH.POSTING);
+  const { user } = useUserContext();
+
+  const navigateToPosting = () => {
+    navigate(ROUTER_PATH.POSTING);
+  };
+
   return (
     <Button
       alignSelf="flex-end"
@@ -20,6 +26,7 @@ const CreatePostButton: React.FC = () => {
       borderRadius="lg"
       _hover={{}}
       onClick={navigateToPosting}
+      isDisabled={user === null}
     >
       게시글 작성하기
     </Button>

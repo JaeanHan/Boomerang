@@ -50,3 +50,19 @@ export type ConsultationScheduleResponse = {
     [date: string]: number[];
   };
 };
+
+export interface IConsultation {
+  id: number;
+  mentor_nick_name: string;
+  mentee_nick_name: string;
+  consultation_date_time: string;
+  consultation_status: 'RECEIVED' | 'PENDING' | 'ONGOING' | 'FINISHED';
+  title: string;
+  content: string;
+}
+
+export type InfiniteIConsultationResponse = {
+  total_page: number;
+  current_page: number;
+  content: IConsultation[];
+};

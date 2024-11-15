@@ -188,7 +188,7 @@ export const UserInfoSection = () => {
       </HStack>
 
       {userInfo.member_role === 'COMPLETE_USER' && (
-        <UserPageBtn onClick={() => ''}>
+        <UserPageBtn onClick={() => navigate(ROUTER_PATH.MENTOR_SWITCH)}>
           <Image src={change} />
           <Text fontWeight="20px" fontSize="bold" color="#6B6B6B">
             멘토 전환 신청

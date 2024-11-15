@@ -87,6 +87,7 @@ const ImageInputBox: React.FC<{
       border={`2px solid ${BoomerangColors.deepBlue}`}
       borderRadius={8}
       onClick={(e) => e.stopPropagation()}
+      zIndex={999999}
     >
       <Box
         as="label"

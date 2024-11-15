@@ -59,7 +59,7 @@ export const ConsultingInformationInputSection: React.FC<{
     mutateAsync(request)
       .then(() => {
         toast({
-          title: '멘토링 신청에 성공했습니다..',
+          title: '멘토링 신청에 성공했습니다.',
           status: 'success',
           duration: 3000,
           isClosable: true,
