@@ -17,6 +17,11 @@ export const PreventionBtn: React.FC<PreventionBtnProps> = ({
 }) => (
   <Button
     onClick={onClick}
+    onKeyDown={(e) => {
+      if (e.key === '-' || e.key === ',') {
+        e.preventDefault();
+      }
+    }}
     w={'125px'}
     bg={bgColor}
     color={BoomerangColors.white}
