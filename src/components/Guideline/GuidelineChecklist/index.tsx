@@ -3,7 +3,7 @@ import { SubStep } from '@apis/guideline/types';
 
 import { CheckListHeader } from '@components/Guideline/GuidelineChecklist/CheckListHeader';
 
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { PropH } from '@/components/commons/types';
 import { BoomerangColors } from '@/utils/colors';
@@ -23,11 +23,61 @@ export interface IGuidelineChecklist extends PropH {
   subStepList: SubStep[];
   mainStep: string;
 }
+
+const replaceHyphensWithSpaces = (str: string): string => {
+  return str.replace(/-/g, ' ');
+};
+
 export const GuidelineChecklist: React.FC<IGuidelineChecklist> = ({
   h,
   subStepList,
   mainStep,
 }) => {
+  const [checkState, setCheckState] = useState(() =>
+    subStepList.reduce(
+      (acc, item) => {
+        acc[item.name] = item.completion;
+        return acc;
+      },
+      {} as Record<string, boolean>
+    )
+  );
+
+  const onChange = useCallback(
+    (name: string, isChecked: boolean) => {
+      if (isChecked) {
+        checkASubProgress(mainStep, name)
+          .then(() => {
+            setCheckState((prev) => ({
+              ...prev,
+              [name]: true,
+            }));
+          })
+          .catch(() => {
+            setCheckState((prev) => ({
+              ...prev,
+              [name]: false,
+            }));
+          });
+        return;
+      }
+      uncheckASubProgress(mainStep, name)
+        .then(() => {
+          setCheckState((prev) => ({
+            ...prev,
+            [name]: false,
+          }));
+        })
+        .catch(() => {
+          setCheckState((prev) => ({
+            ...prev,
+            [name]: true,
+          }));
+        });
+    },
+    [setCheckState]
+  );
+
   return (
     <Box
       shadow="0px 0px 8.9px 0px rgba(0, 0, 0, 0.26)"
@@ -58,28 +108,15 @@ export const GuidelineChecklist: React.FC<IGuidelineChecklist> = ({
                       fontWeight={800}
                       ml={2}
                     >
-                      {item.name}
+                      {replaceHyphensWithSpaces(item.name)}
                     </Text>
                     <Checkbox
                       iconColor="white"
                       colorScheme={BoomerangColors.deepBlue}
-                      isChecked={item.completion}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          checkASubProgress(mainStep, item.name)
-                            .then(() => {})
-                            .catch(() => {
-                              e.target.checked = false;
-                            });
-                          return;
-                        }
-
-                        uncheckASubProgress(mainStep, item.name)
-                          .then(() => {})
-                          .catch(() => {
-                            e.target.checked = true;
-                          });
-                      }}
+                      isChecked={checkState[item.name]}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        onChange(item.name, e.target.checked)
+                      }
                       sx={{
                         '& .chakra-checkbox__control': {
                           bg: '#D9D9D9',
