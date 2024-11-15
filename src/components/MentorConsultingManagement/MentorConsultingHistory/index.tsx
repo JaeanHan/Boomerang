@@ -60,20 +60,11 @@ export const MentorConsultingHistory: React.FC = () => {
       const formattedDate = formatDate(consultation.consultation_date_time);
       const formattedTime = formatTime(consultation.consultation_date_time);
 
-      const infoList: ConsultingInfoItem[] = [
-        {
-          title: '상담 일정',
-          content: formattedTime,
-        },
-        {
-          title: '신청자명',
-          content: consultation.mentee_nick_name,
-        },
-        {
-          title: '신청 내용',
-          content: consultation.content,
-        },
-      ];
+      const infoList: ConsultingInfoItem = {
+        consultation_date_time: formattedTime,
+        mentee_nick_name: consultation.mentee_nick_name,
+        content: consultation.content,
+      };
 
       return {
         id: consultation.id,
@@ -91,7 +82,7 @@ export const MentorConsultingHistory: React.FC = () => {
           (item: {
             id: number;
             date: string;
-            infoList: ConsultingInfoItem[];
+            infoList: ConsultingInfoItem;
           }) => (
             <ScheduledConsultingRecord
               key={item.id}
@@ -109,7 +100,7 @@ const ScheduledConsultingRecord = ({
   infoList,
   consultationId,
 }: {
-  infoList: ConsultingInfoItem[];
+  infoList: ConsultingInfoItem;
   consultationId: number;
 }) => {
   return (

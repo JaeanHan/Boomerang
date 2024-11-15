@@ -1,24 +1,18 @@
 import { useState } from 'react';
 
-import { ConsultingInfoBox } from '@/components/ConsultingManagement/ConsultingInfoBox';
+import {
+  ConsultingInfoBox,
+  ConsultingInfoItem,
+} from '@/components/ConsultingManagement/ConsultingInfoBox';
 import { BoomerangColors } from '@/utils/colors';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 
-const ConsultingInfo = [
-  {
-    title: '상담 일정',
-    content: '24/10/22 오후 3시~ 오후 4시',
-  },
-  {
-    title: '고객명',
-    content: '김땡땡',
-  },
-  {
-    title: '신청 내용',
-    content:
-      '주택 전세사기를 당했어요... 주택 전세사기를 당했어요...주택 전세사기를 당했어요...주택 전세사기를 당했어요...',
-  },
-];
+const ConsultingInfo: ConsultingInfoItem = {
+  consultation_date_time: '24/10/22 오후 3시~ 오후 4시',
+  mentee_nick_name: '김땡땡',
+  content:
+    '주택 전세사기를 당했어요... 주택 전세사기를 당했어요...주택 전세사기를 당했어요...주택 전세사기를 당했어요...',
+};
 
 export const MentorConsultingInfoSection = () => {
   return (

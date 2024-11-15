@@ -62,20 +62,12 @@ export const ConfirmConsultingRequest = () => {
             요청된 상담 내역
           </Text>
           {data.content.map((consultation) => {
-            const infoList: ConsultingInfoItem[] = [
-              {
-                title: '상담 일정',
-                content: consultation.consultation_date_time,
-              },
-              {
-                title: '신청자명',
-                content: consultation.mentee_nick_name,
-              },
-              {
-                title: '신청 내용',
-                content: consultation.content,
-              },
-            ];
+            const infoList: ConsultingInfoItem = {
+              consultation_date_time: consultation.consultation_date_time,
+              mentee_nick_name: consultation.mentee_nick_name,
+              content: consultation.content,
+            };
+
             return (
               <ConsultingRequestRecord
                 key={consultation.id}
@@ -94,7 +86,7 @@ const ConsultingRequestRecord = ({
   infoList,
   consultationId,
 }: {
-  infoList: ConsultingInfoItem[];
+  infoList: ConsultingInfoItem;
   consultationId: number;
 }) => {
   const queryClient = useQueryClient();
