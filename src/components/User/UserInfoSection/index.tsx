@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+import { confirmNickname, getUserInfo, updateProfileImage } from '@/apis/user';
+import { useUserContext } from '@/pages/Login/userContext';
+import { ROUTER_PATH } from '@/routerPath';
 import { BoomerangColors } from '@/utils/colors';
 import { CheckIcon } from '@chakra-ui/icons';
 import {
@@ -22,24 +26,66 @@ interface userInfoType {
   nickname: string;
   email: string;
   profile_image: string;
-  member_role: 'STANDARD_USER' | 'MENTOR_USER';
+  member_role: 'COMPLETE_USER' | 'MENTOR';
 }
 
 const userRoleLables = {
-  STANDARD_USER: '일반 유저',
-  MENTOR_USER: '멘토 유저',
-};
-
-const user: userInfoType = {
-  nickname: '진서현',
-  email: 'tkdwns26@naver.com',
-  profile_image: '',
-  member_role: 'STANDARD_USER',
+  COMPLETE_USER: '일반 유저',
+  MENTOR: '멘토 유저',
 };
 
 export const UserInfoSection = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [newNickname, setNewNickname] = useState('');
+  const [userInfo, setUserInfo] = useState<userInfoType>({
+    nickname: '',
+    email: '',
+    profile_image: '',
+    member_role: 'COMPLETE_USER',
+  });
+  const uploadImage = useRef<HTMLInputElement | null>(null);
+  const { logout } = useUserContext();
+  const navigate = useNavigate();
+
+  const fetchUserInfo = async () => {
+    try {
+      const data = await getUserInfo();
+      setUserInfo(data);
+    } catch (error) {
+      console.error('유저 정보 패치 실패', error);
+    }
+  };
+
+  const changeNickname = async () => {
+    if (newNickname.trim() !== '') {
+      try {
+        await confirmNickname(newNickname);
+        fetchUserInfo();
+      } catch (error) {
+        console.error('닉네임 변경 실패', error);
+      }
+    }
+    setIsEdit(!isEdit);
+  };
+
+  const onUploadImage = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!e.target.files) {
+        return;
+      }
+      updateProfileImage(e.target.files[0]);
+      fetchUserInfo();
+    },
+    []
+  );
+
+  const handleProfileUpload = useCallback(() => {
+    uploadImage.current?.click();
+  }, []);
+
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
 
   return (
     <VStack borderBottom="4px dotted #C1C1C1" w="100%" pb="60px">
@@ -56,10 +102,18 @@ export const UserInfoSection = () => {
       >
         <Box position="relative">
           <Image
-            src={user.profile_image ? user.profile_image : businessman}
+            src={userInfo.profile_image ? userInfo.profile_image : businessman}
             h="140px"
           />
+          <Input
+            display="none"
+            accept="image/*"
+            type="file"
+            ref={uploadImage}
+            onChange={onUploadImage}
+          />
           <IconButton
+            onClick={() => handleProfileUpload()}
             aria-label="change profile"
             icon={<CameraBtn />}
             variant="custom"
@@ -72,12 +126,12 @@ export const UserInfoSection = () => {
         <Flex flexDir="column" justifyContent="flex-start">
           <Text fontSize="22px" color="#4A4A4A">
             <Text fontWeight={800} color="#000000" as="span">
-              {user.nickname}
+              {userInfo.nickname}
             </Text>
             님 안녕하세요
           </Text>
           <Text fontSize="15px" color="#4F4F4F" mt="7px">
-            {userRoleLables[user.member_role]}
+            {userRoleLables[userInfo.member_role]}
           </Text>
           <Flex fontSize="18px" color="#000000" mt="18px" alignItems="center">
             <Text mr="52px">닉네임</Text>
@@ -102,7 +156,7 @@ export const UserInfoSection = () => {
                 <CheckIcon
                   aria-label="save nickname"
                   _hover={{ transform: 'scale(1.1)' }}
-                  onClick={() => setIsEdit(!isEdit)}
+                  onClick={() => changeNickname()}
                   color={BoomerangColors.deepBlue}
                   mr="10px"
                 />
@@ -113,7 +167,7 @@ export const UserInfoSection = () => {
                 justifyContent="space-between"
                 minW="182px"
               >
-                <Text>{user.nickname}</Text>
+                <Text>{userInfo.nickname}</Text>
                 <IconButton
                   aria-label="change nickname"
                   icon={<Writedown />}
@@ -128,13 +182,13 @@ export const UserInfoSection = () => {
           </Flex>
           <Flex fontSize="18px" color="#000000" gap="52px" mt="7px">
             <Text>이메일</Text>
-            <Text>{user.email}</Text>
+            <Text>{userInfo.email}</Text>
           </Flex>
         </Flex>
       </HStack>
 
-      {user.member_role === 'STANDARD_USER' && (
-        <UserPageBtn onClick={() => ''}>
+      {userInfo.member_role === 'COMPLETE_USER' && (
+        <UserPageBtn onClick={() => navigate(ROUTER_PATH.MENTOR_SWITCH)}>
           <Image src={change} />
           <Text fontWeight="20px" fontSize="bold" color="#6B6B6B">
             멘토 전환 신청
@@ -142,7 +196,12 @@ export const UserInfoSection = () => {
         </UserPageBtn>
       )}
 
-      <UserPageBtn onClick={() => ''}>
+      <UserPageBtn
+        onClick={() => {
+          logout();
+          navigate(ROUTER_PATH.ROOT);
+        }}
+      >
         <Text fontWeight="20px" fontSize="bold" color="#6B6B6B">
           로그아웃
         </Text>
