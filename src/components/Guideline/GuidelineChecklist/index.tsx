@@ -1,6 +1,5 @@
 import { ServerError } from '@apis/errors';
 import { checkASubProgress, uncheckASubProgress } from '@apis/guideline';
-import { SubStep } from '@apis/guideline/types';
 
 import { CheckListHeader } from '@components/Guideline/GuidelineChecklist/CheckListHeader';
 
@@ -23,16 +22,11 @@ import {
 } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 
-export interface IGuidelineChecklist extends PropH {
-  subStepList: SubStep[];
-  mainStep: string;
-}
-
 const replaceHyphensWithSpaces = (str: string): string => {
   return str.replace(/-/g, ' ');
 };
 
-export const GuidelineChecklist: React.FC = ({ h }) => {
+export const GuidelineChecklist: React.FC<PropH> = ({ h }) => {
   const { currIdx, mainStepList, subStepList } = useGuidelineContext();
   const toast = useToast();
   const [checkState, setCheckState] = useState(() =>
