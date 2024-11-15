@@ -50,3 +50,21 @@ export const confirmConsultation = async (id: number): Promise<void> => {
 export const rejectConsultation = async (id: number): Promise<void> => {
   await apiInstance.delete(`/api/v1/consultation/${id}`);
 };
+
+export const getPastConsultations = async (
+  page: number,
+  size: number,
+  consultationStatus: 'FINISHED'
+): Promise<ConsultationListResponse> => {
+  const response = await apiInstance.get<ConsultationListResponse>(
+    '/api/v1/member/consultation',
+    {
+      params: {
+        page,
+        size,
+        consultation_status: consultationStatus,
+      },
+    }
+  );
+  return response.data;
+};

@@ -9,14 +9,19 @@ interface MentorConsultingInfoItem {
   content: string | number;
 }
 
-export const MentorConsultingInfoBox = ({
-  infoList,
-}: {
+interface MentorConsultingInfoBoxProps {
   infoList: MentorConsultingInfoItem[];
-}) => {
+  chatId: number;
+}
+
+export const MentorConsultingInfoBox: React.FC<
+  MentorConsultingInfoBoxProps
+> = ({ infoList, chatId }) => {
   const navigate = useNavigate();
-  //TODO: 수정
-  const chatId = 1;
+
+  const goConsultingChat = () => {
+    navigate(`/mentor/scheduled/chat/${chatId}`);
+  };
 
   return (
     <Flex
@@ -28,8 +33,8 @@ export const MentorConsultingInfoBox = ({
       overflowY="auto"
       position="relative"
     >
-      {infoList.map((item) => (
-        <MentorConsultingInfoItem
+      {infoList.map((item: MentorConsultingInfoItem) => (
+        <MentorConsultingInfoItemComponent
           key={item.title}
           title={item.title}
           content={item.content}
@@ -40,7 +45,7 @@ export const MentorConsultingInfoBox = ({
           w="179px"
           h="40px"
           fontSize="15px"
-          onClick={() => navigate(`/mentor/scheduled/chat/${chatId}`)}
+          onClick={goConsultingChat}
         >
           과거 상담 채팅 조회하기
         </BoomerangButton>
@@ -49,13 +54,10 @@ export const MentorConsultingInfoBox = ({
   );
 };
 
-const MentorConsultingInfoItem = ({
-  title,
-  content,
-}: {
+const MentorConsultingInfoItemComponent: React.FC<{
   title: string;
   content: string | number;
-}) => (
+}> = ({ title, content }) => (
   <Flex fontSize="20px" fontWeight="bold" color="#176CFF" gap="135px">
     <Text w="135px">{title}</Text>
     {title === '신청자 상담 평가' && typeof content === 'number' ? (
