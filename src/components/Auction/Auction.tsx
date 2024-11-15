@@ -36,15 +36,15 @@ const Auction: React.FC<AuctionProps> = ({ resultData }) => {
   if (isSafe) {
     message = '경매에 넘어가도 보증금을 돌려 받을 가능성이 있어요.(1회유찰시)';
   } else {
-    const expectedAmount = Math.max(
-      deposit_amount - house_price * 0.8 - total_mortgage_amount,
-      0
-    );
-    message = `경매에 넘어갈 시 낙찰 예상금은 ${expectedAmount.toLocaleString()}원입니다.`;
+    message = `경매에 넘어간다면 보증금을 돌려 받기 힘들어요.`;
   }
 
-  const safeAmount = Math.max(house_price * 0.6 - total_mortgage_amount, 0);
-  const cautionAmount = house_price * 0.2;
+  const safeAmount =
+    house_price * 0.75 - deposit_amount - total_mortgage_amount > 0
+      ? house_price * 0.55
+      : house_price * 0.75 - total_mortgage_amount;
+
+  const cautionAmount = isSafe ? house_price * 0.2 : 0;
   const dangerAmount = total_mortgage_amount;
 
   const auctionPrice = house_price * 0.75;
