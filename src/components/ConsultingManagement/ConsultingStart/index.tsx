@@ -96,7 +96,6 @@ const ConsultingRecords: React.FC<{
           );
         });
       })}
-      //TODO : TEST
       {ConsultingInfo.map((item) => (
         <ConsultingApplicationRecord
           key={item.consultation_date_time}
