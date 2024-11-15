@@ -43,15 +43,44 @@ export const Step3: React.FC<Step3Props> = ({
     ]);
   };
 
+  const formatDate = (value: string) => {
+    const digits = value.replace(/\D/g, '').substring(0, 8);
+    const len = digits.length;
+
+    if (len < 5) {
+      return digits;
+    } else if (len < 7) {
+      return `${digits.substring(0, 4)}-${digits.substring(4)}`;
+    } else {
+      return `${digits.substring(0, 4)}-${digits.substring(4, 6)}-${digits.substring(6)}`;
+    }
+  };
+
+  const sanitizeNumberInput = (value: string) => {
+    return value.replace(/,/g, '').replace(/\D/g, '');
+  };
+
   const handleMortgageChange = (
     index: number,
     field: string,
     value: string
   ) => {
+    let formattedValue = value;
+
+    if (field === 'registration_date') {
+      formattedValue = formatDate(value);
+    } else if (
+      field === 'amount' ||
+      field === 'housePrice' ||
+      field === 'depositAmount'
+    ) {
+      formattedValue = sanitizeNumberInput(value);
+    }
+
     const newMortgageInputs = [...mortgageInputs];
     newMortgageInputs[index] = {
       ...newMortgageInputs[index],
-      [field]: value,
+      [field]: formattedValue,
     };
     setMortgageInputs(newMortgageInputs);
 
@@ -73,8 +102,35 @@ export const Step3: React.FC<Step3Props> = ({
     );
   };
 
+  const handleHousePriceChange = (value: string) => {
+    const sanitizedValue = sanitizeNumberInput(value);
+    setHousePrice(sanitizedValue);
+  };
+
+  const handleDepositAmountChange = (value: string) => {
+    const sanitizedValue = sanitizeNumberInput(value);
+    setDepositAmount(sanitizedValue);
+  };
+
+  const baseHeight = 622;
+  const additionalHeightPerInput = 96;
+  const totalHeight =
+    baseHeight +
+    (mortgageInputs.length > 1
+      ? (mortgageInputs.length - 1) * additionalHeightPerInput
+      : 0);
+
   return (
-    <Box pl={71} pr={71} pt={2} h={622}>
+    <Box
+      pl={71}
+      pr={71}
+      pt={2}
+      h={totalHeight}
+      transition="height 0.3s ease"
+      bg="white"
+      borderRadius="20px"
+      boxShadow="md"
+    >
       <QuestionText
         index={1}
         question={{
@@ -84,7 +140,7 @@ export const Step3: React.FC<Step3Props> = ({
       />
       <Search
         address={housePrice}
-        setAddress={setHousePrice}
+        setAddress={handleHousePriceChange}
         placeholder="예시) 1000000000"
       />
       <Text mt={1}>
@@ -110,7 +166,7 @@ export const Step3: React.FC<Step3Props> = ({
       />
       <Search
         address={depositAmount}
-        setAddress={setDepositAmount}
+        setAddress={handleDepositAmountChange}
         placeholder="예시) 500000000"
       />
       <Box mt={5}></Box>
@@ -119,7 +175,7 @@ export const Step3: React.FC<Step3Props> = ({
         question={{
           title: '채권 혹은 근저당권 정보를 입력해주세요.',
           subtitle:
-            '금액, 채권자, 등록일자 순으로 입력해주세요. 등기부등본 을구에 기재되어있습니다.',
+            '금액, 채권자, 등록일자 순으로 입력해주세요. 등기부등본 을구에 기재 되어 있으며 없다면 입력을 하지 않아도 되요!',
         }}
       />
 
@@ -147,7 +203,7 @@ export const Step3: React.FC<Step3Props> = ({
         </Flex>
       ))}
       <Button mt={2} w="100%" onClick={addMortgageInput}>
-        +
+        +채권 추가
       </Button>
     </Box>
   );

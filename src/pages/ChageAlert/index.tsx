@@ -1,7 +1,8 @@
-import React from 'react';
+import { HeroSection } from '@components/HeroSection';
+
+import React, { Fragment } from 'react';
 
 import Button from '@/components/ChangeAlert/Button';
-import Header from '@/components/ChangeAlert/Header';
 import InsuranceCard from '@/components/ChangeAlert/InsuranceCard';
 import InsuranceSection from '@/components/ChangeAlert/InsuranceSection';
 import { BasicLayout } from '@/components/commons/BasicLayout';
@@ -64,7 +65,15 @@ const ChangeAlert: React.FC = () => {
   return (
     <BasicLayout maxW={1024}>
       <Box as="main" w="full">
-        <Header />
+        <HeroSection
+          h={300}
+          upperText={
+            <Fragment>
+              <b>전세 보증 보험을</b> 손 쉽게 확인해요!
+            </Fragment>
+          }
+          whiteBoxText={'어떤 보증 보험 가입할지 모르겠어요😢'}
+        />
         <Box
           as="section"
           bg="white"

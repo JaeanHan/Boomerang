@@ -29,4 +29,5 @@ export const ROUTER_PATH = {
   MENTOR_SCHEDULED: 'mentor/scheduled',
   MENTOR_CHAT: 'mentor/scheduled/chat/:id',
   MENTOR_CONSULTING_HISTORY: 'mentor/history',
+  MENTOR_SWITCH: '/user/switch',
 } as const;

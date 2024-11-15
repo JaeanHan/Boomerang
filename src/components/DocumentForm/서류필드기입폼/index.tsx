@@ -1,4 +1,4 @@
-import { DocumentAcionButton } from '@/components/DocumentForm/서류필드기입폼/DocumentAcionButton';
+import { DocumentActionButton } from '@/components/DocumentForm/서류필드기입폼/DocumentActionButton';
 import { HoverBox } from '@/components/DocumentForm/서류필드기입폼/HoverBox';
 import { FormProps } from '@/pages/DocumentForm';
 import { BoomerangColors } from '@/utils/colors';
@@ -36,9 +36,9 @@ export const 서류필드기입폼: React.FC<FormProps> = ({
             </VStack>
           </Box>
           <Box alignSelf="flex-end" mt="30px" mb="16px">
-            <DocumentAcionButton w="139px" h="49px" fontSize="24px">
+            <DocumentActionButton w="139px" h="49px" fontSize="24px">
               저장하기
-            </DocumentAcionButton>
+            </DocumentActionButton>
           </Box>
         </Flex>
       </Flex>
@@ -60,9 +60,9 @@ const DocumentInput: React.FC<{ label: string }> = ({ label }) => (
           boxShadow: 'none',
         }}
       />
-      <DocumentAcionButton w="58px" h="29px" fontSize="16px">
+      <DocumentActionButton w="58px" h="29px" fontSize="16px">
         확인
-      </DocumentAcionButton>
+      </DocumentActionButton>
     </Flex>
   </Box>
 );

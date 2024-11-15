@@ -1,12 +1,25 @@
+import React from 'react';
+
 import { BoomerangColors } from '@/utils/colors';
 import { Button } from '@chakra-ui/react';
 
-export const DocumentAcionButton: React.FC<{
+interface DocumentActionButtonProps {
   w: string;
   h: string;
   fontSize: string;
   children: React.ReactNode;
-}> = ({ w, h, fontSize, children }) => (
+  onClick?: () => void;
+  isLoading?: boolean;
+}
+
+export const DocumentActionButton: React.FC<DocumentActionButtonProps> = ({
+  w,
+  h,
+  fontSize,
+  children,
+  onClick,
+  isLoading = false,
+}) => (
   <Button
     width={w}
     height={h}
@@ -16,6 +29,8 @@ export const DocumentAcionButton: React.FC<{
     color={BoomerangColors.white}
     fontSize={fontSize}
     fontWeight="bold"
+    onClick={onClick}
+    isLoading={isLoading}
   >
     {children}
   </Button>
