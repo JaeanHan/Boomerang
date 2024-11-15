@@ -27,7 +27,7 @@ export const HotCommunity: React.FC<HotCommunityProps> = ({ boardType }) => {
         fontWeight="bold"
         color="#363636"
       >
-        {hotTopics.map((topic, idx) => (
+        {hotTopics.map((topic) => (
           <HotTopic key={topic.postId} title={topic.title} id={topic.postId} />
         ))}
       </Flex>
