@@ -1,3 +1,4 @@
+import { ServerError } from '@apis/errors';
 import { checkASubProgress, uncheckASubProgress } from '@apis/guideline';
 import { SubStep } from '@apis/guideline/types';
 
@@ -6,7 +7,9 @@ import { CheckListHeader } from '@components/Guideline/GuidelineChecklist/CheckL
 import React, { useCallback, useState } from 'react';
 
 import { PropH } from '@/components/commons/types';
+import { useGuidelineContext } from '@/pages/Guideline/guidelineContext';
 import { BoomerangColors } from '@/utils/colors';
+import { useToast } from '@chakra-ui/icons';
 import {
   Accordion,
   AccordionButton,
@@ -18,6 +21,7 @@ import {
   Flex,
   Text,
 } from '@chakra-ui/react';
+import { AxiosError } from 'axios';
 
 export interface IGuidelineChecklist extends PropH {
   subStepList: SubStep[];
@@ -28,11 +32,9 @@ const replaceHyphensWithSpaces = (str: string): string => {
   return str.replace(/-/g, ' ');
 };
 
-export const GuidelineChecklist: React.FC<IGuidelineChecklist> = ({
-  h,
-  subStepList,
-  mainStep,
-}) => {
+export const GuidelineChecklist: React.FC = ({ h }) => {
+  const { currIdx, mainStepList, subStepList } = useGuidelineContext();
+  const toast = useToast();
   const [checkState, setCheckState] = useState(() =>
     subStepList.reduce(
       (acc, item) => {
@@ -46,7 +48,7 @@ export const GuidelineChecklist: React.FC<IGuidelineChecklist> = ({
   const onChange = useCallback(
     (name: string, isChecked: boolean) => {
       if (isChecked) {
-        checkASubProgress(mainStep, name)
+        checkASubProgress(mainStepList[currIdx].main_step_name, name)
           .then(() => {
             setCheckState((prev) => ({
               ...prev,
@@ -61,21 +63,29 @@ export const GuidelineChecklist: React.FC<IGuidelineChecklist> = ({
           });
         return;
       }
-      uncheckASubProgress(mainStep, name)
+      uncheckASubProgress(mainStepList[currIdx].main_step_name, name)
         .then(() => {
           setCheckState((prev) => ({
             ...prev,
             [name]: false,
           }));
         })
-        .catch(() => {
+        .catch((err: AxiosError<ServerError>) => {
+          if (err.code === 'PG013') {
+            toast({
+              title: '이미 완료한 단계는 수정할 수 없습니다.',
+              status: 'error',
+              duration: 3000,
+              isClosable: true,
+            });
+          }
           setCheckState((prev) => ({
             ...prev,
             [name]: true,
           }));
         });
     },
-    [setCheckState]
+    [setCheckState, currIdx]
   );
 
   return (

@@ -38,3 +38,13 @@ export const uncheckASubProgress = async (
   );
   return response.data;
 };
+
+export const getSubStepsByMainStep = async (
+  mainStep: string
+): Promise<ProgressResponse> => {
+  const response = await apiInstance.get<ProgressResponse>(
+    `/api/v1/progress/${mainStep}`
+  );
+
+  return response.data;
+};

@@ -8,19 +8,19 @@ import { AverageTime } from '@/components/Guideline/GuidelineProgressBar/Average
 import { Percentage } from '@/components/Guideline/GuidelineProgressBar/Percentage';
 import { ProgressBar } from '@/components/Guideline/GuidelineProgressBar/ProgressBar';
 import { PropH } from '@/components/commons/types';
+import { useGuidelineContext } from '@/pages/Guideline/guidelineContext';
 import { BoomerangColors } from '@/utils/colors';
 import { Box, Button, Flex } from '@chakra-ui/react';
 import progressBg from '@images/progressBg.svg';
 
-export type GuidelineProgressBarProps = {
-  currMainIdx: number;
-  mainStepList: MainStep[];
-};
-
 export const GuidelineProgressBar: React.FC<
-  GuidelineProgressBarProps & PropH
-> = ({ h, currMainIdx, mainStepList }) => {
-  const percent = Math.round((currMainIdx + 1) * (100 / mainStepList.length));
+  PropH & {
+    currPosIdx: number;
+  }
+> = ({ h, currPosIdx }) => {
+  const { mainStepList } = useGuidelineContext();
+  const percent = Math.round((currPosIdx + 1) * (100 / mainStepList.length));
+
   return (
     <Box
       className={styles.guideline}
@@ -42,11 +42,7 @@ export const GuidelineProgressBar: React.FC<
             <Button h={50}>전체 단계 보기</Button>
           </Flex>
         </Flex>
-        <ProgressBar
-          currMainIdx={currMainIdx}
-          mainStepList={mainStepList}
-          h={9}
-        />
+        <ProgressBar h={9} currPosIdx={currPosIdx} />
       </Box>
     </Box>
   );
