@@ -24,7 +24,6 @@ export const SelectRoleSection: React.FC<{
           ).then((data) => {
             const { nickname } = data;
             if (nickname) {
-              localStorage.setItem('Nickname', nickname);
               navigate(ROUTER_PATH.ROOT);
             }
           })

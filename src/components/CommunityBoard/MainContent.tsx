@@ -100,7 +100,7 @@ export const MainContent: React.FC = () => {
       <Suspense fallback={<SpacedSpinner />}>
         <HotCommunity boardType={selectedBoard.value} />
       </Suspense>
-      <BoardExplorer boardType={selectedBoard.value} />
+      <BoardExplorer boardType={selectedBoard.type} />
       <Flex
         flexDirection="row"
         alignItems="center"

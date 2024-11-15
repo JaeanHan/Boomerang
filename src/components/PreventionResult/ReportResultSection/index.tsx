@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { kakaoLoginUrl } from '@/pages/Login/constants';
+import { useUserContext } from '@/pages/Login/userContext';
 import { Flex, Image, Text, VStack } from '@chakra-ui/react';
 import checklistIcon from '@images/checklist.svg';
 import heartFaceIcon from '@images/heartFace.svg';
@@ -30,7 +32,13 @@ export const ReportResultSection: React.FC<ReportResultSectionProps> = ({
 }) => {
   const { house_price, deposit_amount, total_mortgage_amount, address, date } =
     resultData;
-  const userName = localStorage.getItem('Nickname') || '사용자';
+  const { user } = useUserContext();
+  if (!user) {
+    window.location.href = kakaoLoginUrl;
+    return null;
+  }
+
+  const userName = user.nickname;
 
   const isSafe = house_price * 0.8 - deposit_amount - total_mortgage_amount > 0;
 
