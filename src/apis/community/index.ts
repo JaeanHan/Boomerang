@@ -1,7 +1,6 @@
 import apiInstance from '@/apis';
 import { CommunityPostData } from '@/templates/Community/CommunityPosting';
 import { useMutation } from '@tanstack/react-query';
-import { HttpStatusCode } from 'axios';
 
 export type UploadPostData = CommunityPostData & {
   images: File[];
