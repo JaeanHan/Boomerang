@@ -54,12 +54,10 @@ const guidelineLoader = async () => {
   } catch (err) {
     if (axios.isAxiosError(err) && err.response) {
       const data = err.response.data;
-      // TODO : 로그인 에러시?
       if (data.code === 'MB002') {
         window.location.href = kakaoLoginUrl;
         return null;
       }
-      // TODO: CODE ENUM 등록 필요
       if (data.code === 'PG004') {
         throw new Response(
           JSON.stringify({ code: data.code, message: data.message }),
