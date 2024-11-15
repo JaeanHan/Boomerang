@@ -1,4 +1,4 @@
-import { useInfiniteConsultRecords } from '@apis/mentee';
+import { ConsultStatus, useInfiniteConsultRecords } from '@apis/mentee';
 import { IConsultation } from '@apis/mentee/types';
 
 import { Fragment, Suspense, useState } from 'react';
@@ -54,11 +54,9 @@ const toConsultingInfo = (
 //   ONGOING, //진행중 -> 상담 신청하여 현재 진행중인 상태
 //   FINISHED; //진행완료 -> 상담을 완료한 상태
 
-type ConsultingStatus = 'RECEIVED' | 'PENDING' | 'ONGOING' | 'FINISHED';
-
 export const ConsultingStart = () => {
   const [selectedStatus, setSelectedStatus] =
-    useState<ConsultingStatus>('RECEIVED');
+    useState<ConsultStatus>('RECEIVED');
 
   return (
     <Box flex="1" bg="white">
@@ -92,7 +90,7 @@ export const ConsultingStart = () => {
 };
 
 const ConsultingRecords: React.FC<{
-  selectedStatus: ConsultingStatus;
+  selectedStatus: ConsultStatus;
 }> = ({ selectedStatus }) => {
   const { data } = useInfiniteConsultRecords(selectedStatus, 4);
 
