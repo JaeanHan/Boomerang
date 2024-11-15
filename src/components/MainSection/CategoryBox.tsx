@@ -36,7 +36,7 @@ export const CategoryBox = ({ category, example, img, path }: ICategoryBox) => {
     navigate(path);
   };
   return (
-    <Box className={styles['category--box']} to={path}>
+    <Box className={styles['category--box']}>
       <VStack spacing={4} alignItems="space-between" onClick={onClick}>
         <Text fontWeight={900} fontSize="20px">
           {category}

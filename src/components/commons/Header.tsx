@@ -41,7 +41,6 @@ export const Header: React.FC<PropH> = ({ h }) => {
         <Link to={ROUTER_PATH.ROOT}>
           <Text>홈</Text>
         </Link>
-        <Text>Q&As</Text>
         <Text
           onClick={() => {
             if (user === null) {
