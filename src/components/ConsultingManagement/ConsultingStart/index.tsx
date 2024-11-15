@@ -146,6 +146,7 @@ const ConsultingStartBtn = () => {
       fontWeight={800}
       color={BoomerangColors.white}
       onClick={goConsultingChat}
+      _hover={{}}
     >
       상담 시작하기
     </Button>

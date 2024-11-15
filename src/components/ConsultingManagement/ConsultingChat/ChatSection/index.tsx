@@ -1,38 +1,46 @@
-import { useEffect, useRef, useState } from 'react';
+import { loadChatData } from '@apis/chat';
+
+import { ChatMessage } from '@components/ConsultingManagement/ConsultingChat/ChatSection/Chat/ChatMessage';
+
+import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { ChatInput } from '@/components/ConsultingManagement/ConsultingChat/ChatSection/Chat/ChatInput';
-import { ChatMessage } from '@/components/ConsultingManagement/ConsultingChat/ChatSection/Chat/ChatMessage';
 import { ChatStatusBubble } from '@/components/ConsultingManagement/ConsultingChat/ChatSection/Chat/ChatStatusBubble';
+import { useUserContext } from '@/pages/Login/userContext';
 import { Box, Text, VStack } from '@chakra-ui/react';
 import chatBgImg from '@images/chatBgImg.svg';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
-export const ChatSection = () => {
-  const [messages, setMessages] = useState([
-    {
-      nickname: '멘토1',
-      message:
-        '고객님, 신청해주신 상담내역을 확인했습니다! 상담을 시작하겠습니다.',
-    },
-    {
-      nickname: '멘티11',
-      message:
-        '안녕하세요, 다른 아니라 주택 전세 사기에 관하여 질문드릴 게 있는데요, 제가.... 어쩌고 저쩌고 때문에 지금 너무 힘들어요. 보통 이런 경우는 어떻게 대처해야 하나요? 부탁드릴게요',
-    },
-    {
-      nickname: '멘토1',
-      message: '현재, 그런 상황이시군요. 비슷한 사례로는 ...',
-    },
-  ]);
+export const ChatSection: React.FC<{
+  id: number;
+}> = ({ id }) => {
+  const { user } = useUserContext();
+  const { data } = useSuspenseQuery({
+    queryFn: () => loadChatData(id),
+    queryKey: [`chat-${id}`],
+  });
+  const {
+    mentorProfileImage,
+    menteeProfileImage,
+    // consultationResponseDto,
+    chatMessageResponseDtoPage,
+    mentor,
+  } = data;
+  const { content } = chatMessageResponseDtoPage;
 
+  const [messages, setMessages] = useState<
+    {
+      nickname: string;
+      message: string;
+    }[]
+  >([]);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  //임시
-  const myNickname = '멘티11';
-
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
-    }
-  }, [messages]);
+  const navigate = useNavigate();
+  if (!user) {
+    navigate('/');
+    return null;
+  }
 
   return (
     <VStack spacing={0}>
@@ -50,15 +58,14 @@ export const ChatSection = () => {
         <VStack flex="1" w="full">
           <ChatDate date="2024-10-22" />
           <ChatStatusBubble status="PENDING" />
-          {messages.map((msg) => {
-            const isMine = msg.nickname === myNickname;
-            const isMentor = !isMine;
+          {content.map((chat) => {
             return (
               <ChatMessage
-                key={msg.message}
-                message={msg.message}
-                isMine={isMine}
-                isMentor={isMentor}
+                key={chat.message}
+                message={chat.message}
+                isMine={chat.nickname === user?.nickname}
+                isMentor={mentor}
+                imgSrc={mentor ? menteeProfileImage : mentorProfileImage}
               />
             );
           })}
@@ -75,9 +82,9 @@ export const ChatSection = () => {
         />
       </VStack>
       <ChatInput
+        userNickname={user.nickname}
         messages={messages}
         setMessages={setMessages}
-        userNickname={myNickname}
       />
     </VStack>
   );
