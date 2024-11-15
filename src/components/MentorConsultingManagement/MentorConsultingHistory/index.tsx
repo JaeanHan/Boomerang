@@ -1,127 +1,159 @@
+import { useNavigate } from 'react-router-dom';
+
+import { getConsultations } from '@/apis/mentor';
+import {
+  ConsultationContent,
+  ConsultationListResponse,
+} from '@/apis/mentor/types';
+import {
+  ConsultingInfoBox,
+  ConsultingInfoItem,
+} from '@/components/ConsultingManagement/ConsultingInfoBox';
 import { ConsultingManagementHeader } from '@/components/ConsultingManagement/ConsultingManagementHeader';
-import { MentorConsultingInfoBox } from '@/components/MentorConsultingManagement/MentorConsultingHistory/MentorConsultingInfoBox';
 import { BoomerangColors } from '@/utils/colors';
 import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
+  Alert,
+  AlertIcon,
   Box,
-  Flex,
-  Text,
+  Button,
+  Center,
+  Spinner,
   VStack,
 } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 
-const previousConsultingList = [
-  {
-    date: '2024-10-01',
-    infoList: [
-      {
-        title: '상담 일정',
-        content: '24/10/22 오후 3시~ 오후 4시',
-      },
-      {
-        title: '신청자명',
-        content: '김땡땡',
-      },
-      {
-        title: '신청 내용',
-        content:
-          '주택 전세사기를 당했어요... 주택 전세사기를 당했어요...주택 전세사기를 당했어요...주택 전세사기를 당했어요...',
-      },
-      {
-        title: '신청자 상담 평가',
-        content: 3,
-      },
-    ],
-  },
-  {
-    date: '2024-10-08',
-    infoList: [
-      {
-        title: '상담 일정',
-        content: '24/10/22 오후 3시~ 오후 4시',
-      },
-      {
-        title: '신청자명',
-        content: '김땡땡',
-      },
-      {
-        title: '신청 내용',
-        content:
-          '주택 전세사기를 당했어요... 주택 전세사기를 당했어요...주택 전세사기를 당했어요...주택 전세사기를 당했어요...',
-      },
-      {
-        title: '신청자 상담 평가',
-        content: 3,
-      },
-    ],
-  },
-  {
-    date: '2024-10-21',
-    infoList: [
-      {
-        title: '상담 일정',
-        content: '24/10/22 오후 3시~ 오후 4시',
-      },
-      {
-        title: '신청자명',
-        content: '김땡땡',
-      },
-      {
-        title: '신청 내용',
-        content:
-          '주택 전세사기를 당했어요... 주택 전세사기를 당했어요...주택 전세사기를 당했어요...주택 전세사기를 당했어요...',
-      },
-      {
-        title: '신청자 상담 평가',
-        content: 3,
-      },
-    ],
-  },
-];
+export const MentorConsultingHistory: React.FC = () => {
+  const page = 0;
+  const size = 30;
 
-export const MentorConsultingHistory = () => {
+  const { data, isLoading, isError, error } = useQuery<
+    ConsultationListResponse,
+    Error
+  >({
+    queryKey: ['pastConsultations', page, size],
+    queryFn: () => getConsultations(page, size, 'FINISHED'),
+  });
+
+  if (isLoading) {
+    return (
+      <Center flex="1" bg="white">
+        <Spinner size="xl" />
+      </Center>
+    );
+  }
+
+  if (isError || !data) {
+    return (
+      <Center flex="1" bg="white">
+        <Alert status="error">
+          <AlertIcon />
+          {error?.message || '상담 내역을 불러오는 데 실패했습니다.'}
+        </Alert>
+      </Center>
+    );
+  }
+
+  const { content: consultations } = data;
+
+  const previousConsultingList = consultations.map(
+    (consultation: ConsultationContent) => {
+      const formattedDate = formatDate(consultation.consultation_date_time);
+      const formattedTime = formatTime(consultation.consultation_date_time);
+
+      const infoList: ConsultingInfoItem[] = [
+        {
+          title: '상담 일정',
+          content: formattedTime,
+        },
+        {
+          title: '신청자명',
+          content: consultation.mentee_nick_name,
+        },
+        {
+          title: '신청 내용',
+          content: consultation.content,
+        },
+      ];
+
+      return {
+        id: consultation.id,
+        date: formattedDate,
+        infoList,
+      };
+    }
+  );
+
   return (
     <Box flex="1" bg="white">
       <ConsultingManagementHeader category="과거 상담 내용 조회하기" />
       <VStack spacing="34px" mt="48px" pb="281px">
-        {previousConsultingList.map((item) => (
-          <Accordion key={item.date} allowToggle>
-            <AccordionItem border="none">
-              <AccordionButton
-                bg="#176CFF"
-                w="883px"
-                h="50px"
-                fontWeight="bold"
-                fontSize="19px"
-                color={BoomerangColors.white}
-                pl={0}
-                _hover={{ bg: '#176CFF' }}
-              >
-                <Flex
-                  alignItems="center"
-                  w="100%"
-                  justifyContent="space-between"
-                >
-                  <Text textAlign="center" flex="1" pl="40px">
-                    {item.date} 상담 내역 조회하기
-                  </Text>
-                  <AccordionIcon
-                    justifySelf="flex-end"
-                    color={BoomerangColors.white}
-                    fontSize={'40px'}
-                  />
-                </Flex>
-              </AccordionButton>
-              <AccordionPanel p={0}>
-                <MentorConsultingInfoBox infoList={item.infoList} />
-              </AccordionPanel>
-            </AccordionItem>
-          </Accordion>
-        ))}
+        {previousConsultingList.map(
+          (item: {
+            id: number;
+            date: string;
+            infoList: ConsultingInfoItem[];
+          }) => (
+            <ScheduledConsultingRecord
+              key={item.id}
+              infoList={item.infoList}
+              consultationId={item.id}
+            />
+          )
+        )}
       </VStack>
     </Box>
   );
+};
+
+const ScheduledConsultingRecord = ({
+  infoList,
+  consultationId,
+}: {
+  infoList: ConsultingInfoItem[];
+  consultationId: number;
+}) => {
+  return (
+    <VStack spacing={0} alignItems="flex-end">
+      <ConsultingInfoBox infoList={infoList} />
+      <ConsultingStartBtn chatId={consultationId} />
+    </VStack>
+  );
+};
+
+const ConsultingStartBtn = ({ chatId }: { chatId: number }) => {
+  const navigate = useNavigate();
+
+  const goConsultingChat = () => {
+    navigate(`/mentor/scheduled/chat/${chatId}`);
+  };
+
+  return (
+    <Button
+      w="207px"
+      h="60px"
+      mt="19px"
+      mb="65px"
+      bg={BoomerangColors.deepBlue}
+      fontSize="24px"
+      fontWeight={800}
+      color={BoomerangColors.white}
+      onClick={goConsultingChat}
+    >
+      상담 채팅 조회하기
+    </Button>
+  );
+};
+
+const formatDate = (dateTime: string): string => {
+  const [datePart] = dateTime.split(' ');
+  const [year, month, day] = datePart.split('-');
+  return `${month}/${day}/${year}`;
+};
+
+const formatTime = (dateTime: string): string => {
+  const [, hourPart] = dateTime.split(' ');
+  const hour = parseInt(hourPart, 10);
+  const period = hour >= 12 ? '오후' : '오전';
+  const displayHour = hour % 12 === 0 ? 12 : hour % 12;
+  return `${period} ${displayHour}시`;
 };
