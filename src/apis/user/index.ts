@@ -9,6 +9,17 @@ const getNicknameRecommendation = async (): Promise<{
   return response.data;
 };
 
+export const getUserInfo = async (): Promise<{
+  nickname: string;
+  profile_image: string;
+  email: string;
+  member_role: 'COMPLETE_USER' | 'MENTOR';
+}> => {
+  const response = await apiInstance.get('/api/v1/member');
+
+  return response.data;
+};
+
 export const useNicknameRecommendation = () => {
   return useQuery({
     queryKey: ['nicknameRecommendation'],
@@ -24,6 +35,20 @@ export const confirmNickname = async (
 }> => {
   const response = await apiInstance.put('/api/v1/member/nickname', {
     new_nickname: nickname,
+  });
+
+  return response.data;
+};
+
+export const updateProfileImage = async (
+  imageFile: File
+): Promise<{
+  profile_image: string;
+}> => {
+  const formData = new FormData();
+  formData.append('image', imageFile);
+  const response = await apiInstance.put('/api/v1/member/image', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
   });
 
   return response.data;
