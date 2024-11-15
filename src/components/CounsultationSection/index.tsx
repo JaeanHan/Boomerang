@@ -5,8 +5,10 @@ import { PropH } from '@components/commons/types';
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useUserContext } from '@/pages/Login/userContext';
 import { ROUTER_PATH } from '@/routerPath';
 import { BoomerangColors } from '@/utils/colors';
+import { useToast } from '@chakra-ui/icons';
 import { Button, Image, Text, VStack } from '@chakra-ui/react';
 import consult1 from '@images/consult1.svg';
 import consult2 from '@images/consult2.svg';
@@ -18,6 +20,8 @@ import styles from './index.module.css';
 export const ConsultationSection: React.FC<PropH> = ({ h }) => {
   const navigate = useNavigate();
   const imageRefs = useRef<(HTMLImageElement | HTMLButtonElement)[]>([]);
+  const { user } = useUserContext();
+  const toast = useToast();
 
   useIntersectionObserver(imageRefs, 0.5, '10% 0px -15% 0px');
 
@@ -55,7 +59,18 @@ export const ConsultationSection: React.FC<PropH> = ({ h }) => {
       <Button
         ref={setImageRefAtIndex(4)}
         bg={BoomerangColors.blue}
-        onClick={() => navigate(ROUTER_PATH.CONSULTING)}
+        onClick={() => {
+          if (!user) {
+            toast({
+              title: '로그인을 먼저 진행해주세요!',
+              status: 'info',
+              duration: 3000,
+              isClosable: true,
+            });
+            return;
+          }
+          navigate(ROUTER_PATH.SELECT_MENTOR);
+        }}
       >
         <Text color={BoomerangColors.white} fontSize="24px">
           전문가와 상담해보기

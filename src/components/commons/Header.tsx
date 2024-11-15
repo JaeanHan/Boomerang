@@ -31,7 +31,6 @@ export const Header: React.FC<PropH> = ({ h }) => {
       <Link to={ROUTER_PATH.ROOT}>
         <Image src={logo} alt="logo" w={132} h={27} ml={10} />
       </Link>
-
       <Flex
         mr={'37px'}
         color="#4D4D4D"
@@ -66,8 +65,7 @@ export const Header: React.FC<PropH> = ({ h }) => {
           <Text
             cursor={'pointer'}
             onClick={() => {
-              logout();
-              navigate(ROUTER_PATH.ROOT);
+              navigate(ROUTER_PATH.USER);
             }}
           >
             {user.nickname}

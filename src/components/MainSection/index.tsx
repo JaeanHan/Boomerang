@@ -9,6 +9,7 @@ import { PropH } from '@components/commons/types';
 
 import React from 'react';
 
+import { ROUTER_PATH } from '@/routerPath';
 import { Flex } from '@chakra-ui/react';
 import figure1 from '@images/figure1.svg';
 import figure2 from '@images/figure2.svg';
@@ -28,13 +29,13 @@ const categories: ICategoryBox[] = [
     category: '대처 가이드라인',
     example: 'EX.) 보험은 있어요',
     img: info,
-    path: '/guideline',
+    path: ROUTER_PATH.GUIDELINE,
   },
   {
-    category: '집이 경매에 넘어갔다면',
-    example: 'EX.) 보험이 없어요',
+    category: '보험 알아보기',
+    example: 'EX.) 보험에 대해 잘 몰라요',
     img: wash,
-    path: '/help',
+    path: ROUTER_PATH.CHANGEALERT,
   },
 ];
 
