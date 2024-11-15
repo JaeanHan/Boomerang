@@ -64,7 +64,7 @@
 | **State Management**| Context API, React Query, React Router Dom                   |
 | **Build Tools**     | Vite                                                         |
 | **Data Fetching**   | Tanstack Query, Axios                                        |
-| **Style**           | Chakra UI, Lexical                                           |
+| **Style**           | Chakra UI                                          |
 | **CI/CD**           | GitHub Actions                                               |
 | **Version Control** | Git, GitHub                                                  |
 | **Deployment**      | AWS EC2, Nginx                                               |
