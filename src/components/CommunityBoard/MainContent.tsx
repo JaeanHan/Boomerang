@@ -10,6 +10,7 @@ import {
 } from '@components/CommunityBoard/constants';
 
 import React, { Suspense, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { Box, Flex, Text } from '@chakra-ui/react';
 
@@ -40,9 +41,33 @@ const SpacedSpinner: React.FC<{
   </Flex>
 );
 
-export const MainContent: React.FC = () => {
-  const [selectedBoard, setSelectedBoard] = useState<CommunityBoard>(
+const convertUriToBoardType = (uri: string): string => {
+  if (uri === 'local') {
+    return '지역게시판';
+  }
+  if (uri === 'secret') {
+    return '비밀게시판';
+  }
+  if (uri === 'my-step') {
+    return '단계별게시판';
+  }
+
+  return '자유게시판';
+};
+
+const findBoardTypeByUri = (uri: string): CommunityBoard => {
+  const boardType = convertUriToBoardType(uri);
+
+  return (
+    communityBoardTypes.find((board) => board.type === boardType) ??
     communityBoardTypes[0]
+  );
+};
+
+export const MainContent: React.FC = () => {
+  const { type } = useParams<{ type: string }>();
+  const [selectedBoard, setSelectedBoard] = useState<CommunityBoard>(() =>
+    type ? findBoardTypeByUri(type) : communityBoardTypes[0]
   );
   const [searchWord, setSearchWord] = useState<string>('');
   const [sortType, setSortType] = useState<SortType>('ID');

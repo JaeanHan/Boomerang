@@ -55,7 +55,7 @@ export const getMentorSchedule = async (
   return response.data;
 };
 
-type ConsultStatus = 'RECEIVED' | 'PENDING' | 'ONGOING' | 'FINISHED';
+export type ConsultStatus = 'RECEIVED' | 'PENDING' | 'ONGOING' | 'FINISHED';
 
 const getInfiniteConsultRecords = async (
   pageParam: number,

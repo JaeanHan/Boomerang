@@ -7,13 +7,14 @@ import {
 } from '@components/TextEditor/PostDataContext';
 
 import React, { ChangeEvent, useCallback, useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import {
   createPostContent,
   flushImagePreviewUrls,
 } from '@/templates/Community/utils';
 import { BoomerangColors } from '@/utils/colors';
+import { useToast } from '@chakra-ui/icons';
 import {
   Box,
   Button,
@@ -93,7 +94,9 @@ export const CommunityPosting: React.FC = () => {
 const PostingHookButtons = () => {
   const postDataContext: PostDataContextType | null =
     useContext(PostDataContext);
-  const { mutate } = useCommunityPostMutation();
+  const { mutateAsync } = useCommunityPostMutation();
+  const navigate = useNavigate();
+  const toast = useToast();
   const onClick = () => {
     if (!postDataContext) {
       return;
@@ -103,15 +106,26 @@ const PostingHookButtons = () => {
     const { content, title, boardType, location } = postData;
     const { updatedContent, images } = createPostContent(content);
 
-    mutate({
+    mutateAsync({
       content: updatedContent,
       title: title,
       boardType: boardType,
       location: location,
       images: images,
-    });
-
-    flushImagePreviewUrls();
+    })
+      .then((res) => {
+        const { id } = res;
+        flushImagePreviewUrls();
+        navigate(`/community/post/${id}`);
+      })
+      .catch(() => {
+        toast({
+          title: '게시글 등록에 실패했습니다.',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      });
   };
 
   return (

@@ -5,13 +5,13 @@ import mentorProfile from '@images/mentor_profile.svg';
 export interface MessageProps {
   message: string;
   isMine: boolean;
-  isMentor: boolean;
+  imgSrc?: string;
 }
 
 export const ChatMessage: React.FC<MessageProps> = ({
   message,
   isMine,
-  isMentor,
+  imgSrc = mentorProfile,
 }) => {
   return (
     <Flex
@@ -20,13 +20,11 @@ export const ChatMessage: React.FC<MessageProps> = ({
       gap="27px"
       alignItems="center"
     >
-      {!isMine && (
-        <Image src={mentorProfile} w="81px" h="81px" borderRadius={50} />
-      )}
+      {!isMine && <Image src={imgSrc} w="81px" h="81px" borderRadius={50} />}
       <Flex
         maxW="664px"
         h="fit-content"
-        bg={isMentor ? '#0963FF' : BoomerangColors.white}
+        bg={isMine ? BoomerangColors.white : '#0963FF'}
         p="16px 38px"
         border="1px solid #4488FF"
         borderBottomRadius={50}
@@ -34,7 +32,7 @@ export const ChatMessage: React.FC<MessageProps> = ({
         borderTopRightRadius={isMine ? 3 : 50}
       >
         <Text
-          color={isMentor ? '#FFF' : '#242424'}
+          color={isMine ? '#242424' : '#FFF'}
           fontWeight="bold"
           fontSize="18px"
         >
