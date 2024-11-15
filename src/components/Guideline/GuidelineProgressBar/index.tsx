@@ -1,5 +1,3 @@
-import { MainStep } from '@apis/guideline/types';
-
 import styles from '@components/Guideline/index.module.css';
 
 import React from 'react';
