@@ -1,9 +1,13 @@
+import React from 'react';
+
 import { BoomerangColors } from '@/utils/colors';
 import { Flex, Text } from '@chakra-ui/react';
 
-export const HoverBox: React.FC<{ description: string }> = ({
-  description,
-}) => (
+interface HoverBoxProps {
+  description: string;
+}
+
+export const HoverBox: React.FC<HoverBoxProps> = ({ description }) => (
   <Flex
     mt="18px"
     zIndex={999}
