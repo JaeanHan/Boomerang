@@ -36,11 +36,7 @@ const uploadPost = async ({
     formData.append('image', image);
   });
 
-  const response = await apiInstance.post('/api/v1/board', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+  const response = await apiInstance.post('/api/v1/board', formData);
 
   return response.status === HttpStatusCode.Ok;
 };
