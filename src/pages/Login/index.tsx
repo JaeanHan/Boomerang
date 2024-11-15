@@ -61,7 +61,7 @@ export const Login = () => {
     const { member_role, nickname } = res.data;
     const auth = res.headers['authorization'];
 
-    localStorage.setItem('Authorization', auth);
+    sessionStorage.setItem('Authorization', auth);
 
     const userData: User = {
       member_role: member_role,
