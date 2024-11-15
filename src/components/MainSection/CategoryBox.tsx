@@ -30,14 +30,15 @@ export const CategoryBox = ({ category, example, img, path }: ICategoryBox) => {
         });
         return;
       }
+      console.log('??');
       navigate(path);
       return;
     }
     navigate(path);
   };
   return (
-    <Box className={styles['category--box']}>
-      <VStack spacing={4} alignItems="space-between" onClick={onClick}>
+    <Box className={styles['category--box']} onClick={onClick}>
+      <VStack spacing={4} alignItems="space-between">
         <Text fontWeight={900} fontSize="20px">
           {category}
         </Text>
