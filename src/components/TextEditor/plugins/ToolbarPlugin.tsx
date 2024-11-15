@@ -4,7 +4,10 @@ import { FormatButton } from '@components/TextEditor/options/FormatButton';
 import { InsertImageButton } from '@components/TextEditor/options/InsertImageButton';
 import { TextFormatButtons } from '@components/TextEditor/options/TextFormatButtons';
 import { UndoRedoButtons } from '@components/TextEditor/options/UndoRedoButtons';
-import { convertToKoreanIfIsKoreanFont } from '@components/TextEditor/options/constants';
+import {
+  convertToKoreanIfIsKoreanFont,
+  convertValueToLabel,
+} from '@components/TextEditor/options/constants';
 import {
   INSERT_IMAGE_COMMAND,
   InsertImagePayload,
@@ -52,7 +55,7 @@ export const ToolbarPlugin: React.FC<{
 
   const [fontSize, setFontSize] = useState<string>('15px');
   const [fontColor, setFontColor] = useState<string>('#000');
-  const [fontFamily, setFontFamily] = useState<string>('Arial');
+  const [fontFamily, setFontFamily] = useState<string>('나눔스퀘어');
 
   const [isLink, setIsLink] = useState(false);
   const [isBold, setIsBold] = useState(false);
@@ -60,7 +63,7 @@ export const ToolbarPlugin: React.FC<{
   const [isUnderline, setIsUnderline] = useState(false);
   const [isStrikethrough, setIsStrikethrough] = useState(false);
 
-  const [align, setAlign] = useState('left');
+  const [align, setAlign] = useState('왼쪽 정렬');
 
   const updateToolbarOnSelect = useCallback(() => {
     const selection = $getSelection();
@@ -85,8 +88,8 @@ export const ToolbarPlugin: React.FC<{
         $isElementNode(matchingParent)
           ? matchingParent.getFormatType()
           : $isElementNode(node)
-            ? node.getFormatType() || 'left'
-            : parent?.getFormatType() || 'left'
+            ? convertValueToLabel(node.getFormatType()) || '왼쪽 정렬'
+            : convertValueToLabel(parent?.getFormatType()) || '왼쪽 정렬'
       );
 
       setFontColor(
@@ -97,7 +100,11 @@ export const ToolbarPlugin: React.FC<{
       );
       setFontFamily(
         convertToKoreanIfIsKoreanFont(
-          $getSelectionStyleValueForProperty(selection, 'font-family', 'Arial')
+          $getSelectionStyleValueForProperty(
+            selection,
+            'font-family',
+            '나눔스퀘어'
+          )
         )
       );
     }

@@ -1,5 +1,6 @@
 .content-editable {
     outline: none;
+    font-family: NanumSquareOTF_ac, serif;
 }
 
 .content-editable:focus {
