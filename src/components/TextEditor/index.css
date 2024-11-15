@@ -1,6 +1,7 @@
 .content-editable {
     outline: none;
     font-family: NanumSquareOTF_ac, serif;
+    min-height: 375px;
 }
 
 .content-editable:focus {
