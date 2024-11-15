@@ -3,7 +3,7 @@ import {
   ConsultingInfoItem,
 } from '@/components/ConsultingManagement/ConsultingInfoBox';
 import { Box, Text } from '@chakra-ui/react';
-
+ 
 const ConsultingInfo: ConsultingInfoItem[] = [
   {
     consultation_date_time: '24/10/22 오후 3시~ 오후 4시',
