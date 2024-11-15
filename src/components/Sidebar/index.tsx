@@ -31,7 +31,8 @@ export const Sidebar: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const navigate = useNavigate();
   //TODO: 임시
-  const userType = 'MENTOR';
+  // const userType = 'MENTOR';
+  const userType = 'USER';
 
   const menteeSidebarCategories = [
     {
