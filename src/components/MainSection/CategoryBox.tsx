@@ -16,7 +16,7 @@ export const CategoryBox = ({ category, example, img, path }: ICategoryBox) => {
     <Link
       className={styles['category--box']}
       to={path}
-      preventScrollReset={true}
+      preventScrollReset={false}
     >
       <VStack spacing={4} alignItems="space-between">
         <Text fontWeight={900} fontSize="20px">

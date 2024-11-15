@@ -25,6 +25,7 @@ import { FullProgressGuide } from '@/pages/FullProgressGuide';
 import { Guideline } from '@/pages/Guideline';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
+import { kakaoLoginUrl } from '@/pages/Login/constants';
 import { MentorConsultingManagement } from '@/pages/MentorConsultingManagement';
 import { MentorSwitch } from '@/pages/MentorSwitch';
 import { PreventionResult } from '@/pages/PreventionResult';
@@ -54,6 +55,11 @@ const guidelineLoader = async () => {
   } catch (err) {
     if (axios.isAxiosError(err) && err.response) {
       const data = err.response.data;
+      // TODO : 로그인 에러시?
+      if (data.code === 'MB002') {
+        window.location.href = kakaoLoginUrl;
+        return null;
+      }
       // TODO: CODE ENUM 등록 필요
       if (data.code === 'PG004') {
         throw new Response(
@@ -63,7 +69,7 @@ const guidelineLoader = async () => {
           }
         );
       }
-      // TODO : 로그인 에러시?
+
       // TODO: 공통 에러 처리 페이지 필요
     }
   }

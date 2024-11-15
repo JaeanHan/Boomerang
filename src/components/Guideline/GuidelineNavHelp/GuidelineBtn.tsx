@@ -11,7 +11,7 @@ export const GuidelineBtn: React.FC<GuidelineBtnProps> = ({
   icon,
   children,
 }) => (
-  <Button w={350} h={59} bg={bg} borderRadius={8}>
+  <Button w={350} h={59} bg={bg} borderRadius={8} _hover={{}}>
     <Image src={icon} />
     <Text
       color={'#FFF'}

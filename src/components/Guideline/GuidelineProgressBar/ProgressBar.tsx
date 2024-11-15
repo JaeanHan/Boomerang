@@ -1,8 +1,8 @@
 import { PropH } from '@components/commons/types';
 
-import React, { useState } from 'react';
+import React from 'react';
 
-import { GuidelineProgressBarProps } from '@/components/Guideline/GuidelineProgressBar';
+import { useGuidelineContext } from '@/pages/Guideline/guidelineContext';
 import { BoomerangColors } from '@/utils/colors';
 import { Box, Flex, Image, keyframes } from '@chakra-ui/react';
 import home from '@images/home.svg';
@@ -87,17 +87,17 @@ const ProgressSelectedStep: React.FC<IProgressStep> = ({ label }) => {
   );
 };
 
-export const ProgressBar: React.FC<GuidelineProgressBarProps & PropH> = ({
-  currMainIdx,
-  mainStepList,
-  h,
-}) => {
-  const [selectedIdx, setSelectedIdx] = useState(() => currMainIdx);
+export const ProgressBar: React.FC<
+  PropH & {
+    currPosIdx: number;
+  }
+> = ({ h, currPosIdx }) => {
+  const { currIdx, mainStepList, setCurrIdx } = useGuidelineContext();
 
   const progressbarWidth =
-    currMainIdx + 1 == mainStepList.length
+    currPosIdx + 1 == mainStepList.length
       ? '100%'
-      : `calc(${progressBarPadding}% + 40px + (${100 - 2 * progressBarPadding}% / ${mainStepList.length - 1} * ${currMainIdx}) )`;
+      : `calc(${progressBarPadding}% + 40px + (${100 - 2 * progressBarPadding}% / ${mainStepList.length - 1} * ${currPosIdx}) )`;
 
   return (
     <Box h={h} bgColor="#F1F1F1" borderRadius={199.8} position={'relative'}>
@@ -120,7 +120,7 @@ export const ProgressBar: React.FC<GuidelineProgressBarProps & PropH> = ({
             main_step_name: item.main_step_name.replaceAll('-', ' '),
           }))
           .map((item, idx) =>
-            selectedIdx === idx ? (
+            currIdx === idx ? (
               <ProgressSelectedStep
                 label={item.main_step_name}
                 key={item.main_step_name}
@@ -129,7 +129,7 @@ export const ProgressBar: React.FC<GuidelineProgressBarProps & PropH> = ({
               <ProgressStep
                 label={item.main_step_name}
                 key={item.main_step_name}
-                onClick={() => setSelectedIdx(idx)}
+                onClick={() => setCurrIdx(idx)}
               />
             )
           )}
