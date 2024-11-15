@@ -14,39 +14,29 @@ import { Box, Button, Flex, Spinner, Text, VStack } from '@chakra-ui/react';
 
 const ConsultingInfo: ConsultingInfoItem[] = [
   {
-    title: '상담 일정',
-    content: '24/10/22 오후 3시~ 오후 4시',
+    consultation_date_time: '24/10/22 오후 3시~ 오후 4시',
+    mentor_nick_name: '김땡땡',
+    consultation_status: 'PENDING',
+    content:
+      '주택 전세사기를 당했어요... 주택 전세사기를 당했어요...주택 전세사기를 당했어요...주택 전세사기를 당했어요...',
   },
   {
-    title: '멘토명',
-    content: '김땡땡',
-  },
-  {
-    title: '신청 내용',
+    consultation_date_time: '24/10/22 오후 3시~ 오후 4시',
+    mentor_nick_name: '김땡땡',
+    consultation_status: 'PENDING',
     content:
       '주택 전세사기를 당했어요... 주택 전세사기를 당했어요...주택 전세사기를 당했어요...주택 전세사기를 당했어요...',
   },
 ];
 
-const toConsultingInfo = (
-  consultation: IConsultation
-): ConsultingInfoItem[] => {
+const toConsultingInfo = (consultation: IConsultation): ConsultingInfoItem => {
   const { content, consultation_date_time, mentor_nick_name } = consultation;
 
-  return [
-    {
-      title: '상담 일정',
-      content: consultation_date_time,
-    },
-    {
-      title: '멘토명',
-      content: mentor_nick_name,
-    },
-    {
-      title: '신청 내용',
-      content: content,
-    },
-  ];
+  return {
+    consultation_date_time: consultation_date_time,
+    mentor_nick_name: mentor_nick_name,
+    content: content,
+  };
 };
 
 // RECEIVED //확정전 -> 상담 신청만 완료한 상태
@@ -106,8 +96,13 @@ const ConsultingRecords: React.FC<{
           );
         });
       })}
-      // TODO : TEST
-      <ConsultingApplicationRecord infoList={ConsultingInfo} />
+      //TODO : TEST
+      {ConsultingInfo.map((item) => (
+        <ConsultingApplicationRecord
+          key={item.consultation_date_time}
+          infoList={item}
+        />
+      ))}
     </Fragment>
   );
 };
@@ -115,7 +110,7 @@ const ConsultingRecords: React.FC<{
 const ConsultingApplicationRecord = ({
   infoList,
 }: {
-  infoList: ConsultingInfoItem[];
+  infoList: ConsultingInfoItem;
 }) => {
   return (
     <VStack spacing={0} alignItems="flex-end">

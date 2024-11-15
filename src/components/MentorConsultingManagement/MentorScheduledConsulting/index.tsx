@@ -69,11 +69,11 @@ export const MentorScheduledConsulting = () => {
           {data!.content.map((item: ConsultationContent) => (
             <ScheduledConsultingRecord
               key={item.id}
-              infoList={[
-                { title: '상담 일정', content: item.consultation_date_time },
-                { title: '신청자명', content: item.mentee_nick_name },
-                { title: '신청 내용', content: item.content },
-              ]}
+              infoList={{
+                consultation_date_time: item.consultation_date_time,
+                mentee_nick_name: item.mentee_nick_name,
+                content: item.content,
+              }}
               consultationId={item.id}
             />
           ))}
@@ -87,7 +87,7 @@ const ScheduledConsultingRecord = ({
   infoList,
   consultationId,
 }: {
-  infoList: ConsultingInfoItem[];
+  infoList: ConsultingInfoItem;
   consultationId: number;
 }) => {
   return (
