@@ -53,13 +53,12 @@ export const MentorChatSection = () => {
           <ChatStatusBubble status="PENDING" />
           {messages.map((msg) => {
             const isMine = msg.nickname === myNickname;
-            const isMentor = isMine;
+            // const isMentor = isMine;
             return (
               <ChatMessage
                 key={msg.message}
                 message={msg.message}
                 isMine={isMine}
-                isMentor={isMentor}
               />
             );
           })}

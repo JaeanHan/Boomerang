@@ -57,7 +57,11 @@ const convertUriToBoardType = (uri: string): string => {
 
 const findBoardTypeByUri = (uri: string): CommunityBoard => {
   const boardType = convertUriToBoardType(uri);
-  return communityBoardTypes.find((board) => board.type === boardType);
+
+  return (
+    communityBoardTypes.find((board) => board.type === boardType) ??
+    communityBoardTypes[0]
+  );
 };
 
 export const MainContent: React.FC = () => {

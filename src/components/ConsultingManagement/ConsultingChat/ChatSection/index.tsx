@@ -64,7 +64,6 @@ export const ChatSection: React.FC<{
                 key={chat.message}
                 message={chat.message}
                 isMine={chat.nickname === user?.nickname}
-                isMentor={mentor}
                 imgSrc={mentor ? menteeProfileImage : mentorProfileImage}
               />
             );
