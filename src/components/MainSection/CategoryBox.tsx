@@ -1,6 +1,9 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import { Text, VStack } from '@chakra-ui/react';
+import { useUserContext } from '@/pages/Login/userContext';
+import { ROUTER_PATH } from '@/routerPath';
+import { useToast } from '@chakra-ui/icons';
+import { Box, Text, VStack } from '@chakra-ui/react';
 
 import styles from './index.module.css';
 
@@ -12,12 +15,29 @@ export interface ICategoryBox {
 }
 
 export const CategoryBox = ({ category, example, img, path }: ICategoryBox) => {
+  const { user } = useUserContext();
+  const toast = useToast();
+  const navigate = useNavigate();
+
+  const onClick = () => {
+    if (path !== ROUTER_PATH.CHANGEALERT) {
+      if (!user) {
+        toast({
+          title: '로그인 후 진행해주세요.',
+          status: 'info',
+          duration: 3000,
+          isClosable: true,
+        });
+        return;
+      }
+      console.log('??');
+      navigate(path);
+      return;
+    }
+    navigate(path);
+  };
   return (
-    <Link
-      className={styles['category--box']}
-      to={path}
-      preventScrollReset={false}
-    >
+    <Box className={styles['category--box']} onClick={onClick}>
       <VStack spacing={4} alignItems="space-between">
         <Text fontWeight={900} fontSize="20px">
           {category}
@@ -27,6 +47,6 @@ export const CategoryBox = ({ category, example, img, path }: ICategoryBox) => {
         </Text>
       </VStack>
       <img alt="category image" src={img} />
-    </Link>
+    </Box>
   );
 };

@@ -3,8 +3,9 @@ import { PropH } from '@components/commons/types';
 import React, { ReactNode } from 'react';
 
 import { BoomerangColors } from '@/utils/colors';
-import { Box, Text, VStack } from '@chakra-ui/react';
+import { Box, Flex, Text, VStack } from '@chakra-ui/react';
 import HeroBannerBg from '@images/heroBg.svg?react';
+import LogoArrow from '@images/logoArrow.svg?react';
 
 import styles from './index.module.css';
 
@@ -29,12 +30,12 @@ export const HeroSection: React.FC<
 };
 
 const BoomerangLogo: React.FC = () => (
-  <Text color={BoomerangColors.white} fontSize="40px" fontWeight={900}>
-    BOOMERANG
-    <Text as="sup" fontSize="40px">
-      {'<'}
+  <Flex gap={1}>
+    <Text color={BoomerangColors.white} fontSize="40px" fontWeight={900}>
+      BOOMERANG
     </Text>
-  </Text>
+    <LogoArrow width={'18px'} />
+  </Flex>
 );
 
 const HeroKickBox: React.FC<{
