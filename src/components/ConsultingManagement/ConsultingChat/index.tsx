@@ -1,9 +1,10 @@
+import { Suspense } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { ChatSection } from '@/components/ConsultingManagement/ConsultingChat/ChatSection';
 import { ConsultingManagementHeader } from '@/components/ConsultingManagement/ConsultingManagementHeader';
 import { ROUTER_PATH } from '@/routerPath';
-import { Box, VStack } from '@chakra-ui/react';
+import { Box, Spinner, VStack } from '@chakra-ui/react';
 
 export const ConsultingChat = () => {
   const { id } = useParams<{ id: string }>();
@@ -13,11 +14,15 @@ export const ConsultingChat = () => {
     return null;
   }
 
+  const nId = parseInt(id);
+
   return (
     <Box flex="1" bg="white">
       <ConsultingManagementHeader category="상담 채팅" />
-      <VStack mt="55px" spacing="52px">
-        <ChatSection />
+      <VStack spacing="52px">
+        <Suspense fallback={<Spinner />}>
+          <ChatSection id={nId} />
+        </Suspense>
       </VStack>
     </Box>
   );

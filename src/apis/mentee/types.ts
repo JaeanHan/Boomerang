@@ -1,3 +1,5 @@
+import { ConsultStatus } from '@apis/mentee/index';
+
 export type MentorType = {
   id: number;
   nickname: string;
@@ -56,7 +58,7 @@ export interface IConsultation {
   mentor_nick_name: string;
   mentee_nick_name: string;
   consultation_date_time: string;
-  consultation_status: 'RECEIVED' | 'PENDING' | 'ONGOING' | 'FINISHED';
+  consultation_status: ConsultStatus;
   title: string;
   content: string;
 }

@@ -1,5 +1,6 @@
 import React, { Fragment, useMemo } from 'react';
 
+import { BoomerangColors } from '@/utils/colors';
 import { Box, Button, ButtonGroup } from '@chakra-ui/react';
 
 interface PaginationProps {
@@ -45,6 +46,7 @@ export const Pagination: React.FC<PaginationProps> = ({
             key={page}
             onClick={() => onPageChange(page)}
             variant={page === currentPage ? 'solid' : 'outline'}
+            color={page === currentPage ? BoomerangColors.deepBlue : 'black'}
           >
             {page}
           </Button>

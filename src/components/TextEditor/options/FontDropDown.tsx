@@ -1,5 +1,6 @@
 import { DropDown } from '@components/DropDown';
 import { DropDownItem } from '@components/DropDown/DropDownItem';
+import { FONT_FAMILY_OPTIONS } from '@components/TextEditor/options/constants';
 
 import React, { Fragment, useCallback } from 'react';
 
@@ -7,15 +8,6 @@ import { BoomerangColors } from '@/utils/colors';
 import { Box } from '@chakra-ui/react';
 import { $patchStyleText } from '@lexical/selection';
 import { $getSelection, LexicalEditor } from 'lexical';
-
-const FONT_FAMILY_OPTIONS: [string, string][] = [
-  ['Arial', 'Arial'],
-  ['Courier New', 'Courier New'],
-  ['Georgia', 'Georgia'],
-  ['Times New Roman', 'Times New Roman'],
-  ['Trebuchet MS', 'Trebuchet MS'],
-  ['Verdana', 'Verdana'],
-];
 
 const FONT_COLOR_OPTIONS: string[] = [
   BoomerangColors.deepBlue,

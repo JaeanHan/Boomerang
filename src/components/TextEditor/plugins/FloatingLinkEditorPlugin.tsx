@@ -183,6 +183,8 @@ const FloatingLinkEditor: React.FC<{
     if (event.key === 'Enter') {
       event.preventDefault();
       handleLinkSubmission();
+      setEditedLinkUrl('https://');
+      setIsLinkEditMode(false);
     } else if (event.key === 'Escape') {
       event.preventDefault();
       setIsLinkEditMode(false);
@@ -212,8 +214,6 @@ const FloatingLinkEditor: React.FC<{
         }
       });
     }
-    setEditedLinkUrl('https://');
-    setIsLinkEditMode(false);
   };
 
   return (

@@ -1,27 +1,10 @@
 import { DropDown } from '@components/DropDown';
 import { DropDownItem } from '@components/DropDown/DropDownItem';
+import { alignOptions } from '@components/TextEditor/options/constants';
 
 import React from 'react';
 
-import {
-  ElementFormatType,
-  FORMAT_ELEMENT_COMMAND,
-  LexicalEditor,
-} from 'lexical';
-
-// TODO : 아이콘으로 변경
-const alignOptions: {
-  label: string;
-  value: ElementFormatType;
-  iconClass: string;
-}[] = [
-  { label: 'left Align', value: 'left', iconClass: 'left-align' },
-  { label: 'center Align', value: 'center', iconClass: 'center-align' },
-  { label: 'right Align', value: 'right', iconClass: 'right-align' },
-  { label: 'justify Align', value: 'justify', iconClass: 'justify-align' },
-  { label: 'start Align', value: 'start', iconClass: '' },
-  { label: 'end Align', value: 'end', iconClass: '' },
-];
+import { FORMAT_ELEMENT_COMMAND, LexicalEditor } from 'lexical';
 
 export const AlignDropDown: React.FC<{
   isDisabled?: boolean;

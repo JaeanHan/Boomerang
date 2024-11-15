@@ -1,6 +1,6 @@
 import { PropH } from '@components/commons/types';
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { BoomerangColors } from '@/utils/colors';
 import { Box, Text, VStack } from '@chakra-ui/react';
@@ -8,16 +8,21 @@ import HeroBannerBg from '@images/heroBg.svg?react';
 
 import styles from './index.module.css';
 
-export const HeroSection: React.FC<PropH> = ({ h }) => {
+export const HeroSection: React.FC<
+  PropH & {
+    upperText: ReactNode;
+    whiteBoxText: ReactNode;
+  }
+> = ({ h, upperText, whiteBoxText }) => {
   return (
     <Box bg={BoomerangColors.blue} h={h} className={styles.hero}>
       <HeroBannerBg viewBox={`0 0 1024 ${h}`} />
       <VStack spacing={5} marginTop={75}>
         <Text color={BoomerangColors.white} fontSize={'20px'}>
-          <b>전세사기 대응 가이드라인</b> 저희가 드릴게요!
+          {upperText}
         </Text>
         <BoomerangLogo />
-        <HeroKickBox />
+        <HeroKickBox whiteBoxText={whiteBoxText} />
       </VStack>
     </Box>
   );
@@ -32,7 +37,9 @@ const BoomerangLogo: React.FC = () => (
   </Text>
 );
 
-const HeroKickBox = () => (
+const HeroKickBox: React.FC<{
+  whiteBoxText: ReactNode;
+}> = ({ whiteBoxText }) => (
   <Box
     bg={BoomerangColors.white}
     padding={3}
@@ -42,7 +49,7 @@ const HeroKickBox = () => (
     borderTopRightRadius={1}
   >
     <Text fontWeight={700} fontSize="30px">
-      전세 사기를 당했어요! 어떻게 하죠?😢
+      {whiteBoxText}
     </Text>
   </Box>
 );

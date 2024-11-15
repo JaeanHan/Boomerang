@@ -106,7 +106,11 @@ export const GuidelineChecklist: React.FC<IGuidelineChecklist> = ({
                 color={'#BBBBBB'}
                 minH={235}
               >
-                {item.content}
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: item.content,
+                  }}
+                />
               </AccordionPanel>
             </AccordionItem>
           ))}
