@@ -2,12 +2,11 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { PropH } from '@/components/commons/types';
+import { kakaoLoginUrl } from '@/pages/Login/constants';
 import { useUserContext } from '@/pages/Login/userContext';
 import { ROUTER_PATH } from '@/routerPath';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import logo from '@images/logo.svg';
-
-const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${import.meta.env.VITE_REST_API_KEY}&redirect_uri=${import.meta.env.VITE_REDIRECT_URI}`;
 
 export const Header: React.FC<PropH> = ({ h }) => {
   const navigate = useNavigate();
