@@ -42,6 +42,7 @@ export const Header: React.FC<PropH> = ({ h }) => {
           <Text>홈</Text>
         </Link>
         <Text
+          cursor={'pointer'}
           onClick={() => {
             if (user === null) {
               toast({
