@@ -4,6 +4,7 @@ import { FormatButton } from '@components/TextEditor/options/FormatButton';
 import { InsertImageButton } from '@components/TextEditor/options/InsertImageButton';
 import { TextFormatButtons } from '@components/TextEditor/options/TextFormatButtons';
 import { UndoRedoButtons } from '@components/TextEditor/options/UndoRedoButtons';
+import { convertToKoreanIfIsKoreanFont } from '@components/TextEditor/options/constants';
 import {
   INSERT_IMAGE_COMMAND,
   InsertImagePayload,
@@ -95,7 +96,9 @@ export const ToolbarPlugin: React.FC<{
         $getSelectionStyleValueForProperty(selection, 'font-size', '15px')
       );
       setFontFamily(
-        $getSelectionStyleValueForProperty(selection, 'font-family', 'Arial')
+        convertToKoreanIfIsKoreanFont(
+          $getSelectionStyleValueForProperty(selection, 'font-family', 'Arial')
+        )
       );
     }
   }, [editor, activeEditor]);
