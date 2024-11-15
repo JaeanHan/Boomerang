@@ -12,7 +12,7 @@ import logo from '@images/logo.svg';
 export const Header: React.FC<PropH> = ({ h }) => {
   const navigate = useNavigate();
   const toast = useToast();
-  const { user, logout } = useUserContext();
+  const { user } = useUserContext();
 
   return (
     <Box
