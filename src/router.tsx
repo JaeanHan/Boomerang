@@ -26,6 +26,7 @@ import { Guideline } from '@/pages/Guideline';
 import { Home } from '@/pages/Home';
 import { Login } from '@/pages/Login';
 import { MentorConsultingManagement } from '@/pages/MentorConsultingManagement';
+import { MentorSwitch } from '@/pages/MentorSwitch';
 import { PreventionResult } from '@/pages/PreventionResult';
 import ReportDetail from '@/pages/ReportDetail';
 import { Survey } from '@/pages/Survey';
@@ -84,6 +85,8 @@ export const router = createBrowserRouter([
   { path: ROUTER_PATH.CONSULTING, element: <Consulting /> },
   { path: ROUTER_PATH.SURVEY, element: <Survey /> },
   { path: ROUTER_PATH.DOCUMENT_FORM, element: <DocumentForm /> },
+  { path: ROUTER_PATH.MENTOR_SWITCH, element: <MentorSwitch /> },
+
   {
     element: <ConsultingManagement />,
     children: [
