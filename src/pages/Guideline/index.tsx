@@ -18,40 +18,80 @@ import {
 } from '@/pages/Guideline/guidelineContext';
 import { Flex, VStack } from '@chakra-ui/react';
 
+const filterUniqueSubSteps = (subSteps: SubStep[]): SubStep[] => {
+  const seenNames = new Set<string>();
+
+  return subSteps.filter((subStep) => {
+    if (seenNames.has(subStep.name)) {
+      return false;
+    }
+    seenNames.add(subStep.name);
+    return true;
+  });
+};
+
+let isInit = true;
+
 export const Guideline: React.FC = () => {
   const data = useLoaderData() as ProgressResponse;
   const { main_step_list, current_main_step, sub_step_list } = data;
 
-  const currPosIdx = main_step_list.findIndex(
-    (mainStep: MainStep) => mainStep.main_step_name === current_main_step
+  const [currMainIdx, setCurrMainIdx] = useState(() =>
+    main_step_list.findIndex(
+      (mainStep: MainStep) => mainStep.main_step_name === current_main_step
+    )
   );
-  const [currIdx, setCurrIdx] = useState(currPosIdx);
+  const [currIdx, setCurrIdx] = useState(currMainIdx);
   const [mainStepList, setMainStepList] = useState<MainStep[]>(
     () => main_step_list
   );
-  const [subStepList, setSubStepList] = useState<SubStep[]>(
-    () => sub_step_list
+  // TODO : 백엔드에서 중복 제거 할 때 까지 유지
+  const [subStepList, setSubStepList] = useState<SubStep[]>(() =>
+    filterUniqueSubSteps(sub_step_list)
   );
 
   useEffect(() => {
-    if (currIdx !== currPosIdx) {
-      getSubStepsByMainStep(mainStepList[currIdx].main_step_name)
-        .then((res) => {
-          const {
-            main_step_list: newMainStepList,
-            sub_step_list: newSubStepList,
-          } = res;
-          setMainStepList(newMainStepList);
-          setSubStepList(newSubStepList);
-        })
-        .catch(() => {
-          setCurrIdx(currIdx);
-        });
+    if (isInit) {
+      isInit = false;
       return;
     }
-    setMainStepList(main_step_list);
-    setSubStepList(sub_step_list);
+    getSubStepsByMainStep(mainStepList[currIdx].main_step_name)
+      .then((res) => {
+        const {
+          main_step_list: newMainStepList,
+          sub_step_list: newSubStepList,
+        } = res;
+        setMainStepList(newMainStepList);
+        setSubStepList(filterUniqueSubSteps(newSubStepList));
+      })
+      .catch(() => {
+        setCurrIdx(currIdx);
+      });
   }, [currIdx]);
+
+  // useEffect(() => {
+  //   const isAllCompleted = subStepList.reduce(
+  //     (allCompleted, subStep) => allCompleted && subStep.completion,
+  //     true
+  //   );
+  //
+  //   if (isAllCompleted) {
+  //     setCurrMainIdx((prev) => {
+  //       const next = prev + 1;
+  //       if (subStepList.length === next) {
+  //         return prev;
+  //       }
+  //       setCurrIdx((prev) => {
+  //         const next = prev + 1;
+  //         if (mainStepList.length === next) {
+  //           return prev;
+  //         }
+  //         return next;
+  //       });
+  //       return next;
+  //     });
+  //   }
+  // }, [subStepList]);
 
   const value: GuidelineContextType = {
     currIdx,
@@ -64,7 +104,7 @@ export const Guideline: React.FC = () => {
     <BasicLayout maxW={1015}>
       <GuidelineContext.Provider value={value}>
         <VStack spacing={'39px'} align="stretch" mb={'66px'}>
-          <GuidelineProgressBar h={195} currPosIdx={currPosIdx} />
+          <GuidelineProgressBar h={195} currPosIdx={currMainIdx} />
           <Flex gap={'40px'} h={'max-content'}>
             <GuidelineChecklist h={667} />
             <VStack h={667} justifyContent="space-between">
