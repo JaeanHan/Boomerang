@@ -12,22 +12,22 @@ import { ConsultingManagementHeader } from '@/components/ConsultingManagement/Co
 import { BoomerangColors } from '@/utils/colors';
 import { Box, Button, Flex, Spinner, Text, VStack } from '@chakra-ui/react';
 
-const ConsultingInfo: ConsultingInfoItem[] = [
-  {
-    consultation_date_time: '24/10/22 오후 3시~ 오후 4시',
-    mentor_nick_name: '김땡땡',
-    consultation_status: 'PENDING',
-    content:
-      '주택 전세사기를 당했어요... 주택 전세사기를 당했어요...주택 전세사기를 당했어요...주택 전세사기를 당했어요...',
-  },
-  {
-    consultation_date_time: '24/10/22 오후 4시~ 오후 5시',
-    mentor_nick_name: '김땡땡',
-    consultation_status: 'PENDING',
-    content:
-      '주택 전세사기를 당했어요... 주택 전세사기를 당했어요...주택 전세사기를 당했어요...주택 전세사기를 당했어요...',
-  },
-];
+// const ConsultingInfo: ConsultingInfoItem[] = [
+//   {
+//     consultation_date_time: '24/10/22 오후 3시~ 오후 4시',
+//     mentor_nick_name: '김땡땡',
+//     consultation_status: 'PENDING',
+//     content:
+//       '주택 전세사기를 당했어요... 주택 전세사기를 당했어요...주택 전세사기를 당했어요...주택 전세사기를 당했어요...',
+//   },
+//   {
+//     consultation_date_time: '24/10/22 오후 4시~ 오후 5시',
+//     mentor_nick_name: '김땡땡',
+//     consultation_status: 'PENDING',
+//     content:
+//       '주택 전세사기를 당했어요... 주택 전세사기를 당했어요...주택 전세사기를 당했어요...주택 전세사기를 당했어요...',
+//   },
+// ];
 
 const toConsultingInfo = (consultation: IConsultation): ConsultingInfoItem => {
   const { content, consultation_date_time, mentor_nick_name } = consultation;
@@ -93,7 +93,9 @@ const ConsultingRecords: React.FC<{
         return contents.map((content) => {
           return (
             <ConsultingApplicationRecord
-                key={`${content.consultation_date_time}-${content.id}`} infoList={toConsultingInfo(content)} />
+              key={`${content.consultation_date_time}-${content.id}`}
+              infoList={toConsultingInfo(content)}
+            />
           );
         });
       })}
