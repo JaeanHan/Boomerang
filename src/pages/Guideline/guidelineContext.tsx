@@ -4,7 +4,9 @@ import { createContext, useContext } from 'react';
 
 export interface GuidelineContextType {
   currIdx: number;
+  currMainIdx: number;
   setCurrIdx: (value: ((prevState: number) => number) | number) => void;
+  setCurrMainIdx: (value: ((prevState: number) => number) | number) => void;
   mainStepList: MainStep[];
   subStepList: SubStep[];
 }

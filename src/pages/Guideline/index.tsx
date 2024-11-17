@@ -41,7 +41,7 @@ export const Guideline: React.FC = () => {
       (mainStep: MainStep) => mainStep.main_step_name === current_main_step
     )
   );
-  const [currIdx, setCurrIdx] = useState(currMainIdx);
+  const [currViewIdx, setCurrViewIdx] = useState(() => currMainIdx);
   const [mainStepList, setMainStepList] = useState<MainStep[]>(
     () => main_step_list
   );
@@ -55,7 +55,7 @@ export const Guideline: React.FC = () => {
       isInit = false;
       return;
     }
-    getSubStepsByMainStep(mainStepList[currIdx].main_step_name)
+    getSubStepsByMainStep(mainStepList[currViewIdx].main_step_name)
       .then((res) => {
         const {
           main_step_list: newMainStepList,
@@ -65,39 +65,17 @@ export const Guideline: React.FC = () => {
         setSubStepList(filterUniqueSubSteps(newSubStepList));
       })
       .catch(() => {
-        setCurrIdx(currIdx);
+        setCurrViewIdx(currViewIdx);
       });
-  }, [currIdx]);
-
-  // useEffect(() => {
-  //   const isAllCompleted = subStepList.reduce(
-  //     (allCompleted, subStep) => allCompleted && subStep.completion,
-  //     true
-  //   );
-  //
-  //   if (isAllCompleted) {
-  //     setCurrMainIdx((prev) => {
-  //       const next = prev + 1;
-  //       if (subStepList.length === next) {
-  //         return prev;
-  //       }
-  //       setCurrIdx((prev) => {
-  //         const next = prev + 1;
-  //         if (mainStepList.length === next) {
-  //           return prev;
-  //         }
-  //         return next;
-  //       });
-  //       return next;
-  //     });
-  //   }
-  // }, [subStepList]);
+  }, [currViewIdx]);
 
   const value: GuidelineContextType = {
-    currIdx,
-    setCurrIdx,
+    currIdx: currViewIdx,
+    setCurrIdx: setCurrViewIdx,
     mainStepList,
     subStepList,
+    currMainIdx,
+    setCurrMainIdx,
   };
 
   return (
