@@ -21,7 +21,7 @@ const ConsultingInfo: ConsultingInfoItem[] = [
       '주택 전세사기를 당했어요... 주택 전세사기를 당했어요...주택 전세사기를 당했어요...주택 전세사기를 당했어요...',
   },
   {
-    consultation_date_time: '24/10/22 오후 3시~ 오후 4시',
+    consultation_date_time: '24/10/22 오후 4시~ 오후 5시',
     mentor_nick_name: '김땡땡',
     consultation_status: 'PENDING',
     content:
@@ -92,16 +92,17 @@ const ConsultingRecords: React.FC<{
         const contents = res.content;
         return contents.map((content) => {
           return (
-            <ConsultingApplicationRecord infoList={toConsultingInfo(content)} />
+            <ConsultingApplicationRecord
+                key={`${content.consultation_date_time}-${content.id}`} infoList={toConsultingInfo(content)} />
           );
         });
       })}
-      {ConsultingInfo.map((item) => (
-        <ConsultingApplicationRecord
-          key={item.consultation_date_time}
-          infoList={item}
-        />
-      ))}
+      {/*{ConsultingInfo.map((item) => (*/}
+      {/*  <ConsultingApplicationRecord*/}
+      {/*    key={item.consultation_date_time}*/}
+      {/*    infoList={item}*/}
+      {/*  />*/}
+      {/*))}*/}
     </Fragment>
   );
 };
