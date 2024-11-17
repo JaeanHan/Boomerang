@@ -3,7 +3,7 @@ import { checkASubProgress, uncheckASubProgress } from '@apis/guideline';
 
 import { CheckListHeader } from '@components/Guideline/GuidelineChecklist/CheckListHeader';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { PropH } from '@/components/commons/types';
 import { useGuidelineContext } from '@/pages/Guideline/guidelineContext';
@@ -26,8 +26,16 @@ const replaceHyphensWithSpaces = (str: string): string => {
   return str.replace(/-/g, ' ');
 };
 
+const countTrueValues = (obj: Record<string, boolean>): number => {
+  return Object.values(obj).reduce(
+    (count, value) => (value ? count + 1 : count),
+    0
+  );
+};
+
 export const GuidelineChecklist: React.FC<PropH> = ({ h }) => {
-  const { currIdx, mainStepList, subStepList } = useGuidelineContext();
+  const { currIdx, mainStepList, subStepList, currMainIdx, setCurrMainIdx } =
+    useGuidelineContext();
   const toast = useToast();
   const [checkState, setCheckState] = useState(() =>
     subStepList.reduce(
@@ -38,6 +46,17 @@ export const GuidelineChecklist: React.FC<PropH> = ({ h }) => {
       {} as Record<string, boolean>
     )
   );
+
+  useEffect(() => {
+    const tasks = subStepList.length;
+    const trueCnt = countTrueValues(checkState);
+
+    if (tasks === trueCnt) {
+      if (currMainIdx + 1 <= mainStepList.length) {
+        setCurrMainIdx((prev) => prev + 1);
+      }
+    }
+  }, [checkState]);
 
   const onChange = useCallback(
     (name: string, isChecked: boolean) => {

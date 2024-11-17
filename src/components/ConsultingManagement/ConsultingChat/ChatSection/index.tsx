@@ -1,5 +1,7 @@
 import { loadChatData } from '@apis/chat';
 
+import { useWebSocket } from '@hooks/useWebsocket';
+
 import { ChatMessage } from '@components/ConsultingManagement/ConsultingChat/ChatSection/Chat/ChatMessage';
 
 import { useRef, useState } from 'react';
@@ -37,6 +39,13 @@ export const ChatSection: React.FC<{
     }[]
   >([]);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  const url = `${import.meta.env.BASE_URL}/ws/chat/${id}?token=${sessionStorage.getItem('Authorization')}`;
+  // const url = `${import.meta.env.BASE_URL}/api/v1/ws/notifications?token=${sessionStorage.getItem('Authorization')}`;
+  const topics = ['/user/queue/notifications'];
+  const onmessage = (msg: string) => console.log(msg);
+
+  useWebSocket(url, topics, onmessage);
   if (!user) {
     return <Navigate to={ROUTER_PATH.CONSULTING_START} />;
   }

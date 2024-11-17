@@ -46,7 +46,7 @@ export const SelectConsultingDaySection: React.FC<{
         <Flex w="870px" h="394px" borderRadius="17px">
           <Calendar
             onChange={handleDateChange}
-            value={selectedTime ?? new Date()}
+            value={selectedDate ?? new Date()}
             locale="ko"
             calendarType="gregory"
             view="month"
