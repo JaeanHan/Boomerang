@@ -3,11 +3,12 @@ import { loadChatData } from '@apis/chat';
 import { ChatMessage } from '@components/ConsultingManagement/ConsultingChat/ChatSection/Chat/ChatMessage';
 
 import { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import { ChatInput } from '@/components/ConsultingManagement/ConsultingChat/ChatSection/Chat/ChatInput';
 import { ChatStatusBubble } from '@/components/ConsultingManagement/ConsultingChat/ChatSection/Chat/ChatStatusBubble';
 import { useUserContext } from '@/pages/Login/userContext';
+import { ROUTER_PATH } from '@/routerPath';
 import { Box, Text, VStack } from '@chakra-ui/react';
 import chatBgImg from '@images/chatBgImg.svg';
 import { useSuspenseQuery } from '@tanstack/react-query';
@@ -36,10 +37,8 @@ export const ChatSection: React.FC<{
     }[]
   >([]);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const navigate = useNavigate();
   if (!user) {
-    navigate('/');
-    return null;
+    return <Navigate to={ROUTER_PATH.CONSULTING_START} />;
   }
 
   return (
@@ -61,7 +60,7 @@ export const ChatSection: React.FC<{
           {content.map((chat) => {
             return (
               <ChatMessage
-                key={chat.message}
+                key={`${chat.createdAt}-${chat.message}`}
                 message={chat.message}
                 isMine={chat.nickname === user?.nickname}
                 imgSrc={mentor ? menteeProfileImage : mentorProfileImage}

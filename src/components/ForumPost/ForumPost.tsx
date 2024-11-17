@@ -5,8 +5,10 @@ import { useCommentMutation } from '@components/ForumPost/hooks/useCommentMutati
 import { CommentData } from '@components/ForumPost/types';
 
 import React, { ReactNode, Suspense, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 
+import { ROUTER_PATH } from '@/routerPath';
+import { useToast } from '@chakra-ui/icons';
 import {
   Box,
   Button,
@@ -23,11 +25,16 @@ import { PostHeader } from './PostHeader';
 const ForumPost: React.FC = () => {
   const { postId } = useParams<{ postId: string }>();
   const [comments, setComments] = useState<CommentData[]>([]);
-  const navigate = useNavigate();
   const boundaryRef = useRef<{ reset: () => void }>(null);
+  const toast = useToast();
   if (!postId) {
-    navigate('/404');
-    return null;
+    toast({
+      title: '게시글을 찾지 못했습니다.',
+      status: 'error',
+      duration: 3000,
+      isClosable: true,
+    });
+    return <Navigate to={ROUTER_PATH.COMMUNITY} />;
   }
 
   const removeComment = (commentId: number) => {

@@ -3,7 +3,7 @@ name: CI / CD
 on:
   push:
     branches:
-      - Week10
+      - Master
 
 jobs:
   deploy:

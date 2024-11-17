@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 
 import { ConsultingManagementHeader } from '@/components/ConsultingManagement/ConsultingManagementHeader';
 import { ConsultingInformationInputSection } from '@/components/ConsultingManagement/ConsultingScheduling/ConsultingInformationInputSection';
@@ -7,17 +7,23 @@ import { SelectConsultingDaySection } from '@/components/ConsultingManagement/Co
 import { MentorDetailCard } from '@/components/ConsultingManagement/MentorDetailCard';
 import { useSidebar } from '@/pages/ConsultingManagement/SidebarContext';
 import { ROUTER_PATH } from '@/routerPath';
+import { useToast } from '@chakra-ui/icons';
 import { Box, VStack } from '@chakra-ui/react';
 
 export const ConsultingScheduling = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string>('');
   const { isSidebarOpen } = useSidebar();
-  const navigate = useNavigate();
+  const toast = useToast();
   const { id } = useParams<{ id: string }>();
   if (!id) {
-    navigate(ROUTER_PATH.SELECT_MENTOR);
-    return null;
+    toast({
+      title: '지식인을 찾지 못했습니다.',
+      status: 'error',
+      duration: 3000,
+      isClosable: true,
+    });
+    return <Navigate to={ROUTER_PATH.SELECT_MENTOR} />;
   }
 
   const nId = parseInt(id);
